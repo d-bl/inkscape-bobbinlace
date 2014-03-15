@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+
+	<_name>Polar Grid</_name>
+	<id>com.googlecode.dibl.lace_polar</id>
+	
+	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+	<dependency type="executable" location="extensions">lace_polar.py</dependency>
+	<dependency type="executable" location="extensions">inkex.py</dependency>
+	
+	<param name="angle" type="float" precision="2" min="10" max="80" _gui-text="grid angle (degrees):">45.0</param>
+	<param name="dots" type="int" precision="2" min="4" max="400" _gui-text="number of dots on a circle:">180.0</param>
+	<param name="outerDiameter" type="float" precision="2" min="10" max="500" _gui-text="outer diameter (mm):">160</param>
+	<param name="innerDiameter" type="float" precision="2" min="10" max="500" _gui-text="minimum inner diameter (mm):">100</param>
+	<param name="fill" type="string" _gui-text="dot color (#RRGGBB):">#FF9999</param>
+	<param name="size" type="float" precision="2" min="0.001" max="10" _gui-text="dot size (mm):">0.2</param>
+	
+	<effect>
+	    <object-type>all</object-type>
+	    <effects-menu>
+	        <submenu _name="Bobbin Lace"/>
+	    </effects-menu>
+	</effect>
+	
+	<script>
+	    <command reldir="extensions" interpreter="python">lace_polar.py</command>
+	</script>
+	
+</inkscape-extension>
