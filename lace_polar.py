@@ -54,14 +54,15 @@ class PolarGrid(inkex.Effect):
 		self.OptionParser.add_option('-o', '--outerDiameter', action='store', type='float', dest='outerDiameter', default=160, help='outer diameter (mm)')
 		self.OptionParser.add_option('-i', '--innerDiameter', action='store', type='float', dest='innerDiameter', default=100, help='minimum inner diameter (mm)')
 		self.OptionParser.add_option('-f', '--fill', action='store', type='string', dest='dotFill', default='#FF9999', help='dot color')
-		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='dotSize', default=0.2, help='dot size (mm)')
+		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='dotSize', default=0.5, help='dot diameter (mm)')
 
 	def dot(self, x, y, group):
 		"""
 		Draw a circle of radius 'options.dotSize' and origin at (x, y)
 		"""
 		s = simplestyle.formatStyle({'fill': self.options.dotFill})
-		attribs = {'style':s, 'cx':str(x), 'cy':str(y), 'r':str(self.options.dotSize)}
+		scale = 7.9726 # tested with a dot of 2 mm at 180 mm with a 5000% scale
+		attribs = {'style':s, 'cx':str(x*scale), 'cy':str(y*scale), 'r':str(self.options.dotSize*1.775)}
 		
 		# insert path object into te group
 		inkex.etree.SubElement(group, inkex.addNS('circle', 'svg'), attribs)

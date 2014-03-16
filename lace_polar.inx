@@ -13,7 +13,7 @@
 	<param name="outerDiameter" type="float" precision="2" min="10" max="500" _gui-text="outer diameter (mm):">160</param>
 	<param name="innerDiameter" type="float" precision="2" min="10" max="500" _gui-text="minimum inner diameter (mm):">100</param>
 	<param name="fill" type="string" _gui-text="dot color (#RRGGBB):">#FF9999</param>
-	<param name="size" type="float" precision="2" min="0.001" max="10" _gui-text="dot size (mm):">0.2</param>
+	<param name="size" type="float" precision="2" min="0.001" max="10" _gui-text="dot diameter (mm):">0.5</param>
 	
 	<effect>
 	    <object-type>all</object-type>
