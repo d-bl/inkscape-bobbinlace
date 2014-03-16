@@ -70,7 +70,7 @@ class PolarGrid(inkex.Effect):
 		"""
 		Create a group for the dots on a circle of the grid
 		"""
-		f = "{0}.1f mm per dot, diameter: {1} mm"
+		f = "{0} mm per dot, diameter: {1} mm"
 		s = f.format(distance, diameter)
 		attribs = {inkex.addNS('label', 'inkscape'):s}
 		
