@@ -48,24 +48,33 @@ class ThreadStyle(inkex.Effect):
 	def endPoint(self, p):
 		return p[0][len(p[0]) - 1][len(p[0][1]) - 1]
 
-	def applyToAdjecent(self, style, point, skip):
-		# TODO optimize with dictionaries (start/end-point:item) 
-		for item in self.document.getiterator():
-			if item.tag == inkex.addNS('path', 'svg'):
-				if item != skip:
-					p = cubicsuperpath.parsePath(item.get('d'))
-					s = self.startPoint(p)
-					e = self.endPoint(p)
-					ds = bezmisc.pointdistance((point[0], point[1]), (s[0], s[1]))
-					de = bezmisc.pointdistance((point[0], point[1]), (e[0], e[1]))
-					inkex.debug('{0}'.format(p))
-					if ds < 0.0001:
-						item.attrib['style'] = style
-						self.applyToAdjecent(style, e, item)
-					elif de < 0.0001:
-						item.attrib['style'] = style
-						self.applyToAdjecent(style, s, item)
-		
+	def applyToAdjecent(self, style, skip, pointIn):
+		# TODO optimize with dictionaries (start/end-point:item)
+		next = pointIn
+		while (next != None):
+			point = next
+			next = None
+			for item in self.document.getiterator():
+				if item.tag != inkex.addNS('path', 'svg'):
+					continue
+				if item == skip:
+					continue
+				p = cubicsuperpath.parsePath(item.get('d'))
+				s = self.startPoint(p)
+				e = self.endPoint(p)
+				ds = bezmisc.pointdistance((point[0], point[1]), (s[0], s[1]))
+				de = bezmisc.pointdistance((point[0], point[1]), (e[0], e[1]))
+				if ds < 0.0001:
+					item.attrib['style'] = style
+					skip = item
+					next = e
+					break
+				elif de < 0.0001:
+					item.attrib['style'] = style
+					skip = item
+					next = s
+					break
+
 	def effect(self):
 		"""
 		Effect behaviour.
@@ -80,8 +89,8 @@ class ThreadStyle(inkex.Effect):
 				return
 			style = selected.attrib.get('style', '')
 			p = cubicsuperpath.parsePath(selected.get('d'))
-			self.applyToAdjecent(style, self.startPoint(p), selected)
-			self.applyToAdjecent(style, self.endPoint(p), selected)
+			self.applyToAdjecent(style, selected, self.startPoint(p))
+			self.applyToAdjecent(style, selected, self.endPoint(p))
 			
 # Create effect instance and apply it.
 effect = ThreadStyle()
