@@ -45,17 +45,10 @@ class ThreadStyle(inkex.Effect):
 	def startPoint(self, parsedCubicsuperpath):
 		return parsedCubicsuperpath[0][0][0]
 
-	def endPoint(self, parsedCubicsuperpath):
-		# TODO fix for curves with additional nodes
-		return parsedCubicsuperpath[0][1][len(parsedCubicsuperpath[0][1]) - 1]
+	def endPoint(self, p):
+		return p[0][len(p[0]) - 1][len(p[0][1]) - 1]
 
-	def applyStroke (self, item, newStyle):
-		parsedStyle = simplestyle.parseStyle(item.attrib.get('style', ''))
-		# TODO apply other properties that start with 'stroke-' too
-		parsedStyle['stroke'] = newStyle.get('stroke', None)
-		item.attrib['style'] = simplestyle.formatStyle(parsedStyle)
-		
-	def applyToAdjecent(self, parsedStyle, point, skip):
+	def applyToAdjecent(self, style, point, skip):
 		# TODO optimize with dictionaries (start/end-point:item) 
 		for item in self.document.getiterator():
 			if item.tag == inkex.addNS('path', 'svg'):
@@ -65,12 +58,13 @@ class ThreadStyle(inkex.Effect):
 					e = self.endPoint(p)
 					ds = bezmisc.pointdistance((point[0], point[1]), (s[0], s[1]))
 					de = bezmisc.pointdistance((point[0], point[1]), (e[0], e[1]))
+					inkex.debug('{0}'.format(p))
 					if ds < 0.0001:
-						self.applyStroke(item, parsedStyle)
-						self.applyToAdjecent(parsedStyle, e, item)
+						item.attrib['style'] = style
+						self.applyToAdjecent(style, e, item)
 					elif de < 0.0001:
-						self.applyStroke(item, parsedStyle)
-						self.applyToAdjecent(parsedStyle, s, item)
+						item.attrib['style'] = style
+						self.applyToAdjecent(style, s, item)
 		
 	def effect(self):
 		"""
@@ -84,10 +78,10 @@ class ThreadStyle(inkex.Effect):
 			if selected.tag != inkex.addNS('path', 'svg'):
 				inkex.debug('selected element is not a path')
 				return
-			parsedStyle = simplestyle.parseStyle(selected.attrib.get('style', ''))
+			style = selected.attrib.get('style', '')
 			p = cubicsuperpath.parsePath(selected.get('d'))
-			self.applyToAdjecent(parsedStyle, self.startPoint(p), selected)
-			self.applyToAdjecent(parsedStyle, self.endPoint(p), selected)
+			self.applyToAdjecent(style, self.startPoint(p), selected)
+			self.applyToAdjecent(style, self.endPoint(p), selected)
 			
 # Create effect instance and apply it.
 effect = ThreadStyle()
