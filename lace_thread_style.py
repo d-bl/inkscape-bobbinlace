@@ -72,25 +72,24 @@ class ThreadStyle(inkex.Effect):
 			if item.tag == inkex.addNS('path', 'svg'):
 				self.candidates.append(item)
 
-	def applyToAdjecent(self, style, skip, point):
-		first = skip
+	def applyStyle(self, style, item):
+		item.attrib['style'] = style
+		self.candidates.remove(item)
+
+	def applyToAdjecent(self, style, point):
 		while point != None:
 			next = None
 			for item in self.candidates:
-				if item == skip or item == first:
-					continue
 				csp = cubicsuperpath.parsePath(item.get('d'))
 				s = self.startPoint(csp)
 				e = self.endPoint(csp)
 				p = (point[0], point[1])
 				if  bezmisc.pointdistance(p, (s[0], s[1])) < self.tolerance:
-					item.attrib['style'] = style
-					skip = item
+					self.applyStyle(style, item)
 					next = e
 					break
 				elif bezmisc.pointdistance(p, (e[0], e[1])) < self.tolerance:
-					item.attrib['style'] = style
-					skip = item
+					self.applyStyle(style, item)
 					next = s
 					break
 			point = next
@@ -108,10 +107,11 @@ class ThreadStyle(inkex.Effect):
 				inkex.debug('selected element is not a path')
 				return
 			self.findCandidatesToChangeTheStyle()
+			self.candidates.remove(selected)
 			style = selected.attrib.get('style', '')
 			csp = cubicsuperpath.parsePath(selected.get('d'))
-			self.applyToAdjecent(style, selected, self.startPoint(csp))
-			self.applyToAdjecent(style, selected, self.endPoint(csp))
+			self.applyToAdjecent(style, self.startPoint(csp))
+			self.applyToAdjecent(style, self.endPoint(csp))
 			
 # Create effect instance and apply it.
 effect = ThreadStyle()
