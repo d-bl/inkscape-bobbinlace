@@ -52,7 +52,7 @@ class ThreadStyle(inkex.Effect):
 	
 	def startPoint(self, cubicSuperPath):
 		"""
-		returns the first point of a Cubicsuperpath
+		returns the first point of a CubicSuperPath
 		"""
 		return cubicSuperPath[0][0][0]
 
@@ -62,35 +62,40 @@ class ThreadStyle(inkex.Effect):
 		"""
 		return csp[0][len(csp[0]) - 1][len(csp[0][1]) - 1]
 
-	def findCandidatesToChangeTheStyle(self):
+	def isBezier(self, item):
+		return item.tag == inkex.addNS('path', 'svg') and item.get(inkex.addNS('connector-curvature', 'inkscape'))
+
+	def findCandidatesForStyleChange(self, skip):
 		"""
-		collect the document items that are a path
+		collect the document items that are a Bezier curve
 		"""
-		# TODO store (start/end-point) along with the item
 		self.candidates = []
 		for item in self.document.getiterator():
-			if item.tag == inkex.addNS('path', 'svg'):
-				self.candidates.append(item)
-
-	def applyStyle(self, style, item):
-		item.attrib['style'] = style
-		self.candidates.remove(item)
-
-	def applyToAdjecent(self, style, point):
-		while point != None:
-			next = None
-			for item in self.candidates:
+			if self.isBezier(item) and item != skip:
 				csp = cubicsuperpath.parsePath(item.get('d'))
 				s = self.startPoint(csp)
 				e = self.endPoint(csp)
-				p = (point[0], point[1])
-				if  bezmisc.pointdistance(p, (s[0], s[1])) < self.tolerance:
-					self.applyStyle(style, item)
-					next = e
+				self.candidates.append({'s':s, 'e':e, 'i':item})
+
+	def applyStyle(self, item):
+		"""
+		Change the style of the item and remove it form the candidates
+		"""
+		item['i'].attrib['style'] = self.style
+		self.candidates.remove(item)
+
+	def applyToAdjecent(self, point):
+		while point != None:
+			p = (point[0], point[1])
+			next = None
+			for item in self.candidates:
+				if  bezmisc.pointdistance(p, (item['s'][0], item['s'][1])) < self.tolerance:
+					self.applyStyle(item)
+					next = item['e']
 					break
-				elif bezmisc.pointdistance(p, (e[0], e[1])) < self.tolerance:
-					self.applyStyle(style, item)
-					next = s
+				elif bezmisc.pointdistance(p, (item['e'][0], item['e'][1])) < self.tolerance:
+					self.applyStyle(item)
+					next = item['s']
 					break
 			point = next
 
@@ -103,15 +108,14 @@ class ThreadStyle(inkex.Effect):
 			inkex.debug('no object selected, or more than one selected')
 			return
 		for id, selected in self.selected.iteritems():
-			if selected.tag != inkex.addNS('path', 'svg'):
+			if not self.isBezier(selected):
 				inkex.debug('selected element is not a path')
 				return
-			self.findCandidatesToChangeTheStyle()
-			self.candidates.remove(selected)
-			style = selected.attrib.get('style', '')
+			self.findCandidatesForStyleChange(selected)
+			self.style = selected.attrib.get('style', '')
 			csp = cubicsuperpath.parsePath(selected.get('d'))
-			self.applyToAdjecent(style, self.startPoint(csp))
-			self.applyToAdjecent(style, self.endPoint(csp))
+			self.applyToAdjecent(self.startPoint(csp))
+			self.applyToAdjecent(self.endPoint(csp))
 			
 # Create effect instance and apply it.
 effect = ThreadStyle()
