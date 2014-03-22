@@ -34,7 +34,7 @@ import inkex, simplestyle, math, pturtle
 __author__ = 'Jo Pol'
 __credits__ = ['Veronika Irvine']
 __license__ = 'GPL'
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 __maintainer__ = 'Jo Pol'
 __status__ = 'Development'
 
@@ -90,13 +90,31 @@ class PolarGrid(inkex.Effect):
 			y = (diameter / 2) * sin(a)
 			self.dot(x, y, group)
 
+	def unsignedLong(self, signedLongString):
+		longColor = long(signedLongString)
+		if longColor < 0:
+			longColor = longColor & 0xFFFFFFFF
+		return longColor
+
+	def getColorString(self, longColor):
+		"""
+		Convert numeric color value to hex string using formula A*256^0 + B*256^1 + G*256^2 + R*256^3
+		From: http://www.hoboes.com/Mimsy/hacks/parsing-and-setting-colors-inkscape-extensions/
+		"""
+		longColor = self.unsignedLong(longColor)
+		hexColor = hex(longColor)[2:-3]
+		hexColor = hexColor.rjust(6, '0')
+		return '#' + hexColor.upper()
+
 	def effect(self):
 		"""
 		Effect behaviour.
 		Overrides base class' method and draws something.
 		"""
 		diameter = self.options.outerDiameter
-		circleNr = 0 
+		circleNr = 0
+		# Convert color from long integer to hexidecimal string
+		self.options.dotFill = self.getColorString(self.options.dotFill)
 		t = tan(radians(self.options.angleOnFootside))
 		while diameter > self.options.innerDiameter:
 			distance = t * ((diameter * pi) / self.options.dotsPerCircle)
