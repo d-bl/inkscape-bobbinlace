@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+
+	<_name>Lace Grid</_name>
+	<id>edu.uvic.vmi.mathart.lace_grid</id>
+	
+	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+	<dependency type="executable" location="extensions">lace_grid.py</dependency>
+	<dependency type="executable" location="extensions">inkex.py</dependency>
+	
+	<param name="angle" type="float" precision="2" min="30" max="89" _gui-text="grid angle (degrees):">45.0</param>
+	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="distance between footside pins (mm):">10.0</param>
+	<param name="width" type="float" precision="2" min="10" max="1000" _gui-text="patch width (mm):">100</param>
+	<param name="height" type="float" precision="2" min="10" max="1000" _gui-text="patch height (mm):">100</param>
+	<param name="size" type="float" precision="2" min="0.2" max="100" _gui-text="dot radius (px):">1</param>
+	<param name="color" type="color" _gui-text="dot color: (#RRGGBB):">#000000</param>
+	
+	<effect>
+	    <object-type>all</object-type>
+	    <effects-menu>
+	        <submenu _name="Bobbin Lace"/>
+	    </effects-menu>
+	</effect>
+	
+	<script>
+	    <command reldir="extensions" interpreter="python">lace_grid.py</command>
+	</script>
+	
+</inkscape-extension>

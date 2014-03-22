@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+
+	<_name>Lace Ground</_name>
+	<id>edu.uvic.vmi.mathart.lace_ground</id>
+	
+	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+	<dependency type="executable" location="extensions">lace_ground.py</dependency>
+	<dependency type="executable" location="extensions">inkex.py</dependency>
+	
+	<param name="file" type="string" _gui-text="file (full path):"></param>
+	<param name="filehelp" type="description">File name is not required if you have Python 2.x + Tk installed</param>
+	<param name="angle" type="float" precision="2" min="30" max="89" _gui-text="grid angle (degrees):">45.0</param>
+	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="distance between footside pins (mm):">10.0</param>
+	<param name="width" type="float" precision="2" min="1" max="1000" _gui-text="patch width (mm):">100</param>
+	<param name="height" type="float" precision="2" min="1" max="1000" _gui-text="patch height (mm):">100</param>
+	<param name="size" type="float" precision="2" min="0.2" max="100" _gui-text="line size (px):">1</param>
+	<param name="color" type="color" _gui-text="line color: (#RRGGBB):">#000000</param>
+	
+	<effect>
+	    <object-type>all</object-type>
+	    <effects-menu>
+	        <submenu _name="Bobbin Lace"/>
+	    </effects-menu>
+	</effect>
+	
+	<script>
+	    <command reldir="extensions" interpreter="python">lace_ground.py</command>
+	</script>
+	
+</inkscape-extension>
