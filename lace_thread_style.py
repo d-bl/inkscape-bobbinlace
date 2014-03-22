@@ -48,7 +48,7 @@ class ThreadStyle(inkex.Effect):
 		"""
 		# Call the base class constructor.
 		inkex.Effect.__init__(self)
-		self.tolerance = 0.0001
+		self.OptionParser.add_option('-t', '--tolerance', action='store', type='float', dest='tolerance', default=0.0001, help='tolerance (max. distance between segments)')
 	
 	def startPoint(self, cubicSuperPath):
 		"""
@@ -89,11 +89,11 @@ class ThreadStyle(inkex.Effect):
 			p = (point[0], point[1])
 			next = None
 			for item in self.candidates:
-				if  bezmisc.pointdistance(p, (item['s'][0], item['s'][1])) < self.tolerance:
+				if  bezmisc.pointdistance(p, (item['s'][0], item['s'][1])) < self.options.tolerance:
 					self.applyStyle(item)
 					next = item['e']
 					break
-				elif bezmisc.pointdistance(p, (item['e'][0], item['e'][1])) < self.tolerance:
+				elif bezmisc.pointdistance(p, (item['e'][0], item['e'][1])) < self.options.tolerance:
 					self.applyStyle(item)
 					next = item['s']
 					break
@@ -107,16 +107,15 @@ class ThreadStyle(inkex.Effect):
 		if len(self.selected) != 1:
 			inkex.debug('no object selected, or more than one selected')
 			return
-		for id, selected in self.selected.iteritems():
-			if not self.isBezier(selected):
-				inkex.debug('selected element is not a path')
-				return
-			self.findCandidatesForStyleChange(selected)
-			self.style = selected.attrib.get('style', '')
-			csp = cubicsuperpath.parsePath(selected.get('d'))
-			self.applyToAdjecent(self.startPoint(csp))
-			self.applyToAdjecent(self.endPoint(csp))
+		selected = self.selected.values()[0]
+		if not self.isBezier(selected):
+			inkex.debug('selected element is not a Bezier curve')
+			return
+		self.findCandidatesForStyleChange(selected)
+		self.style = selected.attrib.get('style', '')
+		csp = cubicsuperpath.parsePath(selected.get('d'))
+		self.applyToAdjecent(self.startPoint(csp))
+		self.applyToAdjecent(self.endPoint(csp))
 			
 # Create effect instance and apply it.
-effect = ThreadStyle()
-effect.affect()
+ThreadStyle().affect()
