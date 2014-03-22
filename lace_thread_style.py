@@ -42,38 +42,58 @@ class ThreadStyle(inkex.Effect):
 	"""
 	Apply stroke style of selected path to connected paths
 	"""
-	def startPoint(self, parsedCubicsuperpath):
-		return parsedCubicsuperpath[0][0][0]
+	def __init__(self):
+		"""
+		Constructor.
+		"""
+		# Call the base class constructor.
+		inkex.Effect.__init__(self)
+		self.tolerance = 0.0001
+	
+	def startPoint(self, cubicSuperPath):
+		"""
+		returns the first point of a Cubicsuperpath
+		"""
+		return cubicSuperPath[0][0][0]
 
-	def endPoint(self, p):
-		return p[0][len(p[0]) - 1][len(p[0][1]) - 1]
+	def endPoint(self, csp):
+		"""
+		returns the last point of a CubicSuperPath
+		"""
+		return csp[0][len(csp[0]) - 1][len(csp[0][1]) - 1]
 
-	def applyToAdjecent(self, style, skip, pointIn):
-		# TODO optimize with dictionaries (start/end-point:item)
-		next = pointIn
-		while (next != None):
-			point = next
+	def findCandidatesToChangeTheStyle(self):
+		"""
+		collect the document items that are a path
+		"""
+		# TODO store (start/end-point) along with the item
+		self.candidates = []
+		for item in self.document.getiterator():
+			if item.tag == inkex.addNS('path', 'svg'):
+				self.candidates.append(item)
+
+	def applyToAdjecent(self, style, skip, point):
+		first = skip
+		while point != None:
 			next = None
-			for item in self.document.getiterator():
-				if item.tag != inkex.addNS('path', 'svg'):
+			for item in self.candidates:
+				if item == skip or item == first:
 					continue
-				if item == skip:
-					continue
-				p = cubicsuperpath.parsePath(item.get('d'))
-				s = self.startPoint(p)
-				e = self.endPoint(p)
-				ds = bezmisc.pointdistance((point[0], point[1]), (s[0], s[1]))
-				de = bezmisc.pointdistance((point[0], point[1]), (e[0], e[1]))
-				if ds < 0.0001:
+				csp = cubicsuperpath.parsePath(item.get('d'))
+				s = self.startPoint(csp)
+				e = self.endPoint(csp)
+				p = (point[0], point[1])
+				if  bezmisc.pointdistance(p, (s[0], s[1])) < self.tolerance:
 					item.attrib['style'] = style
 					skip = item
 					next = e
 					break
-				elif de < 0.0001:
+				elif bezmisc.pointdistance(p, (e[0], e[1])) < self.tolerance:
 					item.attrib['style'] = style
 					skip = item
 					next = s
 					break
+			point = next
 
 	def effect(self):
 		"""
@@ -87,10 +107,11 @@ class ThreadStyle(inkex.Effect):
 			if selected.tag != inkex.addNS('path', 'svg'):
 				inkex.debug('selected element is not a path')
 				return
+			self.findCandidatesToChangeTheStyle()
 			style = selected.attrib.get('style', '')
-			p = cubicsuperpath.parsePath(selected.get('d'))
-			self.applyToAdjecent(style, selected, self.startPoint(p))
-			self.applyToAdjecent(style, selected, self.endPoint(p))
+			csp = cubicsuperpath.parsePath(selected.get('d'))
+			self.applyToAdjecent(style, selected, self.startPoint(csp))
+			self.applyToAdjecent(style, selected, self.endPoint(csp))
 			
 # Create effect instance and apply it.
 effect = ThreadStyle()
