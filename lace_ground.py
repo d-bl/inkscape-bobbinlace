@@ -42,7 +42,7 @@ import inkex, simplestyle, math, pturtle
 __author__ = 'Veronika Irvine'
 __credits__ = ['Ben Connors','Veronika Irvine']
 __license__ = 'GPL'
-__version__ = '0.5.0'
+__version__ = '${project.version}'
 __maintainer__ = 'Veronika Irvine'
 __status__ = 'Development'
 

@@ -34,7 +34,7 @@ import inkex, simplestyle, math, pturtle
 __author__ = 'Jo Pol'
 __credits__ = ['Veronika Irvine']
 __license__ = 'GPL'
-__version__ = '0.1.0'
+__version__ = '${project.version}'
 __maintainer__ = 'Jo Pol'
 __status__ = 'Development'
 
