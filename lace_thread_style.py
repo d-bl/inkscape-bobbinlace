@@ -117,4 +117,5 @@ class ThreadStyle(inkex.Effect):
 		self.applyToAdjecent(self.endPoint(csp))
 			
 # Create effect instance and apply it.
-ThreadStyle().affect()
+if __name__ == '__main__':
+	ThreadStyle().affect()

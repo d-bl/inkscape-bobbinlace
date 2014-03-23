@@ -40,7 +40,7 @@ __status__ = 'Development'
 
 class PolarGrid(inkex.Effect):
 	"""
-	Create a dotted polar grid where distance between the circles 
+	Creates a dotted polar grid where distance between the circles 
 	increase with the distance between the dots on the circles
 	"""
 	def __init__(self):
@@ -105,5 +105,5 @@ class PolarGrid(inkex.Effect):
 			circleNr += 1
 
 # Create effect instance and apply it.
-effect = PolarGrid()
-effect.affect()
+if __name__ == '__main__':
+	PolarGrid().affect()
