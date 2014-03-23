@@ -12,8 +12,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see http://www.gnu.org/licenses/.
-
-from math import *
+#########################################################################
 
 # These lines are only needed if you don't put the script directly into
 # the installation directory
@@ -29,7 +28,7 @@ sys.path.append('C:\Program Files (x86)\share\extensions')
 
 # We will use the inkex module with the predefined 
 # Effect base class.
-import inkex, simplestyle, simplepath, math, cubicsuperpath, bezmisc
+import inkex, cubicsuperpath, bezmisc
 
 __author__ = 'Jo Pol'
 __credits__ = ['Jo Pol']
