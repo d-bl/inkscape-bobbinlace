@@ -15,7 +15,8 @@
 	<param name="width" type="float" precision="2" min="1" max="1000" _gui-text="patch width (mm):">100</param>
 	<param name="height" type="float" precision="2" min="1" max="1000" _gui-text="patch height (mm):">100</param>
 	<param name="size" type="float" precision="2" min="0.2" max="100" _gui-text="line size (px):">1</param>
-	<param name="color" type="color" _gui-text="line color: (#RRGGBB):">#000000</param>
+	<param name="colorlabel" type="description">line color (#RRGGBBAA):</param>
+	<param name="color" type="color" _gui-text="line color (#RRGGBBAA):">#000000FF</param>
 	
 	<effect>
 	    <object-type>all</object-type>
