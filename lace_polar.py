@@ -54,6 +54,7 @@ class PolarGrid(inkex.Effect):
 		self.OptionParser.add_option('-o', '--outerDiameter', action='store', type='float', dest='outerDiameter', default=160, help='outer diameter (mm)')
 		self.OptionParser.add_option('-i', '--innerDiameter', action='store', type='float', dest='innerDiameter', default=100, help='minimum inner diameter (mm)')
 		self.OptionParser.add_option('-f', '--fill', action='store', type='string', dest='dotFill', default='#FF9999', help='dot color')
+		self.OptionParser.add_option('-A', '--alignment', action='store', type='string', dest='alignment', default='outside', help='exact diameter on [inside|outside]')
 		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='dotSize', default=0.5, help='dot diameter (mm)')
 
 	def dot(self, x, y, group):
@@ -61,7 +62,7 @@ class PolarGrid(inkex.Effect):
 		Draw a circle of radius 'options.dotSize' and origin at (x, y)
 		"""
 		s = simplestyle.formatStyle({'fill': self.options.dotFill})
-		scale = 7.9726 # tested with a dot of 2 mm at 180 mm with a 5000% scale
+		scale = 7.08677 # tested with a dot of 2 mm at 160 mm with a 5000% scale
 		attribs = {'style':s, 'cx':str(x*scale), 'cy':str(y*scale), 'r':str(self.options.dotSize*1.775)}
 		
 		# insert path object into te group
@@ -111,16 +112,25 @@ class PolarGrid(inkex.Effect):
 		Effect behaviour.
 		Overrides base class' method and draws something.
 		"""
-		diameter = self.options.outerDiameter
-		circleNr = 0
-		# Convert color from long integer to hexidecimal string
+		# Convert color from long integer to hexadecimal string
 		self.options.dotFill = self.getColorString(self.options.dotFill)
+		
+		circleNr = 0
 		t = tan(radians(self.options.angleOnFootside))
-		while diameter > self.options.innerDiameter:
-			distance = t * ((diameter * pi) / self.options.dotsPerCircle)
-			self.dots(diameter, circleNr, self.group(diameter, distance))
-			diameter -= distance
-			circleNr += 1
+		if self.options.alignment == 'outside':
+			diameter = self.options.outerDiameter
+			while diameter > self.options.innerDiameter:
+				distance = t * diameter * pi / self.options.dotsPerCircle
+				self.dots(diameter, circleNr, self.group(diameter, distance))
+				circleNr += 1
+				diameter -= distance
+		else:
+			diameter = self.options.innerDiameter
+			while diameter < self.options.outerDiameter:
+				distance = t * diameter * pi / self.options.dotsPerCircle
+				self.dots(diameter, circleNr, self.group(diameter, distance))
+				circleNr += 1
+				diameter += distance
 
 # Create effect instance and apply it.
 if __name__ == '__main__':
