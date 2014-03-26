@@ -9,7 +9,7 @@
 	<dependency type="executable" location="extensions">inkex.py</dependency>
 	
 	<param name="file" type="string" _gui-text="file (full path):"></param>
-	<param name="filehelp" type="description">File name is not required if you have Python 2.x + Tk installed</param>
+	<param name="filehelp" type="description">Omit the file name for a file chooser if you have Python 2.x + Tk installed</param>
 	<param name="angle" type="float" precision="2" min="30" max="89" _gui-text="grid angle (degrees):">45.0</param>
 	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="distance between footside pins (mm):">10.0</param>
 	<param name="width" type="float" precision="2" min="1" max="1000" _gui-text="patch width (mm):">100</param>
