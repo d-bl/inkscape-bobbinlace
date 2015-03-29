@@ -129,7 +129,7 @@ class PolarGrid(inkex.Effect):
 		else:
 			diameter = self.options.innerDiameter
 			while diameter < self.options.outerDiameter:
-				distance = t * diameter * pi / self.options.dotsPerCircle
+				distance = t * diameter * pi / dotsPerCircle
 				self.dots(diameter, circleNr, self.group(diameter, distance), dotsPerCircle)
 				circleNr += 1
 				diameter += distance
