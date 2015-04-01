@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see http://www.gnu.org/licenses/.
 
-from __future__ import division
 from math import *
 
 # These lines are only needed if you don't put the script directly into
@@ -88,7 +87,7 @@ class PolarGrid(inkex.Effect):
 		Draw dots on a grid circle
 		"""
 		offset = (circleNr % 2) * 0.5
-		aRadians = radians(360 / self.options.dotsPerCircle)
+		aRadians = radians(360.0 / self.options.dotsPerCircle)
 		for dotNr in range (0, self.options.dotsPerCircle):
 			a = (dotNr + offset) * aRadians
 			x = (diameter / 2) * cos(a)
@@ -151,6 +150,17 @@ class PolarGrid(inkex.Effect):
 				j += 1
 			i += 1
 
+	def variantHexagon3(self):
+		i = 1
+		while (i < self.nrOfGeneratedCircles):
+			if ((i%2) == 1 ):
+				j = 0
+				for dot in self.generatedCircles[i].iterchildren():
+					if (((((i+1) % 4)/2) + j) % 2) == 0 :
+						self.generatedCircles[i].remove(dot)
+					j += 1
+			i += 1
+
 	def effect(self):
 		"""
 		Effect behaviour.
@@ -167,6 +177,8 @@ class PolarGrid(inkex.Effect):
 			self.variantHexagon1()
 		elif self.options.variant == 'hexagon2':
 			self.variantHexagon2()
+		elif self.options.variant == 'hexagon3':
+			self.variantHexagon3()
 
 # Create effect instance and apply it.
 if __name__ == '__main__':
