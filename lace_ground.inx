@@ -8,15 +8,16 @@
 	<dependency type="executable" location="extensions">lace_ground.py</dependency>
 	<dependency type="executable" location="extensions">inkex.py</dependency>
 	
-	<param name="file" type="string" _gui-text="file (full path):"></param>
-	<param name="filehelp" type="description">Omit the file name for a file chooser if you have Python 2.x + Tk installed</param>
-	<param name="angle" type="float" precision="2" min="30" max="89" _gui-text="grid angle (degrees):">45.0</param>
-	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="distance between footside pins (mm):">10.0</param>
-	<param name="width" type="float" precision="2" min="1" max="1000" _gui-text="patch width (mm):">100</param>
-	<param name="height" type="float" precision="2" min="1" max="1000" _gui-text="patch height (mm):">100</param>
-	<param name="size" type="float" precision="2" min="0.2" max="100" _gui-text="line size (px):">1</param>
-	<param name="colorlabel" type="description">line color (#RRGGBBAA):</param>
-	<param name="color" type="color" _gui-text="line color (#RRGGBBAA):">#000000FF</param>
+	<param name="description" type="description">Fills in a rectangle with the selected lace ground pattern.</param>
+	
+	<param name="file" type="string" _gui-text="File name for ground template (full path):"></param>
+	<param name="angle" type="float" precision="2" min="30" max="89" _gui-text="Grid angle (degrees):">45.0</param>
+	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="Distance between footside pins (mm):">10.0</param>
+	<param name="width" type="float" precision="2" min="1" max="1000" _gui-text="Patch width (mm):">100</param>
+	<param name="height" type="float" precision="2" min="1" max="1000" _gui-text="Patch height (mm):">100</param>
+	<param name="filllabel" type="description">========== Line properties ==========</param>
+	<param name="size" type="float" precision="2" min="0.2" max="100" _gui-text="Line width (px):">1</param>
+	<param name="color" type="color" _gui-text="Line color (#RRGGBBAA):">#000000FF</param>
 	
 	<effect>
 	    <object-type>all</object-type>

@@ -8,13 +8,15 @@
 	<dependency type="executable" location="extensions">lace_grid.py</dependency>
 	<dependency type="executable" location="extensions">inkex.py</dependency>
 	
-	<param name="angle" type="float" precision="2" min="30" max="89" _gui-text="grid angle (degrees):">45.0</param>
-	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="distance between footside pins (mm):">10.0</param>
-	<param name="width" type="float" precision="2" min="10" max="1000" _gui-text="patch width (mm):">100</param>
-	<param name="height" type="float" precision="2" min="10" max="1000" _gui-text="patch height (mm):">100</param>
-	<param name="size" type="float" precision="2" min="0.2" max="100" _gui-text="dot radius (px):">1</param>
-	<param name="colorlabel" type="description">dot color (#RRGGBBAA):</param>
-	<param name="color" type="color" _gui-text="dot color (#RRGGBBAA):">#000000FF</param>
+	<param name="description" type="description">Creates a printable rectangular grid of dots.</param>
+	
+	<param name="angle" type="float" precision="2" min="30" max="89" _gui-text="Grid angle (degrees):">45.0</param>
+	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="Distance between footside pins (mm):">10.0</param>
+	<param name="width" type="float" precision="2" min="10" max="1000" _gui-text="Patch width (mm):">100</param>
+	<param name="height" type="float" precision="2" min="10" max="1000" _gui-text="Patch height (mm):">100</param>
+	<param name="filllabel" type="description">========== Dot properties ==========</param>
+	<param name="size" type="float" precision="2" min="0.2" max="100" _gui-text="Dot radius (px):">1</param>
+	<param name="color" type="color" _gui-text="Dot color (#RRGGBBAA):">#000000FF</param>
 	
 	<effect>
 	    <object-type>all</object-type>
