@@ -71,16 +71,14 @@ class PolarGrid(inkex.Effect):
 
 	def group(self, diameter, distance):
 		"""
-		Create a group for the dots on a circle of the grid
+		Create a labeled group for the dots on a circle of the grid
 		"""
 		f = "{0} mm per dot, diameter: {1} mm"
 		s = f.format(distance, diameter)
 		attribs = {inkex.addNS('label', 'inkscape'):s}
 		
 		# insert group object into current layer and remeber it
-		circle = inkex.etree.SubElement(self.current_layer, inkex.addNS('g', 'svg'), attribs)
-		self.generatedCircles.append(circle)
-		return circle
+		return inkex.etree.SubElement(self.current_layer, inkex.addNS('g', 'svg'), attribs)
 
 	def dots(self, diameter, circleNr, group):
 		"""
@@ -111,11 +109,19 @@ class PolarGrid(inkex.Effect):
 		return '#' + hexColor.upper()
 
 	def iterate(self, diameter, circleNr):
+		"""
+		Create a group with a ring of dots, the distance between the dots is the distance to the next ring
+		"""
 		distance = self.tan * diameter * pi / self.options.dotsPerCircle
-		self.dots(diameter, circleNr, self.group(diameter, distance))
+		group = self.group(diameter, distance)
+		self.dots(diameter, circleNr, group)
+		self.generatedCircles.append(group)
 		return distance
 
 	def generate(self):
+		"""
+		Generate rings with dots, either inside out or outside in
+		"""
 		circleNr = 0
 		if self.options.alignment == 'outside':
 			diameter = self.options.outerDiameter
@@ -129,18 +135,27 @@ class PolarGrid(inkex.Effect):
 				circleNr += 1
 
 	def variantRectangle(self):
+		"""
+		Remove dots 
+		"""
 		i = 1
 		while (i < self.nrOfGeneratedCircles):
 			self.current_layer.remove(self.generatedCircles[i])
 			i += 2
 
 	def variantHexagon1(self):
+		"""
+		Remove dots 
+		"""
 		i = 2
 		while (i < self.nrOfGeneratedCircles):
 			self.current_layer.remove(self.generatedCircles[i])
 			i += 3
 
 	def variantHexagon2(self):
+		"""
+		Remove dots 
+		"""
 		i = 1
 		while (i < self.nrOfGeneratedCircles):
 			j = 0
@@ -151,6 +166,9 @@ class PolarGrid(inkex.Effect):
 			i += 1
 
 	def variantHexagon3(self):
+		"""
+		Remove dots 
+		"""
 		i = 1
 		while (i < self.nrOfGeneratedCircles):
 			if ((i%2) == 1 ):
