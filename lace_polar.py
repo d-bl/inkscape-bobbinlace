@@ -57,12 +57,13 @@ class PolarGrid(inkex.Effect):
 		self.OptionParser.add_option('-f', '--fill', action='store', type='string', dest='dotFill', default='#FF9999', help='dot color')
 		self.OptionParser.add_option('-A', '--alignment', action='store', type='string', dest='alignment', default='outside', help='exact diameter on [inside|outside]')
 		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='dotSize', default=0.5, help='dot diameter (mm)')
+		self.OptionParser.add_option('-v', '--variant', action='store', type='string', dest='variant', default='', help='omit rows to get [|rectangle|hexagon1]')
 
 	def dot(self, x, y, group):
 		"""
 		Draw a circle of radius 'options.dotSize' and origin at (x, y)
 		"""
-		s = simplestyle.formatStyle({'fill': self.options.dotFill})
+		s = simplestyle.formatStyle({'fill': self.dotFill})
 		scale = 7.08677 # tested with a dot of 2 mm at 160 mm with a 5000% scale
 		attribs = {'style':s, 'cx':str(x*scale), 'cy':str(y*scale), 'r':str(self.options.dotSize*1.775)}
 		
@@ -77,8 +78,10 @@ class PolarGrid(inkex.Effect):
 		s = f.format(distance, diameter)
 		attribs = {inkex.addNS('label', 'inkscape'):s}
 		
-		# insert group object into current layer
-		return inkex.etree.SubElement(self.current_layer, inkex.addNS('g', 'svg'), attribs)
+		# insert group object into current layer and remeber it
+		circle = inkex.etree.SubElement(self.current_layer, inkex.addNS('g', 'svg'), attribs)
+		self.generatedCircles.append(circle)
+		return circle
 
 	def dots(self, diameter, circleNr, group):
 		"""
@@ -108,22 +111,22 @@ class PolarGrid(inkex.Effect):
 		hexColor = hexColor.rjust(6, '0')
 		return '#' + hexColor.upper()
 
-	def iterate(self, t, diameter, circleNr):
-		distance = t * diameter * pi / self.options.dotsPerCircle
+	def iterate(self, diameter, circleNr):
+		distance = self.tan * diameter * pi / self.options.dotsPerCircle
 		self.dots(diameter, circleNr, self.group(diameter, distance))
 		return distance
 
-	def generate(self, t):
+	def generate(self):
 		circleNr = 0
 		if self.options.alignment == 'outside':
 			diameter = self.options.outerDiameter
 			while diameter > self.options.innerDiameter:
-				diameter -= self.iterate(t, diameter, circleNr)
+				diameter -= self.iterate(diameter, circleNr)
 				circleNr += 1
 		else:
 			diameter = self.options.innerDiameter
 			while diameter < self.options.outerDiameter:
-				diameter += self.iterate(t, diameter, circleNr)
+				diameter += self.iterate(diameter, circleNr)
 				circleNr += 1
 
 	def effect(self):
@@ -131,8 +134,21 @@ class PolarGrid(inkex.Effect):
 		Effect behaviour.
 		Overrides base class' method and draws something.
 		"""
-		self.options.dotFill = self.getColorString(self.options.dotFill)
-		self.generate(tan(radians(self.options.angleOnFootside)))
+		self.tan = tan(radians(self.options.angleOnFootside))
+		self.dotFill = self.getColorString(self.options.dotFill)
+		self.generatedCircles = []
+		self.generate()
+		l = len(self.generatedCircles)
+		if self.options.variant == 'rectangle':
+			i = 1
+			while (i < l):
+				self.current_layer.remove(self.generatedCircles[i])
+				i += 2
+		if self.options.variant == 'hexagon1':
+			i = 2
+			while (i < l):
+				self.current_layer.remove(self.generatedCircles[i])
+				i += 3
 
 # Create effect instance and apply it.
 if __name__ == '__main__':
