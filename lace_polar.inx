@@ -16,7 +16,8 @@
 	<param name="variant" type="optiongroup" appearance="minimal" _gui-text="Variant:">
 		<_option value="">standard</_option>
 		<_option value="rectangle">rectangle</_option>
-		<_option value="hexagon1">hexagon</_option>
+		<_option value="hexagon1">hexagon (30 deg )</_option>
+		<_option value="hexagon2">hexagon (60 deg / 3)</_option>
 	</param>
 	<param name="filllabel" type="description">========== Grid diameters ==========</param>
 	<param name="outerDiameter" type="float" precision="2" min="10" max="500" _gui-text="Outside (mm):">160</param>

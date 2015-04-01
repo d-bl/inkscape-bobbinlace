@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright 2014 Jo Pol
+# Copyright 2015 Jo Pol
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -34,7 +34,7 @@ import inkex, simplestyle, math, pturtle
 
 __author__ = 'Jo Pol'
 __credits__ = ['Veronika Irvine']
-__license__ = 'GPL'
+__license__ = 'GPLv3'
 __version__ = '${project.version}'
 __maintainer__ = 'Jo Pol'
 __status__ = 'Development'
@@ -129,6 +129,28 @@ class PolarGrid(inkex.Effect):
 				diameter += self.iterate(diameter, circleNr)
 				circleNr += 1
 
+	def variantRectangle(self):
+		i = 1
+		while (i < self.nrOfGeneratedCircles):
+			self.current_layer.remove(self.generatedCircles[i])
+			i += 2
+
+	def variantHexagon1(self):
+		i = 2
+		while (i < self.nrOfGeneratedCircles):
+			self.current_layer.remove(self.generatedCircles[i])
+			i += 3
+
+	def variantHexagon2(self):
+		i = 1
+		while (i < self.nrOfGeneratedCircles):
+			j = 0
+			for dot in self.generatedCircles[i].iterchildren():
+				if ((((i+1) % 2) + j) % 3) == 0 :
+					self.generatedCircles[i].remove(dot)
+				j += 1
+			i += 1
+
 	def effect(self):
 		"""
 		Effect behaviour.
@@ -138,17 +160,13 @@ class PolarGrid(inkex.Effect):
 		self.dotFill = self.getColorString(self.options.dotFill)
 		self.generatedCircles = []
 		self.generate()
-		l = len(self.generatedCircles)
+		self.nrOfGeneratedCircles = len(self.generatedCircles)
 		if self.options.variant == 'rectangle':
-			i = 1
-			while (i < l):
-				self.current_layer.remove(self.generatedCircles[i])
-				i += 2
-		if self.options.variant == 'hexagon1':
-			i = 2
-			while (i < l):
-				self.current_layer.remove(self.generatedCircles[i])
-				i += 3
+			self.variantRectangle()
+		elif self.options.variant == 'hexagon1':
+			self.variantHexagon1()
+		elif self.options.variant == 'hexagon2':
+			self.variantHexagon2()
 
 # Create effect instance and apply it.
 if __name__ == '__main__':
