@@ -125,6 +125,7 @@ class LaceGrid(inkex.Effect):
 		conversion = 90.0 / 25.4
 		self.options.width *= conversion
 		self.options.height *= conversion
+		self.options.size *= conversion / 2.0 # also convert from diameter to radius
 		
 		# Users expect spacing to be the vertical distance between footside pins (vertical distance between every other row) 
 		# but in the script we use it as as diagonal distance between grid points

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
 
-	<_name>Lace Grid</_name>
+	<_name>Rectangular Grid</_name>
 	<id>edu.uvic.vmi.mathart.lace_grid</id>
 	
 	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
@@ -15,7 +15,7 @@
 	<param name="width" type="float" precision="2" min="10" max="1000" _gui-text="Patch width (mm):">100</param>
 	<param name="height" type="float" precision="2" min="10" max="1000" _gui-text="Patch height (mm):">100</param>
 	<param name="filllabel" type="description">========== Dot properties ==========</param>
-	<param name="size" type="float" precision="2" min="0.2" max="100" _gui-text="Dot radius (px):">1</param>
+	<param name="size" type="float" precision="2" min="0.1" max="10" _gui-text="Dot diameter (mm):">0.5</param>
 	<param name="color" type="color" _gui-text="Dot color (#RRGGBBAA):">#000000FF</param>
 	
 	<effect>
