@@ -13,6 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see http://www.gnu.org/licenses/.
 
+# want divisions rounded when computing offset to remove dots
+# from __future__ import division
+
 from math import *
 
 # These lines are only needed if you don't put the script directly into
@@ -63,8 +66,8 @@ class PolarGrid(inkex.Effect):
 		Draw a circle of radius 'options.dotSize' and origin at (x, y)
 		"""
 		s = simplestyle.formatStyle({'fill': self.dotFill})
-		scale = 7.08677 # tested with a dot of 2 mm at 160 mm with a 5000% scale
-		attribs = {'style':s, 'cx':str(x*scale), 'cy':str(y*scale), 'r':str(self.options.dotSize*1.775)}
+		scale = 7.08677  # tested with a dot of 2 mm at 160 mm with a 5000% scale
+		attribs = {'style':s, 'cx':str(x * scale), 'cy':str(y * scale), 'r':str(self.options.dotSize * 1.775)}
 		
 		# insert path object into te group
 		inkex.etree.SubElement(group, inkex.addNS('circle', 'svg'), attribs)
@@ -134,50 +137,36 @@ class PolarGrid(inkex.Effect):
 				diameter += self.iterate(diameter, circleNr)
 				circleNr += 1
 
-	def variantRectangle(self):
+	def removeGroups(self, start, increment):
 		"""
-		Remove dots 
+		Remove complete rings with dots
 		"""
-		i = 1
-		while (i < self.nrOfGeneratedCircles):
+		for i in range(start, self.nrOfGeneratedCircles, increment):
 			self.current_layer.remove(self.generatedCircles[i])
-			i += 2
-
-	def variantHexagon1(self):
-		"""
-		Remove dots 
-		"""
-		i = 2
-		while (i < self.nrOfGeneratedCircles):
-			self.current_layer.remove(self.generatedCircles[i])
-			i += 3
 
 	def variantHexagon2(self):
 		"""
 		Remove dots 
 		"""
-		i = 1
-		while (i < self.nrOfGeneratedCircles):
+		for i in range(1, self.nrOfGeneratedCircles, 1):
 			j = 0
-			for dot in self.generatedCircles[i].iterchildren():
-				if ((((i+1) % 2) + j) % 3) == 0 :
-					self.generatedCircles[i].remove(dot)
+			group = self.generatedCircles[i]
+			for dot in group.iterchildren():
+				if ((((i + 1) % 2) + j) % 3) == 0 :
+					group.remove(dot)
 				j += 1
-			i += 1
 
 	def variantHexagon3(self):
 		"""
 		Remove dots 
 		"""
-		i = 1
-		while (i < self.nrOfGeneratedCircles):
-			if ((i%2) == 1 ):
-				j = 0
-				for dot in self.generatedCircles[i].iterchildren():
-					if (((((i+1) % 4)/2) + j) % 2) == 0 :
-						self.generatedCircles[i].remove(dot)
-					j += 1
-			i += 1
+		for i in range(2, self.nrOfGeneratedCircles, 2):
+			j = 0
+			group = self.generatedCircles[i]
+			for dot in group.iterchildren():
+				if (((((i+1) % 4)/2) + j) % 2) == 0 :
+					group.remove(dot)
+				j += 1
 
 	def effect(self):
 		"""
@@ -190,9 +179,9 @@ class PolarGrid(inkex.Effect):
 		self.generate()
 		self.nrOfGeneratedCircles = len(self.generatedCircles)
 		if self.options.variant == 'rectangle':
-			self.variantRectangle()
+			self.removeGroups(1, 2)
 		elif self.options.variant == 'hexagon1':
-			self.variantHexagon1()
+			self.removeGroups(2, 3)
 		elif self.options.variant == 'hexagon2':
 			self.variantHexagon2()
 		elif self.options.variant == 'hexagon3':
