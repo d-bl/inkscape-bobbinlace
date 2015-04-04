@@ -144,7 +144,7 @@ class PolarGrid(inkex.Effect):
 
 	def removeDots(self, i, offset, step):
 		"""
-		Remove dots 
+		Remove dots from one circle
 		"""
 		group = self.generatedCircles[i]
 		dots = list(group)
@@ -172,6 +172,11 @@ class PolarGrid(inkex.Effect):
 		elif self.options.variant == 'hexagon3':
 			for i in range(1, len(self.generatedCircles), 2):
 				self.removeDots(i, (i//2)%2, 2)
+		elif self.options.variant == 'hexagon4':
+			self.removeGroups(2, 4)
+		elif self.options.variant == 'hexagon5':
+			for i in range(1, len(self.generatedCircles), 2):
+				self.removeDots(i, 0, 2)
 
 # Create effect instance and apply it.
 if __name__ == '__main__':
