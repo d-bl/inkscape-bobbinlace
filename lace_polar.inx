@@ -16,7 +16,7 @@
 	<param name="variant" type="optiongroup" appearance="minimal" _gui-text="Style:">
 		<_option value="">standard</_option>
 		<_option value="rectangle">rectangle</_option>
-		<_option value="hexagon1">hexagon (30&deg;)</_option>
+		<_option value="hexagon1">hexagon (30°)</_option>
 		<_option value="hexagon2">hexagon (60°, /3)</_option>
 		<_option value="hexagon3">hexagon + Δ (30-45-60°, /2)</_option>
 		<_option value="hexagon4">hexagon + ◊ (30°)</_option>
