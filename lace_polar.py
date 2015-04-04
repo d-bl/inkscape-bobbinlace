@@ -13,9 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see http://www.gnu.org/licenses/.
 
-# want divisions rounded when computing offset to remove dots
-# from __future__ import division
-
+from __future__ import division
 from math import *
 
 # These lines are only needed if you don't put the script directly into
@@ -141,32 +139,18 @@ class PolarGrid(inkex.Effect):
 		"""
 		Remove complete rings with dots
 		"""
-		for i in range(start, self.nrOfGeneratedCircles, increment):
+		for i in range(start, len(self.generatedCircles), increment):
 			self.current_layer.remove(self.generatedCircles[i])
 
-	def variantHexagon2(self):
+	def removeDots(self, i, offset, step):
 		"""
 		Remove dots 
 		"""
-		for i in range(1, self.nrOfGeneratedCircles, 1):
-			j = 0
-			group = self.generatedCircles[i]
-			for dot in group.iterchildren():
-				if ((((i + 1) % 2) + j) % 3) == 0 :
-					group.remove(dot)
-				j += 1
-
-	def variantHexagon3(self):
-		"""
-		Remove dots 
-		"""
-		for i in range(2, self.nrOfGeneratedCircles, 2):
-			j = 0
-			group = self.generatedCircles[i]
-			for dot in group.iterchildren():
-				if (((((i+1) % 4)/2) + j) % 2) == 0 :
-					group.remove(dot)
-				j += 1
+		group = self.generatedCircles[i]
+		dots = list(group)
+		start = self.options.dotsPerCircle - 1 - offset
+		for j in range(start, -1, 0-step):
+			group.remove(dots[j])
 
 	def effect(self):
 		"""
@@ -177,15 +161,17 @@ class PolarGrid(inkex.Effect):
 		self.dotFill = self.getColorString(self.options.dotFill)
 		self.generatedCircles = []
 		self.generate()
-		self.nrOfGeneratedCircles = len(self.generatedCircles)
+
 		if self.options.variant == 'rectangle':
 			self.removeGroups(1, 2)
 		elif self.options.variant == 'hexagon1':
 			self.removeGroups(2, 3)
 		elif self.options.variant == 'hexagon2':
-			self.variantHexagon2()
+			for i in range(1, len(self.generatedCircles), 1):
+				self.removeDots(i, (i%2)*2, 3)
 		elif self.options.variant == 'hexagon3':
-			self.variantHexagon3()
+			for i in range(1, len(self.generatedCircles), 2):
+				self.removeDots(i, (i//2)%2, 2)
 
 # Create effect instance and apply it.
 if __name__ == '__main__':
