@@ -61,16 +61,12 @@ class PolarGrid(inkex.Effect):
 
 	def dot(self, x, y, group):
 		"""
-		Draw a circle of radius 'options.dotSize' and origin at (x, y)
+		Draw a circle with origin at (x, y) in the group
 		"""
-		s = simplestyle.formatStyle({'fill': self.dotFill})
-		scale = 7.08677  # tested with a dot of 2 mm at 160 mm with a 5000% scale
-		attribs = {'style':s, 'cx':str(x * scale), 'cy':str(y * scale), 'r':str(self.options.dotSize * 1.775)}
-		
-		# insert path object into te group
+		attribs = {'style':self.dotStyle, 'cx':str(x * self.scale), 'cy':str(y * self.scale), 'r':self.dotR}
 		inkex.etree.SubElement(group, inkex.addNS('circle', 'svg'), attribs)
 
-	def group(self, diameter, distance):
+	def group(self, diameter, distance, superGroup):
 		"""
 		Create a labeled group for the dots on a circle of the grid
 		"""
@@ -78,17 +74,16 @@ class PolarGrid(inkex.Effect):
 		s = f.format(distance, diameter)
 		attribs = {inkex.addNS('label', 'inkscape'):s}
 		
-		# insert group object into current layer and remeber it
-		return inkex.etree.SubElement(self.current_layer, inkex.addNS('g', 'svg'), attribs)
+		# insert group object into current layer
+		return inkex.etree.SubElement(superGroup, inkex.addNS('g', 'svg'), attribs)
 
 	def dots(self, diameter, circleNr, group):
 		"""
 		Draw dots on a grid circle
 		"""
 		offset = (circleNr % 2) * 0.5
-		aRadians = radians(360.0 / self.options.dotsPerCircle)
 		for dotNr in range (0, self.options.dotsPerCircle):
-			a = (dotNr + offset) * aRadians
+			a = (dotNr + offset) * self.aRadians
 			x = (diameter / 2) * cos(a)
 			y = (diameter / 2) * sin(a)
 			self.dot(x, y, group)
@@ -113,8 +108,8 @@ class PolarGrid(inkex.Effect):
 		"""
 		Create a group with a ring of dots, the distance between the dots is the distance to the next ring
 		"""
-		distance = self.tan * diameter * pi / self.options.dotsPerCircle
-		group = self.group(diameter, distance)
+		distance = diameter * self.change
+		group = self.group(diameter, distance, self.current_layer)
 		self.dots(diameter, circleNr, group)
 		self.generatedCircles.append(group)
 		return distance
@@ -157,8 +152,12 @@ class PolarGrid(inkex.Effect):
 		Effect behaviour.
 		Overrides base class' method and draws something.
 		"""
-		self.tan = tan(radians(self.options.angleOnFootside))
-		self.dotFill = self.getColorString(self.options.dotFill)
+		self.dotStyle = simplestyle.formatStyle({'fill': self.getColorString(self.options.dotFill)})
+		self.	scale = 7.08677  # tested with a dot of 2 mm at 160 mm with a 5000% scale
+		self.dotR = str(self.options.dotSize * 1.775)
+		self.change = tan(radians(self.options.angleOnFootside)) * pi / self.options.dotsPerCircle
+		self.aRadians = radians(360.0 / self.options.dotsPerCircle)
+
 		self.generatedCircles = []
 		self.generate()
 
