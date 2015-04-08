@@ -72,8 +72,6 @@ class PolarGrid(inkex.Effect):
 		"""
 		label = 'diameter: {0:.2f} mm'.format(diameter)
 		attribs = {inkex.addNS('label', 'inkscape'):label}
-		
-		# insert group object into current layer
 		return inkex.etree.SubElement(superGroup, inkex.addNS('g', 'svg'), attribs)
 
 	def dots(self, diameter, circleNr, group):
