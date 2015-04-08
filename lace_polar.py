@@ -99,13 +99,14 @@ class PolarGrid(inkex.Effect):
 
 	def iterate(self, diameter, circleNr):
 		"""
-		Create a group with a ring of dots, the distance between the dots is the distance to the next ring
+		Create a group with a ring of dots.
+		Returns half of the arc length between the dots
+		which becomes the distance to the next ring.
 		"""
-		distance = diameter * self.change
 		group = self.group(diameter, self.current_layer)
 		self.dots(diameter, circleNr, group)
 		self.generatedCircles.append(group)
-		return distance
+		return diameter * self.change
 
 	def generate(self):
 		"""
