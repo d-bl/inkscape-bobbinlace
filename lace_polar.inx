@@ -11,6 +11,7 @@
 	<!-- title must be a single line for a left aligned layout -->
 	<param name="description" type="description">Creates a printable polar grid of dots with a constant number of dots per circle and the distance between circles changing at the same speed as the distance between the dots on a circle.</param>
 
+	<param name="filllabel" type="description">========== Grid pattern ==========</param>
 	<param name="angle" type="float" precision="2" min="15" max="80" _gui-text="Grid angle (degrees):">45.0</param>
 	<param name="dots" type="int" precision="2" min="4" max="400" _gui-text="Number of dots per circle:">180.0</param>
 	<param name="variant" type="optiongroup" appearance="minimal" _gui-text="Style:">
@@ -22,9 +23,9 @@
 		<_option value="hexagon4">hexagon + ◊ (30°)</_option>
 		<_option value="hexagon5">hexagon + ◊ (60°, /2)</_option>
 	</param>
-	<param name="filllabel" type="description">========== Grid diameters ==========</param>
-	<param name="outerDiameter" type="float" precision="2" min="10" max="500" _gui-text="Outside radius (mm):">160</param>
-	<param name="innerDiameter" type="float" precision="2" min="10" max="500" _gui-text="Inside radius (mm):">100</param>
+	<param name="filllabel" type="description">========== Grid size ==========</param>
+	<param name="outerDiameter" type="float" precision="2" min="10" max="500" _gui-text="Outside diameter (mm):">160</param>
+	<param name="innerDiameter" type="float" precision="2" min="10" max="500" _gui-text="Inside diameter (mm):">100</param>
 	<param name="alignment" type="optiongroup" appearance="minimal" _gui-text="Align to:">
 		<_option value="outside">outside circle</_option>
 		<_option value="inside">inside circle</_option>

@@ -83,23 +83,22 @@ class PolarGrid(inkex.Effect):
 		"""
 		offset = (circleNr % 2) * 0.5
 		for dotNr in range (0, self.options.dotsPerCircle):
-			a = (dotNr + offset) * self.aRadians
+			a = (dotNr + offset) * self.alpha
 			x = (diameter / 2) * cos(a)
 			y = (diameter / 2) * sin(a)
 			self.dot(x, y, group)
 
 	def unsignedLong(self, signedLongString):
-		longColor = long(signedLongString)
-		if longColor < 0:
-			longColor = longColor & 0xFFFFFFFF
 		return longColor
 
-	def getColorString(self, longColor):
+	def getColorString(self):
 		"""
 		Convert numeric color value to hex string using formula A*256^0 + B*256^1 + G*256^2 + R*256^3
 		From: http://www.hoboes.com/Mimsy/hacks/parsing-and-setting-colors-inkscape-extensions/
 		"""
-		longColor = self.unsignedLong(longColor)
+		longColor = long(self.options.dotFill)
+		if longColor < 0:
+			longColor = longColor & 0xFFFFFFFF
 		hexColor = hex(longColor)[2:-3]
 		hexColor = hexColor.rjust(6, '0')
 		return '#' + hexColor.upper()
@@ -152,11 +151,11 @@ class PolarGrid(inkex.Effect):
 		Effect behaviour.
 		Overrides base class' method and draws something.
 		"""
-		self.dotStyle = simplestyle.formatStyle({'fill': self.getColorString(self.options.dotFill)})
-		self.scale = (90/25.4)*2 # 90 DPI / mm
-		self.dotR = str(self.options.dotSize * (90/25.4)/2)
+		self.dotStyle = simplestyle.formatStyle({'fill': self.getColorString()})
+		self.scale = (90/25.4) # 90 DPI / mm
+		self.dotR = str(self.options.dotSize * (self.scale/2))
 		self.change = tan(radians(self.options.angleOnFootside)) * pi / self.options.dotsPerCircle
-		self.aRadians = radians(360.0 / self.options.dotsPerCircle)
+		self.alpha = radians(360.0 / self.options.dotsPerCircle)
 
 		self.generatedCircles = []
 		self.generate()
