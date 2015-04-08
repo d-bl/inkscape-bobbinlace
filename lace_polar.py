@@ -70,8 +70,7 @@ class PolarGrid(inkex.Effect):
 		"""
 		Create a labeled group for the dots on a circle of the grid
 		"""
-		f = "{0} mm per dot, diameter: {1} mm"
-		s = f.format(distance, diameter)
+		s = '{0:.2f} mm per dot, diameter: {1:.2f} mm'.format(distance, diameter)
 		attribs = {inkex.addNS('label', 'inkscape'):s}
 		
 		# insert group object into current layer
@@ -87,9 +86,6 @@ class PolarGrid(inkex.Effect):
 			x = (diameter / 2) * cos(a)
 			y = (diameter / 2) * sin(a)
 			self.dot(x, y, group)
-
-	def unsignedLong(self, signedLongString):
-		return longColor
 
 	def getColorString(self):
 		"""
