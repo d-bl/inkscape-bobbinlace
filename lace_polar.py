@@ -153,8 +153,8 @@ class PolarGrid(inkex.Effect):
 		Overrides base class' method and draws something.
 		"""
 		self.dotStyle = simplestyle.formatStyle({'fill': self.getColorString(self.options.dotFill)})
-		self.	scale = 7.08677  # tested with a dot of 2 mm at 160 mm with a 5000% scale
-		self.dotR = str(self.options.dotSize * 1.775)
+		self.scale = (90/25.4)*2 # 90 DPI / mm
+		self.dotR = str(self.options.dotSize * (90/25.4)/2)
 		self.change = tan(radians(self.options.angleOnFootside)) * pi / self.options.dotsPerCircle
 		self.aRadians = radians(360.0 / self.options.dotsPerCircle)
 
