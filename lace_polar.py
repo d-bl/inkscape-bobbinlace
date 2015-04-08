@@ -66,12 +66,12 @@ class PolarGrid(inkex.Effect):
 		attribs = {'style':self.dotStyle, 'cx':str(x * self.scale), 'cy':str(y * self.scale), 'r':self.dotR}
 		inkex.etree.SubElement(group, inkex.addNS('circle', 'svg'), attribs)
 
-	def group(self, diameter, distance, superGroup):
+	def group(self, diameter, superGroup):
 		"""
-		Create a labeled group for the dots on a circle of the grid
+		Create a group labeled with the diameter
 		"""
-		s = '{0:.2f} mm per dot, diameter: {1:.2f} mm'.format(distance, diameter)
-		attribs = {inkex.addNS('label', 'inkscape'):s}
+		label = 'diameter: {0:.2f} mm'.format(diameter)
+		attribs = {inkex.addNS('label', 'inkscape'):label}
 		
 		# insert group object into current layer
 		return inkex.etree.SubElement(superGroup, inkex.addNS('g', 'svg'), attribs)
@@ -104,7 +104,7 @@ class PolarGrid(inkex.Effect):
 		Create a group with a ring of dots, the distance between the dots is the distance to the next ring
 		"""
 		distance = diameter * self.change
-		group = self.group(diameter, distance, self.current_layer)
+		group = self.group(diameter, self.current_layer)
 		self.dots(diameter, circleNr, group)
 		self.generatedCircles.append(group)
 		return distance
