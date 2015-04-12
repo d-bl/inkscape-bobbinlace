@@ -199,6 +199,7 @@ class LaceGround(inkex.Effect):
 		conversion = 90.0 / 25.4
 		self.options.width *= conversion
 		self.options.height *= conversion
+		self.options.size *= conversion
 		
 		# Users expect spacing to be the vertical distance between footside pins (vertical distance between every other row) 
 		# but in the script we use it as as diagonal distance between grid points
@@ -210,8 +211,8 @@ class LaceGround(inkex.Effect):
 		self.options.color = self.getColorString(self.options.color)
 		
 		# Draw a ground based on file description and user inputs
-		if (result["type"] == "CHECKER"):
-			self.drawCheckerGround(result["data"],result["rowCount"],result["colCount"])
+		# For now, assume style is Checker but could change in future
+		self.drawCheckerGround(result["data"],result["rowCount"],result["colCount"])
 
 
 if tk:

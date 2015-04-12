@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
 
-	<_name>Lace Ground</_name>
+	<_name>Ground from Template</_name>
 	<id>edu.uvic.vmi.mathart.lace_ground</id>
 	
 	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
@@ -16,7 +16,7 @@
 	<param name="width" type="float" precision="2" min="1" max="1000" _gui-text="Patch width (mm):">100</param>
 	<param name="height" type="float" precision="2" min="1" max="1000" _gui-text="Patch height (mm):">100</param>
 	<param name="filllabel" type="description">========== Line properties ==========</param>
-	<param name="size" type="float" precision="2" min="0.2" max="100" _gui-text="Line width (px):">1</param>
+	<param name="size" type="float" precision="2" min="0.01" max="10" _gui-text="Line width (mm):">0.1</param>
 	<param name="color" type="color" _gui-text="Line color (#RRGGBBAA):">#000000FF</param>
 	
 	<effect>
