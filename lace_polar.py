@@ -48,8 +48,11 @@ class PolarGrid(inkex.Effect):
 		"""
 		Constructor.
 		"""
+
 		# Call the base class constructor.
 		inkex.Effect.__init__(self)
+
+		# parse the options
 		self.OptionParser.add_option('-a', '--angle', action='store', type='float', dest='angleOnFootside', default=45, help='grid angle (degrees)')
 		self.OptionParser.add_option('-d', '--dots', action='store', type='int', dest='dotsPerCircle', default=180, help='number of dots on a circle')
 		self.OptionParser.add_option('-o', '--outerDiameter', action='store', type='float', dest='outerDiameter', default=160, help='outer diameter (mm)')
@@ -66,13 +69,13 @@ class PolarGrid(inkex.Effect):
 		attribs = {'style':self.dotStyle, 'cx':str(x * self.scale), 'cy':str(y * self.scale), 'r':self.dotR}
 		inkex.etree.SubElement(group, inkex.addNS('circle', 'svg'), attribs)
 
-	def group(self, diameter, superGroup):
+	def group(self, diameter):
 		"""
 		Create a group labeled with the diameter
 		"""
 		label = 'diameter: {0:.2f} mm'.format(diameter)
 		attribs = {inkex.addNS('label', 'inkscape'):label}
-		return inkex.etree.SubElement(superGroup, inkex.addNS('g', 'svg'), attribs)
+		return inkex.etree.SubElement(self.gridContainer, inkex.addNS('g', 'svg'), attribs)
 
 	def dots(self, diameter, circleNr, group):
 		"""
@@ -103,7 +106,7 @@ class PolarGrid(inkex.Effect):
 		Returns half of the arc length between the dots
 		which becomes the distance to the next ring.
 		"""
-		group = self.group(diameter, self.current_layer)
+		group = self.group(diameter)
 		self.dots(diameter, circleNr, group)
 		self.generatedCircles.append(group)
 		return diameter * self.change
@@ -146,13 +149,18 @@ class PolarGrid(inkex.Effect):
 		Effect behaviour.
 		Overrides base class' method and draws something.
 		"""
+
+		# constants
 		self.dotStyle = simplestyle.formatStyle({'fill': self.getColorString()})
 		self.scale = (90/25.4) # 90 DPI / mm
 		self.dotR = str(self.options.dotSize * (self.scale/2))
 		self.change = tan(radians(self.options.angleOnFootside)) * pi / self.options.dotsPerCircle
 		self.alpha = radians(360.0 / self.options.dotsPerCircle)
 
+		# processing variables
 		self.generatedCircles = []
+		self.gridContainer =  self.current_layer
+
 		self.generate()
 
 		if self.options.variant == 'rectangle':
