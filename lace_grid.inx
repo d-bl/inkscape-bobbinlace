@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
 
-	<_name>Rectangular Grid</_name>
+	<_name>Regular Grid</_name>
 	<id>edu.uvic.vmi.mathart.lace_grid</id>
 	
 	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
@@ -10,8 +10,10 @@
 	
 	<param name="description" type="description">Creates a printable rectangular grid of dots.</param>
 	
+	<param name="filllabel" type="description">========== Grid style ==========</param>
 	<param name="angle" type="float" precision="2" min="30" max="89" _gui-text="Grid angle (degrees):">45.0</param>
 	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="Distance between footside pins (mm):">10.0</param>
+	<param name="filllabel" type="description">========== Grid size ==========</param>
 	<param name="width" type="float" precision="2" min="10" max="1000" _gui-text="Patch width (mm):">100</param>
 	<param name="height" type="float" precision="2" min="10" max="1000" _gui-text="Patch height (mm):">100</param>
 	<param name="filllabel" type="description">========== Dot properties ==========</param>
