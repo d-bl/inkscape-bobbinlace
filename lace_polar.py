@@ -138,6 +138,12 @@ class PolarGrid(inkex.Effect):
 		for j in range(start, -1, 0-step):
 			group.remove(dots[j])
 
+	def computations(self, angle):
+		self.alpha = radians(360.0 / self.options.dotsPerCircle)
+		correction = pi / (4 * self.options.dotsPerCircle)
+		correction *= tan(angle*0.93)
+		self.change = tan(angle - correction) * pi / self.options.dotsPerCircle
+
 	def effect(self):
 		"""
 		Effect behaviour.
@@ -145,13 +151,10 @@ class PolarGrid(inkex.Effect):
 		"""
 
 		# constants
-		self.dotStyle = simplestyle.formatStyle({'fill': self.getColorString()})
+		self.dotStyle = simplestyle.formatStyle({'fill': self.getColorString(),'stroke':'none'})
 		self.scale = (90/25.4) # 90 DPI / mm
 		self.dotR = str(self.options.dotSize * (self.scale/2))
-		angle = radians(self.options.angleOnFootside)
-		self.alpha = radians(360.0 / self.options.dotsPerCircle)
-		correction = (self.alpha/(360.0/self.options.angleOnFootside))/(45/self.options.angleOnFootside)
-		self.change = tan(angle - correction) * pi / self.options.dotsPerCircle
+		self.computations(radians(self.options.angleOnFootside))
 
 		# processing variables
 		self.generatedCircles = []
@@ -171,9 +174,18 @@ class PolarGrid(inkex.Effect):
 				self.removeDots(i, (i//2+1)%2, 2)
 		elif self.options.variant == 'hexagon4':
 			self.removeGroups(0, 4)
-		elif self.options.variant == 'hexagon5':
+		elif self.options.variant == 'hexagon5' or self.options.variant == 'snow1':
 			for i in range(0, len(self.generatedCircles), 2):
 				self.removeDots(i, 1, 2)
+
+		self.dotStyle = simplestyle.formatStyle({'fill': 'none','stroke':self.getColorString(),'stroke-width':0.7})
+		self.options.dotsPerCircle = self.options.dotsPerCircle // 4
+		self.dotR *= 2
+		if self.options.variant == 'snow1':
+
+			self.computations(radians(self.options.angleOnFootside + (360.0 / (self.options.dotsPerCircle*14))))
+			self.change /= 2.0 
+			self.generate()
 
 # Create effect instance and apply it.
 if __name__ == '__main__':

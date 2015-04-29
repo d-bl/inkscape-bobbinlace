@@ -19,9 +19,10 @@
 		<_option value="rectangle">rectangle</_option>
 		<_option value="hexagon1">hexagon (30°)</_option>
 		<_option value="hexagon2">hexagon (60°, /3)</_option>
-		<_option value="hexagon3">hexagon + Δ (30-45-60°, /2)</_option>
-		<_option value="hexagon4">hexagon + ◊ (30°)</_option>
-		<_option value="hexagon5">hexagon + ◊ (60°, /2)</_option>
+		<_option value="hexagon3">hexagon + triangle (30-45-60°, /2)</_option>
+		<_option value="hexagon4">hexagon + diamond (30°)</_option>
+		<_option value="hexagon5">hexagon + diamond (60°, /2)</_option>
+		<_option value="snow1">Snow B7 (60°, /8)</_option>
 	</param>
 	<param name="filllabel" type="description">========== Grid size ==========</param>
 	<param name="outerDiameter" type="float" precision="2" min="10" max="500" _gui-text="Outside diameter (mm):">160</param>
