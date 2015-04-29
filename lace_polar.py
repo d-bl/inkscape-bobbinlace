@@ -134,7 +134,7 @@ class PolarGrid(inkex.Effect):
 		"""
 		group = self.generatedCircles[i]
 		dots = list(group)
-		start = self.options.dotsPerCircle - 1 - offset
+		start = len(dots) - 1 - offset
 		for j in range(start, -1, 0-step):
 			group.remove(dots[j])
 
@@ -166,7 +166,7 @@ class PolarGrid(inkex.Effect):
 			self.removeGroups(1, 2)
 		elif self.options.variant == 'hexagon1':
 			self.removeGroups(0, 3)
-		elif self.options.variant == 'hexagon2':
+		elif self.options.variant == 'hexagon2' or self.options.variant == 'snow2':
 			for i in range(0, len(self.generatedCircles), 1):
 				self.removeDots(i, (((i%2)+1)*2)%3, 3)
 		elif self.options.variant == 'hexagon3':
@@ -178,15 +178,22 @@ class PolarGrid(inkex.Effect):
 			for i in range(0, len(self.generatedCircles), 2):
 				self.removeDots(i, 1, 2)
 
-		self.generatedCircles = []
 		self.dotStyle = simplestyle.formatStyle({'fill': 'none','stroke':self.getColorString(),'stroke-width':0.7})
-		self.dotR *= 2
-		if self.options.variant == 'snow1':
-			self.options.dotsPerCircle = self.options.dotsPerCircle // 2
+		self.dotR = str((((self.options.innerDiameter * pi) / self.options.dotsPerCircle) / 2) * self.scale)
+		self.generatedCircles = []
+		if self.options.variant == 'snow2':
+			self.options.dotsPerCircle = self.options.dotsPerCircle // 3
 			self.computations(radians(self.options.angleOnFootside))
 			self.generate()
-			for i in range(0, len(self.generatedCircles), 1):
-				self.removeDots(i, 1, 2)
+		elif self.options.variant == 'snow1':
+			self.generate()
+			self.removeGroups(1, 2)
+			for i in range(0, len(self.generatedCircles), 2):
+				self.removeDots(i, i%4, 2)
+			for i in range(0, len(self.generatedCircles), 2):
+				self.removeDots(i, (i+1)%2, 2)
+			for i in range(2, len(self.generatedCircles), 4):
+				self.removeDots(i, 0, self.options.dotsPerCircle)
 
 # Create effect instance and apply it.
 if __name__ == '__main__':

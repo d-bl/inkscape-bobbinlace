@@ -11,18 +11,19 @@
 	<!-- title must be a single line for a left aligned layout -->
 	<param name="description" type="description">Creates a printable polar grid of dots with a constant number of dots per circle and the distance between circles changing at the same speed as the distance between the dots on a circle.</param>
 
-	<param name="filllabel" type="description">========== Grid pattern ==========</param>
+	<param name="filllabel" type="description">========== Grid style ==========</param>
 	<param name="angle" type="float" precision="2" min="15" max="80" _gui-text="Grid angle (degrees):">45.0</param>
 	<param name="dots" type="int" precision="2" min="4" max="400" _gui-text="Number of dots per circle:">180.0</param>
-	<param name="variant" type="optiongroup" appearance="minimal" _gui-text="Style:">
-		<_option value="">standard</_option>
+	<param name="variant" type="optiongroup" appearance="minimal" _gui-text="Pattern:">
+		<_option value="">diamond</_option>
 		<_option value="rectangle">rectangle</_option>
 		<_option value="hexagon1">hexagon (30°)</_option>
 		<_option value="hexagon2">hexagon (60°, /3)</_option>
 		<_option value="hexagon3">hexagon + triangle (30-45-60°, /2)</_option>
 		<_option value="hexagon4">hexagon + diamond (30°)</_option>
 		<_option value="hexagon5">hexagon + diamond (60°, /2)</_option>
-		<_option value="snow1">Snow B7 (60°, /8)</_option>
+		<_option value="snow2">snow, hexagon (60°, /6)</_option>
+		<_option value="snow1">snow, hexagon + diamond (60°, /8)</_option>
 	</param>
 	<param name="filllabel" type="description">========== Grid size ==========</param>
 	<param name="outerDiameter" type="float" precision="2" min="10" max="500" _gui-text="Outside diameter (mm):">160</param>
