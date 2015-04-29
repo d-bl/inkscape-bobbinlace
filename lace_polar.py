@@ -178,14 +178,15 @@ class PolarGrid(inkex.Effect):
 			for i in range(0, len(self.generatedCircles), 2):
 				self.removeDots(i, 1, 2)
 
+		self.generatedCircles = []
 		self.dotStyle = simplestyle.formatStyle({'fill': 'none','stroke':self.getColorString(),'stroke-width':0.7})
-		self.options.dotsPerCircle = self.options.dotsPerCircle // 4
 		self.dotR *= 2
 		if self.options.variant == 'snow1':
-
-			self.computations(radians(self.options.angleOnFootside + (360.0 / (self.options.dotsPerCircle*14))))
-			self.change /= 2.0 
+			self.options.dotsPerCircle = self.options.dotsPerCircle // 2
+			self.computations(radians(self.options.angleOnFootside))
 			self.generate()
+			for i in range(0, len(self.generatedCircles), 1):
+				self.removeDots(i, 1, 2)
 
 # Create effect instance and apply it.
 if __name__ == '__main__':
