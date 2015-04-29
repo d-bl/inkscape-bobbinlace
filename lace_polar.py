@@ -62,13 +62,6 @@ class PolarGrid(inkex.Effect):
 		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='dotSize', default=0.5, help='dot diameter (mm)')
 		self.OptionParser.add_option('-v', '--variant', action='store', type='string', dest='variant', default='', help='omit rows to get [|rectangle|hexagon1]')
 
-	def dot(self, x, y, group):
-		"""
-		Draw a circle with origin at (x, y) in the group
-		"""
-		attribs = {'style':self.dotStyle, 'cx':str(x * self.scale), 'cy':str(y * self.scale), 'r':self.dotR}
-		inkex.etree.SubElement(group, inkex.addNS('circle', 'svg'), attribs)
-
 	def group(self, diameter):
 		"""
 		Create a group labeled with the diameter
@@ -84,9 +77,10 @@ class PolarGrid(inkex.Effect):
 		offset = (circleNr % 2) * 0.5
 		for dotNr in range (0, self.options.dotsPerCircle):
 			a = (dotNr + offset) * self.alpha
-			x = (diameter / 2) * cos(a)
-			y = (diameter / 2) * sin(a)
-			self.dot(x, y, group)
+			x = (diameter / 2.0) * cos(a)
+			y = (diameter / 2.0) * sin(a)
+			attribs = {'style':self.dotStyle, 'cx':str(x * self.scale), 'cy':str(y * self.scale), 'r':self.dotR}
+			inkex.etree.SubElement(group, inkex.addNS('circle', 'svg'), attribs)
 
 	def getColorString(self):
 		"""
@@ -154,8 +148,10 @@ class PolarGrid(inkex.Effect):
 		self.dotStyle = simplestyle.formatStyle({'fill': self.getColorString()})
 		self.scale = (90/25.4) # 90 DPI / mm
 		self.dotR = str(self.options.dotSize * (self.scale/2))
-		self.change = tan(radians(self.options.angleOnFootside)) * pi / self.options.dotsPerCircle
+		angle = radians(self.options.angleOnFootside)
 		self.alpha = radians(360.0 / self.options.dotsPerCircle)
+		correction = (self.alpha/(360.0/self.options.angleOnFootside))/(45/self.options.angleOnFootside)
+		self.change = tan(angle - correction) * pi / self.options.dotsPerCircle
 
 		# processing variables
 		self.generatedCircles = []
@@ -166,18 +162,18 @@ class PolarGrid(inkex.Effect):
 		if self.options.variant == 'rectangle':
 			self.removeGroups(1, 2)
 		elif self.options.variant == 'hexagon1':
-			self.removeGroups(2, 3)
+			self.removeGroups(0, 3)
 		elif self.options.variant == 'hexagon2':
-			for i in range(1, len(self.generatedCircles), 1):
-				self.removeDots(i, (i%2)*2, 3)
+			for i in range(0, len(self.generatedCircles), 1):
+				self.removeDots(i, (((i%2)+1)*2)%3, 3)
 		elif self.options.variant == 'hexagon3':
-			for i in range(1, len(self.generatedCircles), 2):
-				self.removeDots(i, (i//2)%2, 2)
+			for i in range(0, len(self.generatedCircles), 2):
+				self.removeDots(i, (i//2+1)%2, 2)
 		elif self.options.variant == 'hexagon4':
-			self.removeGroups(2, 4)
+			self.removeGroups(0, 4)
 		elif self.options.variant == 'hexagon5':
-			for i in range(1, len(self.generatedCircles), 2):
-				self.removeDots(i, 0, 2)
+			for i in range(0, len(self.generatedCircles), 2):
+				self.removeDots(i, 1, 2)
 
 # Create effect instance and apply it.
 if __name__ == '__main__':
