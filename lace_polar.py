@@ -110,13 +110,16 @@ class PolarGrid(inkex.Effect):
 		Generate rings with dots, either inside out or outside in
 		"""
 		circleNr = 0
+		minimum = 2 * self.options.dotSize * self.options.dotsPerCircle /pi
+		if minimum < self.options.innerDiameter:
+			minimum = 	self.options.innerDiameter
 		if self.options.alignment == 'outside':
 			diameter = self.options.outerDiameter
-			while diameter > self.options.innerDiameter:
+			while diameter > minimum:
 				diameter -= self.iterate(diameter, circleNr)
 				circleNr += 1
 		else:
-			diameter = self.options.innerDiameter
+			diameter = minimum
 			while diameter < self.options.outerDiameter:
 				diameter += self.iterate(diameter, circleNr)
 				circleNr += 1
