@@ -47,7 +47,9 @@ class ThreadStyle(inkex.Effect):
 		"""
 		# Call the base class constructor.
 		inkex.Effect.__init__(self)
-		self.OptionParser.add_option('-t', '--tolerance', action='store', type='float', dest='tolerance', default=0.0001, help='tolerance (max. distance between segments)')
+		self.OptionParser.add_option('-t', '--tolerance', action='store', type='float', dest='tolerance', default=0.05, help='tolerance (max. distance between segments)')
+		self.OptionParser.add_option('-w', '--width', action='store', type='string', dest='width', default='1', help='thread width')
+		self.OptionParser.add_option('-c', '--color', action='store', type='string', dest='color', default='#FF9999', help='thread color')
 	
 	def startPoint(self, cubicSuperPath):
 		"""
@@ -98,6 +100,18 @@ class ThreadStyle(inkex.Effect):
 					break
 			point = next
 
+	def getColorString(self):
+		"""
+		Convert numeric color value to hex string using formula A*256^0 + B*256^1 + G*256^2 + R*256^3
+		From: http://www.hoboes.com/Mimsy/hacks/parsing-and-setting-colors-inkscape-extensions/
+		"""
+		longColor = long(self.options.color)
+		if longColor < 0:
+			longColor = longColor & 0xFFFFFFFF
+		hexColor = hex(longColor)[2:-3]
+		hexColor = hexColor.rjust(6, '0')
+		return '#' + hexColor.upper()
+
 	def effect(self):
 		"""
 		Effect behaviour.
@@ -111,8 +125,9 @@ class ThreadStyle(inkex.Effect):
 			inkex.debug('selected element is not a Bezier curve')
 			return
 		self.findCandidatesForStyleChange(selected)
-		self.style = selected.attrib.get('style', '')
+		self.style = 'fill:none;stroke:{1};stroke-width:{0}'.format(self.options.width,self.getColorString())
 		csp = cubicsuperpath.parsePath(selected.get('d'))
+		self.selected.values()[0].attrib['style'] = self.style
 		self.applyToAdjecent(self.startPoint(csp))
 		self.applyToAdjecent(self.endPoint(csp))
 			
