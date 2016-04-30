@@ -1,6 +1,8 @@
 # inkscape-bobbinlace
 InkScape plugins related to bobbin lace
 
-[Use cases](http://d-bl.github.io)
+Screenshot and help pages are still located in the former super [repository].
+Some of the plugins play an explicit role in a larger set of [tools].
 
-Screenshot and help pages in the former [repository](https://github.com/jo-pol/DiBL/wiki/Install-Inkscape-Extensions)
+[repository]: https://github.com/jo-pol/DiBL/wiki/Install-Inkscape-Extensions
+[tools]: https://d-bl.github.io/
