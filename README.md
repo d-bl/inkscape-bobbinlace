@@ -9,5 +9,5 @@ Some of the plugins play an explicit role in a larger set of [tools].
 
 Install:
 This is an inkscape plugin. Copy the py and inx files into the directory 
-defined in the Mneu under:
+defined in the Menu under:
 Edit > Preferences > System: User extensions
