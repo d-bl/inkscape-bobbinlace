@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
 
-	<_name>Ground from Template</_name>
-	<id>edu.uvic.vmi.mathart.lace_ground</id>
-	
+	<_name>Lace Ground from Template</_name>
+	<id>edu.uvic.vmi.math_art.lace_ground</id>
+
 	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
 	<dependency type="executable" location="extensions">lace_ground.py</dependency>
 	<dependency type="executable" location="extensions">inkex.py</dependency>
 	
 	<param name="description" type="description">Fills in a rectangle with the selected lace ground pattern.</param>
-	
-	<param name="file" type="string" _gui-text="File name for ground template (full path):"></param>
+	<param name="file" type="string" _gui-text="File name for ground template (full path):" >lace_templates/4x4_33.txt</param>
 	<param name="angle" type="float" precision="2" min="30" max="89" _gui-text="Grid angle (degrees):">45.0</param>
-	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="Distance between footside pins (mm):">10.0</param>
-	<param name="width" type="float" precision="2" min="1" max="1000" _gui-text="Patch width (mm):">100</param>
-	<param name="height" type="float" precision="2" min="1" max="1000" _gui-text="Patch height (mm):">100</param>
-	<param name="filllabel" type="description">========== Line properties ==========</param>
-	<param name="size" type="float" precision="2" min="0.01" max="10" _gui-text="Line width (mm):">0.1</param>
-	<param name="color" type="color" _gui-text="Line color (#RRGGBBAA):">#000000FF</param>
+	<param name="desc_unit" type="description">============ Patch Size ============</param>
+	<param name="units" _gui-text="Units" type="optiongroup" appearance="minimal">
+        <option value="mm">mm</option>
+        <option value="cm">cm</option>
+        <option value="in">in</option>
+        <option value="px">px</option>
+        <option value="pt">pt</option>
+        </param>
+	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="Distance between footside pins:">10.0</param>
+	<param name="width" type="float" precision="2" min="1" max="1000" _gui-text="Patch Width:">100</param>
+	<param name="height" type="float" precision="2" min="1" max="1000" _gui-text="Patch Height:">100</param>
+	<param name="desc_unit" type="description">========== Line properties ==========</param>
+	<param name="pindia" type="float" precision="2" min="0.01" max="10" _gui-text="Pin diameter:">2</param>
+	<param name="name" type="description">Pin Color:</param>
+    <param name="pincolor" type="color" gui-text="Pin Color: ">0</param>
 	
 	<effect>
 	    <object-type>all</object-type>
