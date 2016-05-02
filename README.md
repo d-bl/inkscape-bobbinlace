@@ -6,3 +6,8 @@ Some of the plugins play an explicit role in a larger set of [tools].
 
 [repository]: https://github.com/jo-pol/DiBL/wiki/Install-Inkscape-Extensions
 [tools]: https://d-bl.github.io/
+
+Install:
+This is an inkscape plugin. Copy the py and inx files into the directory 
+defined in the Mneu under:
+Edit > Preferences > System: User extensions

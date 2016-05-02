@@ -62,13 +62,13 @@ class LaceGrid(inkex.Effect):
             type = 'string', dest = 'units', default = 'mm',
             help = 'All measurements are in these units.')
             
-        # Define float option "--pindia" with "-p" shortcut and default value "2".
-        self.OptionParser.add_option('-p', '--pindia', action='store', 
-            type='float', dest='pindia', default=2, help='Diameter of the pins')
+        # Define float option "--dotdia" with "-p" shortcut and default value "2".
+        self.OptionParser.add_option('-p', '--dotdia', action='store', 
+            type='float', dest='dotdia', default=2, help='Diameter of the dots')
         
-        # Define string option "--pincolor" with "-c" shortcut and default value "Grey".      
-        self.OptionParser.add_option('-c', '--pincolor', action = 'store',
-            type = 'string', dest = 'pincolor', default = -1431655936, # Grey
+        # Define string option "--dotcolor" with "-c" shortcut and default value "Grey".      
+        self.OptionParser.add_option('-c', '--dotcolor', action = 'store',
+            type = 'string', dest = 'dotcolor', default = -1431655936, # Grey
             help = 'The line colour.')
 
     def getUnittouu(self, param):
@@ -113,14 +113,14 @@ class LaceGrid(inkex.Effect):
         # insert path object into current layer
         inkex.etree.SubElement(parent, inkex.addNS('circle', 'svg'), attribs)
 
-    def draw_grid_pin(self, x, y, parent):
-        " Draw a single grid pin "
-        pin_radius = self.options.pindia/2
-        fill = self.options.pincolor
-        self.circle(x, y, pin_radius, fill, '#000000',  '0.1mm', parent)
+    def draw_grid_dot(self, x, y, parent):
+        " Draw a single grid dot "
+        dot_radius = self.options.dotdia/2
+        fill = self.options.dotcolor
+        self.circle(x, y, dot_radius, fill, 'none',  '0.1mm', parent)
 
     def draw_grid(self, width, height, spacing, theta, parent):
-        " Draw a grid of pins "
+        " Draw a grid of dots "
         hgrid = spacing*sin(theta);
         vgrid = spacing*cos(theta)
         rows = int(height / vgrid) + 1
@@ -131,7 +131,7 @@ class LaceGrid(inkex.Effect):
             if (r % 2 == 1):
                 x += hgrid
             for c in range(cols/2):
-                self.draw_grid_pin(x, y, parent)
+                self.draw_grid_dot(x, y, parent)
                 x += 2.0*hgrid;
             y += vgrid;
     
@@ -145,9 +145,9 @@ class LaceGrid(inkex.Effect):
         width = self.options.width * conversion
         height = self.options.height * conversion
         # sort out color
-        self.options.pincolor = self.getColorString(self.options.pincolor)
-        self.options.pindia = self.options.pindia * conversion
-        # users expect spacing to be the vertical distance between footside pins (vertical distance between every other row) 
+        self.options.dotcolor = self.getColorString(self.options.dotcolor)
+        self.options.dotdia = self.options.dotdia * conversion
+        # users expect spacing to be the vertical distance between footside dots (vertical distance between every other row) 
         # but in the script we use it as as diagonal distance between grid points
         # therefore convert spacing based on the angle chosen
         theta = radians(self.options.angle)

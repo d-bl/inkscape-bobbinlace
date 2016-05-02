@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
 
-	<_name>Lace Ground from Template</_name>
+	<_name>Ground from Template</_name>
 	<id>edu.uvic.vmi.math_art.lace_ground</id>
 
 	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
@@ -19,13 +19,14 @@
         <option value="px">px</option>
         <option value="pt">pt</option>
         </param>
-	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="Distance between footside pins:">10.0</param>
+	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="Distance between footside dots:">10.0</param>
 	<param name="width" type="float" precision="2" min="1" max="1000" _gui-text="Patch Width:">100</param>
 	<param name="height" type="float" precision="2" min="1" max="1000" _gui-text="Patch Height:">100</param>
 	<param name="desc_unit" type="description">========== Line properties ==========</param>
-	<param name="pindia" type="float" precision="2" min="0.01" max="10" _gui-text="Pin diameter:">2</param>
-	<param name="name" type="description">Pin Color:</param>
-    <param name="pincolor" type="color" gui-text="Pin Color: ">0</param>
+	<param name="drawdots" type="boolean" _gui-text="Draw template dots?">true</param>
+	<param name="dotdia" type="float" precision="2" min="0.01" max="10" _gui-text="Dot diameter:">2</param>
+	<param name="name" type="description">Dot Color:</param>
+    <param name="dotcolor" type="color" gui-text="Dot Color: ">0</param>
 	
 	<effect>
 	    <object-type>all</object-type>

@@ -31,6 +31,7 @@ from os import path
 # Effect base class.
 import inkex, simplestyle
 from math import sin, cos, ceil, radians
+import pturtle
 
 #inkex.debug("%s"%(sys.version))
 
@@ -83,14 +84,19 @@ class LaceGround(inkex.Effect):
             type = 'string', dest = 'units', default = 'mm',
             help = 'The units the measurements are in')
             
-        # Define float option "--pindia" with "-p" shortcut and default value "2".
-        self.OptionParser.add_option('-p', '--pindia', action='store', 
-            type='float', dest='pindia', default=4, help='Diameter of the pins')
+        # Define float option "--dotdia" with "-p" shortcut and default value "2".
+        self.OptionParser.add_option('-p', '--dotdia', action='store', 
+            type='float', dest='dotdia', default=4, help='Diameter of the dots')
         
-        # Define string option "--pincolor" with "-c" shortcut and default value "Grey".      
-        self.OptionParser.add_option('-c', '--pincolor', action = 'store',
-            type = 'string', dest = 'pincolor', default = -1431655936, # Grey
+        # Define string option "--dotcolor" with "-c" shortcut and default value "Grey".      
+        self.OptionParser.add_option('-c', '--dotcolor', action = 'store',
+            type = 'string', dest = 'dotcolor', default = -1431655936, # Grey
             help = 'The line colour.')
+        
+        self.OptionParser.add_option("-d", "--drawdots", action="store",
+            type="inkbool", dest="drawdots", default=False, help="Draw minimal dot template")
+        
+        self.turtle = pturtle.pTurtle((100, 100))
         
         
     def getUnittouu(self, param):
@@ -113,29 +119,36 @@ class LaceGround(inkex.Effect):
         if verbose: inkex.debug("  %s for color default value"%(hexColor))
         return hexColor
     
-    def line(self, pairs, parent):
+    def line(self, x1, y1, x2, y2, parent):
         """
         Draw a line from point at (x1, y1) to point at (x2, y2).
         Style of line is hard coded and specified by 's'.
         """
-        p1, p2, p3 = pairs
-        #inkex.debug("%s"%(pairs))
-        path = "M %s,%s L %s,%s M %s,%s L %s,%s" %(p1[0], p1[1], p2[0], p2[1], p1[0], p1[1], p3[0], p3[1])
-        
+        # define the motions
+        self.turtle.penup()
+        self.turtle.clean()
+        self.turtle.setpos((x1, y1))
+        self.turtle.pendown()
+        self.turtle.setpos((x2, y2))
+        self.turtle.penup()
+
         # define the stroke style
         s = {'stroke-linejoin': 'miter', 
-            'stroke-width': '0.5px',
-            'stroke': '#000000', 
-            'stroke-linecap': 'butt',
-            # 'marker-start':'url(#Arrow1Lend)', # no useful style - need to make manually
-            # 'stroke-opacity': '1.0', 
-            # 'fill-opacity': '1.0',
-            'fill': 'none'
-        }
+             'stroke-width': '0.5px',
+             'stroke': '#000000', 
+             'stroke-linecap': 'butt',
+             # 'marker-start':'url(#Arrow1Lend)', # no useful style - need to make manually
+             # 'stroke-opacity': '1.0', 
+             # 'fill-opacity': '1.0',
+             'fill': 'none'
+            }
+        
         # create attributes from style and path
-        attribs = {'style':simplestyle.formatStyle(s), 'd':path}
+        attribs = {'style':simplestyle.formatStyle(s), 'd':self.turtle.getPath()}
+
         # insert path object into current layer
         inkex.etree.SubElement(parent, inkex.addNS('path', 'svg'), attribs)
+
 
     def circle(self, x, y, r, fill, stroke, strokeWidth, parent):
         """
@@ -159,11 +172,11 @@ class LaceGround(inkex.Effect):
         # insert path object into current layer
         inkex.etree.SubElement(parent, inkex.addNS('circle', 'svg'), attribs)
 
-    def draw_grid_pin(self, x, y, parent):
-        " Draw a single grid pin "
-        pin_radius = self.options.pindia/2
-        fill = self.options.pincolor
-        self.circle(x, y, pin_radius, fill, '#000000',  '0.1mm', parent)
+    def draw_grid_dot(self, x, y, parent):
+        " Draw a single grid dot "
+        dot_radius = self.options.dotdia/2
+        fill = self.options.dotcolor
+        self.circle(x, y, dot_radius, fill, 'none',  '0.1mm', parent)
 
     def loadFile(self, fname):
         data = []
@@ -191,7 +204,7 @@ class LaceGround(inkex.Effect):
         
         return {"type":type, "rowCount":rowCount, "colCount":colCount, "data":data}
 
-    def drawCheckerGround(self, data, rowCount, colCount, spacing, theta, parent, pingroup):
+    def drawCheckerGround(self, data, rowCount, colCount, spacing, theta, parent, dotgroup):
         deltaX = spacing*sin(theta) 
         deltaY = spacing*cos(theta)
         maxRows = ceil(self.options.height / deltaY)
@@ -201,7 +214,7 @@ class LaceGround(inkex.Effect):
         y = 0.0
         repeatY = 0
         repeatX = 0
-        pins = {} # remember pins drawn so make unique
+        dots = {} # remember dots drawn so make unique
 
         while repeatY * rowCount < maxRows:
             x = 0.0
@@ -211,19 +224,23 @@ class LaceGround(inkex.Effect):
                 
                 for row in data:
                     for coords in row:
-                        # inkex.debug("%s"%(coords))
-                        # calc x values
-                        xvalues = [x + n*deltaX for n in coords[::2]]
-                        yvalues = [y + n*deltaY for n in coords[1::2]]
-                        self.line(zip(xvalues,yvalues), parent)
-                        # Draw each pin only once
-                        for i in range(1):
-                            id = "%s %s" % (coords[i*2], coords[i*2+1]) # id based on coord
-                            if not pins.has_key(id):
-                                x1 = x + coords[i*2]*deltaX
-                                y1 = y + coords[i*2+1]*deltaY
-                                self.draw_grid_pin(x1, y1, pingroup)
-                                pins[id] = True
+                        x1 = x + coords[0]*deltaX
+                        y1 = y + coords[1]*deltaY
+                        x2 = x + coords[2]*deltaX
+                        y2 = y + coords[3]*deltaY
+                        x3 = x + coords[4]*deltaX
+                        y3 = y + coords[5]*deltaY
+                
+                        self.line(x1,y1,x2,y2, parent)
+                        self.line(x1,y1,x3,y3, parent)
+                        # Draw each dot only once
+                        if self.options.drawdots:
+                            id = "%s %s" % (coords[0], coords[1]) # id based on coord
+                            if not dots.has_key(id):
+                                x1 = x + coords[0]*deltaX
+                                y1 = y + coords[1]*deltaY
+                                self.draw_grid_dot(x1, y1, dotgroup)
+                                dots[id] = True
                 # next line
                 repeatX += 1
                 x += deltaX * colCount
@@ -249,11 +266,11 @@ class LaceGround(inkex.Effect):
         conversion = self.getUnittouu("1" + self.options.units)
         self.options.width *= conversion
         self.options.height *= conversion
-        self.options.pindia *= conversion
+        self.options.dotdia *= conversion
         # sort out color
-        self.options.pincolor = self.getColorString(self.options.pincolor)
+        self.options.dotcolor = self.getColorString(self.options.dotcolor)
         
-        # users expect spacing to be the vertical distance between footside pins (vertical distance between every other row) 
+        # users expect spacing to be the vertical distance between footside dots (vertical distance between every other row) 
         # but in the script we use it as as diagonal distance between grid points
         # therefore convert spacing based on the angle chosen
         theta = radians(self.options.angle)
@@ -263,15 +280,15 @@ class LaceGround(inkex.Effect):
         t = 'translate(%s,%s)' % (self.view_center[0]-self.options.width/2, self.view_center[1]-self.options.height/2)
         grp_attribs = {inkex.addNS('label','inkscape'):'Lace Grid', 'transform':t}
         topgroup = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)
-        # CReate groups for pattern lines and for pins
+        # CReate groups for pattern lines and for dots
         grp_attribs = {inkex.addNS('label','inkscape'):'Pattern'}
         patterngroup = inkex.etree.SubElement(topgroup, 'g', grp_attribs)
-        grp_attribs = {inkex.addNS('label','inkscape'):'Pins'}
-        pingroup = inkex.etree.SubElement(topgroup, 'g', grp_attribs)
+        grp_attribs = {inkex.addNS('label','inkscape'):'Dots'}
+        dotgroup = inkex.etree.SubElement(topgroup, 'g', grp_attribs)
         
         # Draw a ground based on file description and user inputs
         if (result["type"] == "CHECKER"):
-            self.drawCheckerGround(result["data"],result["rowCount"],result["colCount"], spacing, theta, patterngroup, pingroup)
+            self.drawCheckerGround(result["data"],result["rowCount"],result["colCount"], spacing, theta, patterngroup, dotgroup)
 
 
 if tk:
