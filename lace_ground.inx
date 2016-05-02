@@ -25,8 +25,8 @@
 	<param name="desc_unit" type="description">========== Line properties ==========</param>
 	<param name="drawdots" type="boolean" _gui-text="Draw template dots?">true</param>
 	<param name="dotdia" type="float" precision="2" min="0.01" max="10" _gui-text="Dot diameter:">2</param>
-	<param name="name" type="description">Dot Color:</param>
-    <param name="dotcolor" type="color" gui-text="Dot Color: ">0</param>
+	<param name="name" type="description">Line Color:</param>
+    <param name="linecolor" type="color" gui-text="Line and Dot Color: ">0</param>
 	
 	<effect>
 	    <object-type>all</object-type>

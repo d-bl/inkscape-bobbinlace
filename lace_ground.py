@@ -88,9 +88,9 @@ class LaceGround(inkex.Effect):
         self.OptionParser.add_option('-p', '--dotdia', action='store', 
             type='float', dest='dotdia', default=4, help='Diameter of the dots')
         
-        # Define string option "--dotcolor" with "-c" shortcut and default value "Grey".      
-        self.OptionParser.add_option('-c', '--dotcolor', action = 'store',
-            type = 'string', dest = 'dotcolor', default = -1431655936, # Grey
+        # Define string option "--linecolor" with "-c" shortcut and default value "Grey".      
+        self.OptionParser.add_option('-c', '--linecolor', action = 'store',
+            type = 'string', dest = 'linecolor', default = -1431655936, # Grey
             help = 'The line colour.')
         
         self.OptionParser.add_option("-d", "--drawdots", action="store",
@@ -135,7 +135,7 @@ class LaceGround(inkex.Effect):
         # define the stroke style
         s = {'stroke-linejoin': 'miter', 
              'stroke-width': '0.5px',
-             'stroke': '#000000', 
+             'stroke': str(self.options.linecolor), 
              'stroke-linecap': 'butt',
              # 'marker-start':'url(#Arrow1Lend)', # no useful style - need to make manually
              # 'stroke-opacity': '1.0', 
@@ -175,7 +175,7 @@ class LaceGround(inkex.Effect):
     def draw_grid_dot(self, x, y, parent):
         " Draw a single grid dot "
         dot_radius = self.options.dotdia/2
-        fill = self.options.dotcolor
+        fill = self.options.linecolor
         self.circle(x, y, dot_radius, fill, 'none',  '0.1mm', parent)
 
     def loadFile(self, fname):
@@ -268,7 +268,7 @@ class LaceGround(inkex.Effect):
         self.options.height *= conversion
         self.options.dotdia *= conversion
         # sort out color
-        self.options.dotcolor = self.getColorString(self.options.dotcolor)
+        self.options.linecolor = self.getColorString(self.options.linecolor)
         
         # users expect spacing to be the vertical distance between footside dots (vertical distance between every other row) 
         # but in the script we use it as as diagonal distance between grid points
@@ -283,8 +283,10 @@ class LaceGround(inkex.Effect):
         # CReate groups for pattern lines and for dots
         grp_attribs = {inkex.addNS('label','inkscape'):'Pattern'}
         patterngroup = inkex.etree.SubElement(topgroup, 'g', grp_attribs)
-        grp_attribs = {inkex.addNS('label','inkscape'):'Dots'}
-        dotgroup = inkex.etree.SubElement(topgroup, 'g', grp_attribs)
+        dotgroup = None
+        if self.options.drawdots:
+            grp_attribs = {inkex.addNS('label','inkscape'):'Dots'}
+            dotgroup = inkex.etree.SubElement(topgroup, 'g', grp_attribs)
         
         # Draw a ground based on file description and user inputs
         if (result["type"] == "CHECKER"):
