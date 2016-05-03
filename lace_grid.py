@@ -39,11 +39,12 @@ class LaceGrid(inkex.Effect):
 		inkex.Effect.__init__(self)
 	
 		self.OptionParser.add_option('-a', '--angle', action='store', type='float', dest='angle', default=45.0, help='Grid Angle')
-		self.OptionParser.add_option('-d', '--distance', action='store', type='float', dest='spacing', default=10.0, help='Distance between grid dots in mm')
+		self.OptionParser.add_option('-u', '--units', action = 'store', type = 'string', dest = 'units', default = 'mm', help = 'All measurements are in these units.')
+		self.OptionParser.add_option('-d', '--distance', action='store', type='float', dest='spacing', default=10.0, help='Distance between grid dots')
 		self.OptionParser.add_option('-w', '--width', action='store', type='float', dest='width', default=100, help='Width of grid')
 		self.OptionParser.add_option('-l', '--height', action='store', type='float', dest='height', default=100, help='Height of grid')
 		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='size', default=1, help='Size of dots')
-		self.OptionParser.add_option('-c', '--color', action='store', type='string', dest='color', default='#FF0000', help='Color of dots')
+		self.OptionParser.add_option('-c', '--color', action='store', type='string', dest='color', default=-1431655936, help='Color of dots')
 
 	def getUnittouu(self, param):
 		" compatibility between inkscape 0.48 and 0.91 "
@@ -87,9 +88,8 @@ class LaceGrid(inkex.Effect):
 		fill = self.options.color
 		self.circle(x, y, dot_radius, fill)
 
-	def draw_grid(self, width, height, spacing):
+	def draw_grid(self, width, height, spacing, theta):
 		
-		theta = radians(self.options.angle)
 		
 		hgrid = spacing*sin(theta);
 		vgrid = spacing*cos(theta)
@@ -115,7 +115,7 @@ class LaceGrid(inkex.Effect):
 		Overrides base class' method and draws something.
 		"""
 		#Convert input from mm or whatever user uses
-		conversion = self.getUnittouu("1" + "mm")# self.options.units)
+		conversion = self.getUnittouu("1" + self.options.units)
 		width = self.options.width * conversion
 		height = self.options.height * conversion
 		self.options.size = self.options.size * conversion
@@ -130,7 +130,7 @@ class LaceGrid(inkex.Effect):
 		self.options.color = self.getColorString(self.options.color)
 		
 		# Draw a grid of dots based on user inputs
-		self.draw_grid(width, height, spacing)
+		self.draw_grid(width, height, spacing, theta)
 
 # Create effect instance and apply it.
 effect = LaceGrid()

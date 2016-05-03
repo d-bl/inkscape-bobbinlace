@@ -12,13 +12,20 @@
 	
 	<param name="filllabel" type="description">========== Grid style ==========</param>
 	<param name="angle" type="float" precision="2" min="30" max="89" _gui-text="Grid angle (degrees):">45.0</param>
-	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="Distance between footside pins (mm):">10.0</param>
+	<param name="units" _gui-text="Measurement units" type="optiongroup" appearance="minimal">
+        <option value="mm">mm</option>
+        <option value="cm">cm</option>
+        <option value="in">in</option>
+        <option value="px">px</option>
+        <option value="pt">pt</option>
+        </param>
+	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="Distance between footside pins:">10.0</param>
 	<param name="filllabel" type="description">========== Grid size ==========</param>
-	<param name="width" type="float" precision="2" min="10" max="1000" _gui-text="Patch width (mm):">100</param>
-	<param name="height" type="float" precision="2" min="10" max="1000" _gui-text="Patch height (mm):">100</param>
+	<param name="width" type="float" precision="2" min="10" max="1000" _gui-text="Patch width:">100</param>
+	<param name="height" type="float" precision="2" min="10" max="1000" _gui-text="Patch height:">100</param>
 	<param name="filllabel" type="description">========== Dot properties ==========</param>
-	<param name="size" type="float" precision="2" min="0.1" max="10" _gui-text="Dot diameter (mm):">0.5</param>
-	<param name="color" type="color" _gui-text="Dot color (#RRGGBBAA):">#000000FF</param>
+	<param name="size" type="float" precision="2" min="0.01" max="10" _gui-text="Dot diameter:">0.5</param>
+	<param name="color" type="color" _gui-text="Dot color (#RRGGBBAA):">0</param>
 	
 	<effect>
 	    <object-type>all</object-type>
