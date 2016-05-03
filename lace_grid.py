@@ -13,23 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see http://www.gnu.org/licenses/.
 
-from math import *
-
-# These lines are only needed if you don't put the script directly into
-# the installation directory
-import sys
-from os import path
-# Unix
-sys.path.append('/usr/share/inkscape/extensions')
-# OS X
-sys.path.append('/Applications/Inkscape.app/Contents/Resources/extensions')
-# Windows
-sys.path.append('C:\Program Files\Inkscape\share\extensions')
-sys.path.append('C:\Program Files (x86)\share\extensions')
 
 # We will use the inkex module with the predefined 
 # Effect base class.
-import inkex, simplestyle, math, pturtle
+import inkex, simplestyle
+from math import sin, cos, radians, ceil
 
 __author__ = 'Veronika Irvine'
 __credits__ = ['Veronika Irvine']
