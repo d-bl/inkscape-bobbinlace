@@ -83,8 +83,10 @@ class LaceGrid(inkex.Effect):
 		inkex.etree.SubElement(self.current_layer, inkex.addNS('circle', 'svg'), attribs)
 
 	def drawGridPoint(self, x, y):
-		self.circle(x, y, self.options.size, self.options.color)
-    										 
+		dot_radius = self.options.size/2
+		fill = self.options.color
+		self.circle(x, y, dot_radius, fill)
+
 	def draw_grid(self, width, height, spacing):
 		
 		theta = radians(self.options.angle)
