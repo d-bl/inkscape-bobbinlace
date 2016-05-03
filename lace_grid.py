@@ -66,7 +66,7 @@ class LaceGrid(inkex.Effect):
 		if verbose: inkex.debug("  %s for color default value"%(hexColor))
 		return hexColor
 
-	def circle(self, x, y, r, fill):
+	def circle(self, x, y, r, fill, parent):
 		"""
 		Draw a circle of radius 'r' and origin at (x, y)
 		"""
@@ -81,14 +81,14 @@ class LaceGrid(inkex.Effect):
 					'r':str(r)}
 		
 		# insert path object into current layer
-		inkex.etree.SubElement(self.current_layer, inkex.addNS('circle', 'svg'), attribs)
+		inkex.etree.SubElement(parent, inkex.addNS('circle', 'svg'), attribs)
 
-	def drawGridPoint(self, x, y):
+	def drawGridPoint(self, x, y, parent):
 		dot_radius = self.options.size/2
 		fill = self.options.color
-		self.circle(x, y, dot_radius, fill)
+		self.circle(x, y, dot_radius, fill, parent)
 
-	def draw_grid(self, width, height, spacing, theta):
+	def draw_grid(self, width, height, spacing, theta, parent):
 		
 		
 		hgrid = spacing*sin(theta);
@@ -103,7 +103,7 @@ class LaceGrid(inkex.Effect):
 				x += hgrid
 			
 			for c in range(cols/2):
-				self.drawGridPoint(x, y)
+				self.drawGridPoint(x, y, parent)
 				x += 2.0*hgrid;
 				
 			y += vgrid;
@@ -129,8 +129,12 @@ class LaceGrid(inkex.Effect):
 		# Convert color from long integer to hexidecimal string
 		self.options.color = self.getColorString(self.options.color)
 		
+		# Top level Group
+		t = 'translate(%s,%s)' % (self.view_center[0]-width/2, self.view_center[1]-height/2)
+		grp_attribs = {inkex.addNS('label','inkscape'):'Lace Grid', 'transform':t}
+		grp = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)
 		# Draw a grid of dots based on user inputs
-		self.draw_grid(width, height, spacing, theta)
+		self.draw_grid(width, height, spacing, theta, grp)
 
 # Create effect instance and apply it.
 effect = LaceGrid()
