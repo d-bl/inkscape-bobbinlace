@@ -52,6 +52,19 @@ class LaceGrid(inkex.Effect):
 		except AttributeError:
 			return self.unittouu(param)
 
+	def getColorString(self, longColor, verbose=False):
+		""" Convert the long into a #RRGGBB color value
+			- verbose=true pops up value for us in defaults
+			conversion back is A + B*256^1 + G*256^2 + R*256^3
+		"""
+		if verbose: inkex.debug("%s ="%(longColor))
+		longColor = long(longColor)
+		if longColor <0: longColor = long(longColor) & 0xFFFFFFFF
+		hexColor = hex(longColor)[2:-3]
+		hexColor = '#' + hexColor.rjust(6, '0').upper()
+		if verbose: inkex.debug("  %s for color default value"%(hexColor))
+		return hexColor
+
 	def circle(self, x, y, r, fill):
 		"""
 		Draw a circle of radius 'r' and origin at (x, y)
@@ -92,22 +105,6 @@ class LaceGrid(inkex.Effect):
 				x += 2.0*hgrid;
 				
 			y += vgrid;
-
-	def unsignedLong(self, signedLongString):
-		longColor = long(signedLongString)
-		if longColor < 0:
-			longColor = longColor & 0xFFFFFFFF
-		return longColor
-
-	def getColorString(self, longColor):
-		"""
-		Convert numeric color value to hex string using formula A*256^0 + B*256^1 + G*256^2 + R*256^3
-		From: http://www.hoboes.com/Mimsy/hacks/parsing-and-setting-colors-inkscape-extensions/
-		"""
-		longColor = self.unsignedLong(longColor)
-		hexColor = hex(longColor)[2:-3]
-		hexColor = hexColor.rjust(6, '0')
-		return '#' + hexColor.upper()
 
     
 	def effect(self):
