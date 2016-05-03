@@ -44,7 +44,14 @@ class LaceGrid(inkex.Effect):
 		self.OptionParser.add_option('-l', '--height', action='store', type='float', dest='height', default=100, help='Height of grid')
 		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='size', default=1, help='Size of dots')
 		self.OptionParser.add_option('-c', '--color', action='store', type='string', dest='color', default='#FF0000', help='Color of dots')
-			
+
+	def getUnittouu(self, param):
+		" compatibility between inkscape 0.48 and 0.91 "
+		try:
+			return inkex.unittouu(param)
+		except AttributeError:
+			return self.unittouu(param)
+
 	def circle(self, x, y, r, fill):
 		"""
 		Draw a circle of radius 'r' and origin at (x, y)
@@ -65,15 +72,14 @@ class LaceGrid(inkex.Effect):
 	def drawGridPoint(self, x, y):
 		self.circle(x, y, self.options.size, self.options.color)
     										 
-	def draw(self):
+	def draw_grid(self, width, height, spacing):
 		
-		a = self.options.spacing
 		theta = radians(self.options.angle)
 		
-		hgrid = a*sin(theta);
-		vgrid = a*cos(theta)
-		rows = int(ceil(self.options.height / vgrid))
-		cols = int(ceil(self.options.width  / hgrid))
+		hgrid = spacing*sin(theta);
+		vgrid = spacing*cos(theta)
+		rows = int(height / vgrid) + 1
+		cols = int(width  / hgrid)
 		y = 0.0
 		
 		for r in range(rows):
@@ -109,23 +115,23 @@ class LaceGrid(inkex.Effect):
 		Effect behaviour.
 		Overrides base class' method and draws something.
 		"""
-		# Convert input from mm to pixels, assuming 90 dpi
-		conversion = 90.0 / 25.4
-		self.options.width *= conversion
-		self.options.height *= conversion
-		self.options.size *= conversion / 2.0 # also convert from diameter to radius
+		#Convert input from mm or whatever user uses
+		conversion = self.getUnittouu("1" + "mm")# self.options.units)
+		width = self.options.width * conversion
+		height = self.options.height * conversion
+		self.options.size = self.options.size * conversion
 		
 		# Users expect spacing to be the vertical distance between footside pins (vertical distance between every other row) 
 		# but in the script we use it as as diagonal distance between grid points
 		# therefore convert spacing based on the angle chosen
 		theta = radians(self.options.angle)
-		self.options.spacing *= conversion/(2.0*cos(theta))
+		spacing = self.options.spacing * conversion/(2.0*cos(theta))
 		
 		# Convert color from long integer to hexidecimal string
 		self.options.color = self.getColorString(self.options.color)
 		
 		# Draw a grid of dots based on user inputs
-		self.draw()
+		self.draw_grid(width, height, spacing)
 
 # Create effect instance and apply it.
 effect = LaceGrid()
