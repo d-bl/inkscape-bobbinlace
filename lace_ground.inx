@@ -10,7 +10,7 @@
 	
 	<param name="description" type="description">Fills in a rectangle with the selected lace ground pattern.</param>
 	<param name="file" type="string" _gui-text="File name for ground template (full path):"></param>
-	<param name="filllabel" type="description">========== Measurement =======</param>
+	<param name="filllabel" type="description">========== Measurement ==========</param>
 	<param name="units" _gui-text="Units" type="optiongroup" appearance="minimal">
         <option value="mm">mm</option>
         <option value="cm">cm</option>
@@ -18,14 +18,15 @@
         <option value="px">px</option>
         <option value="pt">pt</option>
         </param>
-	<param name="filllabel" type="description">========== Grid style ==========</param>
+	<param name="filllabel" type="description">========== Grid style =============</param>
 	<param name="angle" type="float" precision="2" min="30" max="89" _gui-text="Grid angle (degrees):">45.0</param>
 	<param name="distance" type="float" precision="2" min="1" max="99" _gui-text="Distance between footside pins (mm):">10.0</param>
-	<param name="width" type="float" precision="2" min="1" max="1000" _gui-text="Patch width (mm):">100</param>
-	<param name="height" type="float" precision="2" min="1" max="1000" _gui-text="Patch height (mm):">100</param>
+	<param name="filllabel" type="description">========== Patch size =============</param>
+	<param name="width" type="float" precision="2" min="1" max="1000" _gui-text="Width:">100</param>
+	<param name="height" type="float" precision="2" min="1" max="1000" _gui-text="Height:">100</param>
 	<param name="filllabel" type="description">========== Line properties ==========</param>
-	<param name="size" type="float" precision="2" min="0.01" max="10" _gui-text="Line width (mm):">0.1</param>
-	<param name="drawdots" type="boolean" _gui-text="Draw template dots?">true</param>
+	<param name="size" type="float" precision="2" min="0.01" max="10" _gui-text="Line width:">0.1</param>
+	<param name="drawdots" type="boolean" _gui-text="Draw template dots">false</param>
 	<param name="dotdia" type="float" precision="2" min="0.01" max="10" _gui-text="Dot diameter:">2</param>
 	<param name="linecolor" type="color" _gui-text="Line color:">0</param>
 	
