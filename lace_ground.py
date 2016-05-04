@@ -53,7 +53,7 @@ class LaceGround(inkex.Effect):
 		# Set the fname variable
 		self.fname = fname
 		
-		self.OptionParser.add_option('-f', '--file', action='store', type='string', dest='file', help='File containing lace ground description')
+		self.OptionParser.add_option('-f', '--file', action='store', type='string', dest='file', help='File containing lace ground description', default='lace_templates/4x4_33.txt')
 		self.OptionParser.add_option('-a', '--angle', action='store', type='float', dest='angle', default=45.0, help='Grid Angle')
 		self.OptionParser.add_option('-d', '--distance', action='store', type='float', dest='spacing', default=10.0, help='Distance between grid points in mm')
 		self.OptionParser.add_option('-w', '--width', action='store', type='float', dest='width', default=100, help='Width of ground pattern')
@@ -61,6 +61,8 @@ class LaceGround(inkex.Effect):
 		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='size', default=1, help='Width of lines')
 		self.OptionParser.add_option('-c', '--linecolor', action='store', type='string', dest='linecolor', default='#FF0000', help='Color of lines')
 		self.OptionParser.add_option('-u', '--units', action = 'store', type = 'string', dest = 'units', default = 'mm', help = 'The units the measurements are in')
+		self.OptionParser.add_option("-z", "--drawdots", action="store", type="inkbool", dest="drawdots", default=False, help="Draw minimal dot template")
+		self.OptionParser.add_option('-p', '--dotdia', action='store', type='float', dest='dotdia', default=4, help='Diameter of the dots')
         
 	def getUnittouu(self, param):
 		" compatibility between inkscape 0.48 and 0.91 "
@@ -82,6 +84,26 @@ class LaceGround(inkex.Effect):
 		if verbose: inkex.debug("  %s for color default value"%(hexColor))
 		return hexColor
 
+	def circle(self, x, y, r, fill, parent):
+		"""
+		Draw a circle of radius 'r' and origin at (x, y)
+		"""
+		# define the stroke style
+		s = {'fill': fill}
+		# create attributes from style and define path
+		attribs = {'style':simplestyle.formatStyle(s), 
+					'cx':str(x),
+					'cy':str(y),
+					'r':str(r)}
+		# insert path object
+		inkex.etree.SubElement(parent, inkex.addNS('circle', 'svg'), attribs)
+
+	def draw_grid_dot(self, x, y, parent):
+		" Draw a single grid dot "
+		dot_radius = self.options.dotdia/2
+		fill = self.options.linecolor
+		self.circle(x, y, dot_radius, fill, parent)
+
 	def line(self, x1, y1, x2, y2, parent):
 		"""
         Draw a line from point at (x1, y1) to point at (x2, y2).
@@ -96,7 +118,7 @@ class LaceGround(inkex.Effect):
 			'stroke-opacity': '1.0', 
 			'fill-opacity': '1.0',
 			'stroke': self.options.linecolor, 
-			'stroke-linecap': 'butt',
+			'stroke-linecap': 'round',
 			'fill': 'none'
 		}
         
@@ -132,7 +154,7 @@ class LaceGround(inkex.Effect):
 						
 		return {"type":type, "rowCount":rowCount, "colCount":colCount, "data":data}
 
-	def drawCheckerGround(self, data, rowCount, colCount, spacing, theta, parent):
+	def drawCheckerGround(self, data, rowCount, colCount, spacing, theta, parent, dotgroup):
 
 		deltaX = spacing*sin(theta) 
 		deltaY = spacing*cos(theta)
@@ -143,6 +165,7 @@ class LaceGround(inkex.Effect):
 		y = 0.0
 		repeatY = 0
 		repeatX = 0
+		dots = {} # remember dots drawn so make unique
 
 		while repeatY * rowCount < maxRows:
 			x = 0.0
@@ -161,10 +184,19 @@ class LaceGround(inkex.Effect):
 				
 						self.line(x1,y1,x2,y2, parent)
 						self.line(x1,y1,x3,y3, parent)
-					
+						
+						# Draw each dot only once
+						if self.options.drawdots:
+							id = "%s %s" % (coords[0], coords[1]) # id based on coord
+							if not dots.has_key(id):
+								x1 = x + coords[0]*deltaX
+								y1 = y + coords[1]*deltaY
+								self.draw_grid_dot(x1, y1, dotgroup)
+								dots[id] = True
+				
 				repeatX += 1
 				x += deltaX * colCount
-
+			
 			repeatY += 1
 			y += deltaY * rowCount
 
@@ -189,6 +221,7 @@ class LaceGround(inkex.Effect):
 		self.options.width *= conversion
 		self.options.height *= conversion
 		self.options.size *= conversion
+		self.options.dotdia *= conversion
 		# sort out color
 		self.options.linecolor = self.getColorString(self.options.linecolor)
 		
@@ -202,10 +235,13 @@ class LaceGround(inkex.Effect):
 		t = 'translate(%s,%s)' % (self.view_center[0]-self.options.width/2, self.view_center[1]-self.options.height/2)
 		grp_attribs = {inkex.addNS('label','inkscape'):'Lace Pattern %s'%(label), 'transform':t}
 		topgroup = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)
-		
+		dotgroup = None
+		if self.options.drawdots:
+			grp_attribs = {inkex.addNS('label','inkscape'):'Dots'}
+			dotgroup = inkex.etree.SubElement(topgroup, 'g', grp_attribs)
 		# Draw a ground based on file description and user inputs
 		# For now, assume style is Checker but could change in future
-		self.drawCheckerGround(result["data"],result["rowCount"],result["colCount"], spacing, theta, topgroup)
+		self.drawCheckerGround(result["data"],result["rowCount"],result["colCount"], spacing, theta, topgroup, dotgroup)
 
 
 if tk:
