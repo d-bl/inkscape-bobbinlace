@@ -13,31 +13,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see http://www.gnu.org/licenses/.
 
-from math import *
 
 # The following five lines check to see if tkFile Dialog can 
 # be used to select a file
+import sys
+from os import path
+
 try:
 	from Tkinter import *
 	import tkFileDialog as tkf
 except: tk = False
 else: tk = True
 
-# These lines are only needed if you don't put the script directly into
-# the installation directory
-import sys
-from os import path
-# Unix
-sys.path.append('/usr/share/inkscape/extensions')
-# OS X
-sys.path.append('/Applications/Inkscape.app/Contents/Resources/extensions')
-# Windows
-sys.path.append('C:\Program Files\Inkscape\share\extensions')
-sys.path.append('C:\Program Files (x86)\share\extensions')
-
 # We will use the inkex module with the predefined 
 # Effect base class.
-import inkex, simplestyle, math, pturtle
+import inkex, simplestyle
+import pturtle
+from math import sin,cos,radians, ceil
 
 __author__ = 'Veronika Irvine'
 __credits__ = ['Ben Connors','Veronika Irvine']
@@ -73,6 +65,13 @@ class LaceGround(inkex.Effect):
 
 		self.turtle = pturtle.pTurtle((100, 100))
         
+	def getUnittouu(self, param):
+		" compatibility between inkscape 0.48 and 0.91 "
+		try:
+			return inkex.unittouu(param)
+		except AttributeError:
+			return self.unittouu(param)
+
 	def line(self, x1, y1, x2, y2):
 		"""
         Draw a line from point at (x1, y1) to point at (x2, y2).
@@ -128,11 +127,10 @@ class LaceGround(inkex.Effect):
 						
 		return {"type":type, "rowCount":rowCount, "colCount":colCount, "data":data}
 			
-	def drawCheckerGround(self, data, rowCount, colCount):
-		a = self.options.spacing
-		theta = radians(self.options.angle)
-		deltaX = a*sin(theta) 
-		deltaY = a*cos(theta)
+	def drawCheckerGround(self, data, rowCount, colCount, spacing, theta):
+
+		deltaX = spacing*sin(theta) 
+		deltaY = spacing*cos(theta)
 		maxRows = ceil(self.options.height / deltaY)
 		maxCols = ceil(self.options.width  / deltaX)
 		
@@ -196,23 +194,22 @@ class LaceGround(inkex.Effect):
 		result = self.loadFile(self.fname)
 		
 		#Convert input from mm to pixels, assuming 90 dpi
-		conversion = 90.0 / 25.4
+		conversion = self.getUnittouu("1" + "mm")#self.options.units)
 		self.options.width *= conversion
 		self.options.height *= conversion
 		self.options.size *= conversion
+		# sort out color
+		self.options.color = self.getColorString(self.options.color)
 		
 		# Users expect spacing to be the vertical distance between footside pins (vertical distance between every other row) 
 		# but in the script we use it as as diagonal distance between grid points
 		# therefore convert spacing based on the angle chosen
 		theta = radians(self.options.angle)
-		self.options.spacing *= conversion/(2.0*cos(theta))
-		
-		# Convert color from long integer to hexidecimal string
-		self.options.color = self.getColorString(self.options.color)
+		spacing = self.options.spacing * conversion/(2.0*cos(theta))
 		
 		# Draw a ground based on file description and user inputs
 		# For now, assume style is Checker but could change in future
-		self.drawCheckerGround(result["data"],result["rowCount"],result["colCount"])
+		self.drawCheckerGround(result["data"],result["rowCount"],result["colCount"], spacing, theta)
 
 
 if tk:
