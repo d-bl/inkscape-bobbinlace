@@ -82,7 +82,7 @@ class LaceGround(inkex.Effect):
 		if verbose: inkex.debug("  %s for color default value"%(hexColor))
 		return hexColor
 
-	def line(self, x1, y1, x2, y2):
+	def line(self, x1, y1, x2, y2, parent):
 		"""
         Draw a line from point at (x1, y1) to point at (x2, y2).
         Style of line is hard coded and specified by 's'.
@@ -104,7 +104,7 @@ class LaceGround(inkex.Effect):
 		attribs = {'style':simplestyle.formatStyle(s), 'd':path}
 
 		# insert path object into current layer
-		inkex.etree.SubElement(self.current_layer, inkex.addNS('path', 'svg'), attribs)
+		inkex.etree.SubElement(parent, inkex.addNS('path', 'svg'), attribs)
 
 	def loadFile(self, fname):
 		data = []
@@ -132,7 +132,7 @@ class LaceGround(inkex.Effect):
 						
 		return {"type":type, "rowCount":rowCount, "colCount":colCount, "data":data}
 
-	def drawCheckerGround(self, data, rowCount, colCount, spacing, theta):
+	def drawCheckerGround(self, data, rowCount, colCount, spacing, theta, parent):
 
 		deltaX = spacing*sin(theta) 
 		deltaY = spacing*cos(theta)
@@ -159,8 +159,8 @@ class LaceGround(inkex.Effect):
 						x3 = x + coords[4]*deltaX
 						y3 = y + coords[5]*deltaY
 				
-						self.line(x1,y1,x2,y2)
-						self.line(x1,y1,x3,y3)
+						self.line(x1,y1,x2,y2, parent)
+						self.line(x1,y1,x3,y3, parent)
 					
 				repeatX += 1
 				x += deltaX * colCount
@@ -182,6 +182,7 @@ class LaceGround(inkex.Effect):
 		elif not path.isfile(self.fname): sys.exit(1)
 		
 		result = self.loadFile(self.fname)
+		label = path.splitext(path.basename(self.fname))[0]
 		
 		#Convert input from mm to pixels, assuming 90 dpi
 		conversion = self.getUnittouu("1" + self.options.units)
@@ -197,9 +198,14 @@ class LaceGround(inkex.Effect):
 		theta = radians(self.options.angle)
 		spacing = self.options.spacing * conversion/(2.0*cos(theta))
 		
+		# Top level Group
+		t = 'translate(%s,%s)' % (self.view_center[0]-self.options.width/2, self.view_center[1]-self.options.height/2)
+		grp_attribs = {inkex.addNS('label','inkscape'):'Lace Pattern %s'%(label), 'transform':t}
+		topgroup = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)
+		
 		# Draw a ground based on file description and user inputs
 		# For now, assume style is Checker but could change in future
-		self.drawCheckerGround(result["data"],result["rowCount"],result["colCount"], spacing, theta)
+		self.drawCheckerGround(result["data"],result["rowCount"],result["colCount"], spacing, theta, topgroup)
 
 
 if tk:
