@@ -28,7 +28,6 @@ else: tk = True
 # We will use the inkex module with the predefined 
 # Effect base class.
 import inkex, simplestyle
-import pturtle
 from math import sin,cos,radians, ceil
 
 __author__ = 'Veronika Irvine'
@@ -62,9 +61,6 @@ class LaceGround(inkex.Effect):
 		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='size', default=1, help='Width of lines')
 		self.OptionParser.add_option('-c', '--linecolor', action='store', type='string', dest='linecolor', default='#FF0000', help='Color of lines')
 		self.OptionParser.add_option('-u', '--units', action = 'store', type = 'string', dest = 'units', default = 'mm', help = 'The units the measurements are in')
-
-
-		self.turtle = pturtle.pTurtle((100, 100))
         
 	def getUnittouu(self, param):
 		" compatibility between inkscape 0.48 and 0.91 "
@@ -92,12 +88,7 @@ class LaceGround(inkex.Effect):
         Style of line is hard coded and specified by 's'.
         """
 		# define the motions
-		self.turtle.penup()
-		self.turtle.clean()
-		self.turtle.setpos((x1, y1))
-		self.turtle.pendown()
-		self.turtle.setpos((x2, y2))
-		self.turtle.penup()
+		path = "M %s,%s L %s,%s" %(x1,y1,x2,y2)
 
 		# define the stroke style
 		s = {'stroke-linejoin': 'miter', 
@@ -110,7 +101,7 @@ class LaceGround(inkex.Effect):
 		}
         
 		# create attributes from style and path
-		attribs = {'style':simplestyle.formatStyle(s), 'd':self.turtle.getPath()}
+		attribs = {'style':simplestyle.formatStyle(s), 'd':path}
 
 		# insert path object into current layer
 		inkex.etree.SubElement(self.current_layer, inkex.addNS('path', 'svg'), attribs)
