@@ -60,7 +60,8 @@ class LaceGround(inkex.Effect):
 		self.OptionParser.add_option('-w', '--width', action='store', type='float', dest='width', default=100, help='Width of ground pattern')
 		self.OptionParser.add_option('-l', '--height', action='store', type='float', dest='height', default=100, help='Height of ground pattern')
 		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='size', default=1, help='Width of lines')
-		self.OptionParser.add_option('-c', '--color', action='store', type='string', dest='color', default='#FF0000', help='Color of lines')
+		self.OptionParser.add_option('-c', '--linecolor', action='store', type='string', dest='linecolor', default='#FF0000', help='Color of lines')
+		self.OptionParser.add_option('-u', '--units', action = 'store', type = 'string', dest = 'units', default = 'mm', help = 'The units the measurements are in')
 
 
 		self.turtle = pturtle.pTurtle((100, 100))
@@ -71,6 +72,19 @@ class LaceGround(inkex.Effect):
 			return inkex.unittouu(param)
 		except AttributeError:
 			return self.unittouu(param)
+
+	def getColorString(self, longColor, verbose=False):
+		""" Convert the long into a #RRGGBB color value
+			- verbose=true pops up value for us in defaults
+			conversion back is A + B*256^1 + G*256^2 + R*256^3
+		"""
+		if verbose: inkex.debug("%s ="%(longColor))
+		longColor = long(longColor)
+		if longColor <0: longColor = long(longColor) & 0xFFFFFFFF
+		hexColor = hex(longColor)[2:-3]
+		hexColor = '#' + hexColor.rjust(6, '0').upper()
+		if verbose: inkex.debug("  %s for color default value"%(hexColor))
+		return hexColor
 
 	def line(self, x1, y1, x2, y2):
 		"""
@@ -90,7 +104,7 @@ class LaceGround(inkex.Effect):
 			'stroke-width': self.options.size,
 			'stroke-opacity': '1.0', 
 			'fill-opacity': '1.0',
-			'stroke': self.options.color, 
+			'stroke': self.options.linecolor, 
 			'stroke-linecap': 'butt',
 			'fill': 'none'
 		}
@@ -100,7 +114,7 @@ class LaceGround(inkex.Effect):
 
 		# insert path object into current layer
 		inkex.etree.SubElement(self.current_layer, inkex.addNS('path', 'svg'), attribs)
-    										 			
+
 	def loadFile(self, fname):
 		data = []
 		rowCount = 0
@@ -126,7 +140,7 @@ class LaceGround(inkex.Effect):
 						data[-1].append([float(num) for num in cell.split(',')])
 						
 		return {"type":type, "rowCount":rowCount, "colCount":colCount, "data":data}
-			
+
 	def drawCheckerGround(self, data, rowCount, colCount, spacing, theta):
 
 		deltaX = spacing*sin(theta) 
@@ -163,21 +177,6 @@ class LaceGround(inkex.Effect):
 			repeatY += 1
 			y += deltaY * rowCount
 
-	def unsignedLong(self, signedLongString):
-		longColor = long(signedLongString)
-		if longColor < 0:
-			longColor = longColor & 0xFFFFFFFF
-		return longColor
-
-	def getColorString(self, longColor):
-		"""
-		Convert numeric color value to hex string using formula A*256^0 + B*256^1 + G*256^2 + R*256^3
-		From: http://www.hoboes.com/Mimsy/hacks/parsing-and-setting-colors-inkscape-extensions/
-		"""
-		longColor = self.unsignedLong(longColor)
-		hexColor = hex(longColor)[2:-3]
-		hexColor = hexColor.rjust(6, '0')
-		return '#' + hexColor.upper()
 	
 	def effect(self):
 		"""
@@ -194,12 +193,12 @@ class LaceGround(inkex.Effect):
 		result = self.loadFile(self.fname)
 		
 		#Convert input from mm to pixels, assuming 90 dpi
-		conversion = self.getUnittouu("1" + "mm")#self.options.units)
+		conversion = self.getUnittouu("1" + self.options.units)
 		self.options.width *= conversion
 		self.options.height *= conversion
 		self.options.size *= conversion
 		# sort out color
-		self.options.color = self.getColorString(self.options.color)
+		self.options.linecolor = self.getColorString(self.options.linecolor)
 		
 		# Users expect spacing to be the vertical distance between footside pins (vertical distance between every other row) 
 		# but in the script we use it as as diagonal distance between grid points
