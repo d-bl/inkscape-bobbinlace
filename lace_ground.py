@@ -27,8 +27,8 @@ else: tk = True
 
 # We will use the inkex module with the predefined 
 # Effect base class.
-import inkex, simplestyle
-from math import sin,cos,radians, ceil
+import inkex, simplestyle, simpletransform
+from math import sin,cos,radians, degrees, atan2, ceil
 
 __author__ = 'Veronika Irvine'
 __credits__ = ['Ben Connors','Veronika Irvine']
@@ -36,6 +36,12 @@ __license__ = 'GPL'
 __version__ = '${project.version}'
 __maintainer__ = 'Veronika Irvine'
 __status__ = 'Development'
+
+def calc_angle_between_points(p1x, p1y, p2x, p2y):
+	" return ngle in degrees "
+	xDiff = p2x - p1x
+	yDiff = p2y - p1y
+	return degrees(atan2(yDiff, xDiff))
 
 class LaceGround(inkex.Effect):
 	"""
@@ -104,14 +110,13 @@ class LaceGround(inkex.Effect):
 		fill = self.options.linecolor
 		self.circle(x, y, dot_radius, fill, parent)
 
-	def line(self, x1, y1, x2, y2, parent):
+	def line(self, x1, y1, x2, y2, parent, draw_arrows, arrow_length, dotgroup):
 		"""
-        Draw a line from point at (x1, y1) to point at (x2, y2).
-        Style of line is hard coded and specified by 's'.
-        """
+		Draw a line from point at (x1, y1) to point at (x2, y2).
+		Style of line is hard coded and specified by 's'.
+		"""
 		# define the motions
 		path = "M %s,%s L %s,%s" %(x1,y1,x2,y2)
-
 		# define the stroke style
 		s = {'stroke-linejoin': 'miter', 
 			'stroke-width': self.options.size,
@@ -119,14 +124,29 @@ class LaceGround(inkex.Effect):
 			'fill-opacity': '1.0',
 			'stroke': self.options.linecolor, 
 			'stroke-linecap': 'round',
-			'fill': 'none'
-		}
-        
+			'fill': 'none' }
 		# create attributes from style and path
 		attribs = {'style':simplestyle.formatStyle(s), 'd':path}
-
 		# insert path object into current layer
 		inkex.etree.SubElement(parent, inkex.addNS('path', 'svg'), attribs)
+		# Draw Arrows ?
+		if draw_arrows: # Put them in dotgroup
+			path = "M 0,0 L %4.2f,%4.2f M 0,0 L %4.2f,%4.2f" % (arrow_length, arrow_length/2, arrow_length, -arrow_length/2)
+			arrowX = x1 + (x2-x1)/2.2
+			arrowY = y1 + (y2-y1)/2.2
+			angle = calc_angle_between_points(x2,y2,x1,y1)
+			s = {'stroke-linejoin': 'miter', 
+				 'stroke-width': self.options.size/2,
+				 'stroke': self.options.linecolor, 
+				 'stroke-linecap': 'round',
+				 'fill': 'none' }
+			# rotate arrow
+			t = 'rotate(%f)' % (angle)
+			attribs = {'style':simplestyle.formatStyle(s), 'd':path, 'transform':t}
+			arrow = inkex.etree.SubElement(dotgroup, inkex.addNS('path', 'svg'), attribs)
+			# transform arrow into correct spot
+			scale_matrix = [[1, 0.0, arrowX], [0.0, 1, arrowY]]
+			simpletransform.applyTransformToNode(scale_matrix, arrow)
 
 	def loadFile(self, fname):
 		data = []
@@ -166,13 +186,15 @@ class LaceGround(inkex.Effect):
 		repeatY = 0
 		repeatX = 0
 		dots = {} # remember dots drawn so make unique
+		arrow_length = spacing/6.0
 
 		while repeatY * rowCount < maxRows:
 			x = 0.0
 			repeatX = 0
 			
 			while repeatX * colCount < maxCols:
-				
+				# only draw arrows in first pattern
+				draw_arrows = (repeatX==0 and repeatY==0 and self.options.drawdots)
 				for row in data:
 					for coords in row:
 						x1 = x + coords[0]*deltaX
@@ -181,14 +203,14 @@ class LaceGround(inkex.Effect):
 						y2 = y + coords[3]*deltaY
 						x3 = x + coords[4]*deltaX
 						y3 = y + coords[5]*deltaY
-				
-						self.line(x1,y1,x2,y2, parent)
-						self.line(x1,y1,x3,y3, parent)
+						
+						self.line(x1,y1,x2,y2, parent, draw_arrows, arrow_length, dotgroup)
+						self.line(x1,y1,x3,y3, parent, draw_arrows, arrow_length, dotgroup)
 						
 						# Draw each dot only once
-						if self.options.drawdots:
+						if repeatX==0 and repeatY==0 and self.options.drawdots: # reduce redraws
 							id = "%s %s" % (coords[0], coords[1]) # id based on coord
-							if not dots.has_key(id):
+							if not dots.has_key(id): # draw it once
 								x1 = x + coords[0]*deltaX
 								y1 = y + coords[1]*deltaY
 								self.draw_grid_dot(x1, y1, dotgroup)
