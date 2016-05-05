@@ -69,6 +69,9 @@ class LaceGround(inkex.Effect):
 		self.OptionParser.add_option('-u', '--units', action = 'store', type = 'string', dest = 'units', default = 'mm', help = 'The units the measurements are in')
 		self.OptionParser.add_option("-z", "--drawdots", action="store", type="inkbool", dest="drawdots", default=False, help="Draw minimal dot template")
 		self.OptionParser.add_option('-p', '--dotdia', action='store', type='float', dest='dotdia', default=4, help='Diameter of the dots')
+		self.OptionParser.add_option('-y', '--guidecolor', action='store', type='string', dest='guidecolor', default=0, help='Color of guides')
+		# dummy for notebook
+		self.OptionParser.add_option("", "--active-tab", action="store", type="string", dest="active_tab", default='pattern', help="Active tab. Not used now.")
         
 	def getUnittouu(self, param):
 		" compatibility between inkscape 0.48 and 0.91 "
@@ -107,7 +110,7 @@ class LaceGround(inkex.Effect):
 	def draw_grid_dot(self, x, y, parent):
 		" Draw a single grid dot "
 		dot_radius = self.options.dotdia/2
-		fill = self.options.linecolor
+		fill = self.options.guidecolor
 		self.circle(x, y, dot_radius, fill, parent)
 
 	def line(self, x1, y1, x2, y2, parent, draw_arrows, arrow_length, dotgroup):
@@ -137,7 +140,7 @@ class LaceGround(inkex.Effect):
 			angle = calc_angle_between_points(x2,y2,x1,y1)
 			s = {'stroke-linejoin': 'miter', 
 				 'stroke-width': self.options.size/2,
-				 'stroke': self.options.linecolor, 
+				 'stroke': self.options.guidecolor, 
 				 'stroke-linecap': 'round',
 				 'fill': 'none' }
 			# rotate arrow
@@ -246,6 +249,7 @@ class LaceGround(inkex.Effect):
 		self.options.dotdia *= conversion
 		# sort out color
 		self.options.linecolor = self.getColorString(self.options.linecolor)
+		self.options.guidecolor = self.getColorString(self.options.guidecolor)
 		
 		# Users expect spacing to be the vertical distance between footside pins (vertical distance between every other row) 
 		# but in the script we use it as as diagonal distance between grid points
