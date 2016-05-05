@@ -26,7 +26,7 @@
 	<param name="height" type="float" precision="2" min="1" max="1000" _gui-text="Height:">100</param>
 	<param name="filllabel" type="description">========== Line properties ==========</param>
 	<param name="size" type="float" precision="2" min="0.01" max="10" _gui-text="Line width:">0.1</param>
-	<param name="drawdots" type="boolean" _gui-text="Draw template dots">false</param>
+	<param name="drawdots" type="boolean" _gui-text="Draw template guides(dots + arrows)">false</param>
 	<param name="dotdia" type="float" precision="2" min="0.01" max="10" _gui-text="Dot diameter:">2</param>
 	<param name="linecolor" type="color" _gui-text="Line color:">0</param>
 	
