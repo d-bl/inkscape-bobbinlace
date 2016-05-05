@@ -27,8 +27,8 @@ else: tk = True
 
 # We will use the inkex module with the predefined 
 # Effect base class.
-import inkex, simplestyle, simpletransform
-from math import sin,cos,radians, degrees, atan2, ceil
+import inkex, simplestyle
+from math import sin,cos,radians, ceil
 
 __author__ = 'Veronika Irvine'
 __credits__ = ['Ben Connors','Veronika Irvine']
@@ -36,12 +36,6 @@ __license__ = 'GPL'
 __version__ = '${project.version}'
 __maintainer__ = 'Veronika Irvine'
 __status__ = 'Development'
-
-def calc_angle_between_points(p1x, p1y, p2x, p2y):
-	" return ngle in degrees "
-	xDiff = p2x - p1x
-	yDiff = p2y - p1y
-	return degrees(atan2(yDiff, xDiff))
 
 class LaceGround(inkex.Effect):
 	"""
@@ -110,6 +104,7 @@ class LaceGround(inkex.Effect):
 		fill = self.options.linecolor
 		self.circle(x, y, dot_radius, fill, parent)
 
+	def line(self, x1, y1, x2, y2, parent):
 		"""
         Draw a line from point at (x1, y1) to point at (x2, y2).
         Style of line is hard coded and specified by 's'.
@@ -191,7 +186,9 @@ class LaceGround(inkex.Effect):
 						self.line(x1,y1,x3,y3, parent)
 						
 						# Draw each dot only once
+						if self.options.drawdots:
 							id = "%s %s" % (coords[0], coords[1]) # id based on coord
+							if not dots.has_key(id):
 								x1 = x + coords[0]*deltaX
 								y1 = y + coords[1]*deltaY
 								self.draw_grid_dot(x1, y1, dotgroup)
