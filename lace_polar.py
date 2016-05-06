@@ -14,28 +14,17 @@
 # along with this program. If not, see http://www.gnu.org/licenses/.
 
 from __future__ import division
-from math import *
+from math import pi, sin, cos, tan, radians
 
-# These lines are only needed if you don't put the script directly into
-# the installation directory
-import sys
-from os import path
-# Unix
-sys.path.append('/usr/share/inkscape/extensions')
-# OS X
-sys.path.append('/Applications/Inkscape.app/Contents/Resources/extensions')
-# Windows
-sys.path.append('C:\Program Files\Inkscape\share\extensions')
-sys.path.append('C:\Program Files (x86)\share\extensions')
 
 # We will use the inkex module with the predefined 
 # Effect base class.
-import inkex, simplestyle, math, pturtle
+import inkex, simplestyle
 
 __author__ = 'Jo Pol'
 __credits__ = ['Veronika Irvine']
 __license__ = 'GPLv3'
-__version__ = '${project.version}'
+__version__ = '0.6.0'
 __maintainer__ = 'Jo Pol'
 __status__ = 'Development'
 
@@ -57,10 +46,11 @@ class PolarGrid(inkex.Effect):
 		self.OptionParser.add_option('-d', '--dots', action='store', type='int', dest='dotsPerCircle', default=180, help='number of dots on a circle')
 		self.OptionParser.add_option('-o', '--outerDiameter', action='store', type='float', dest='outerDiameter', default=160, help='outer diameter (mm)')
 		self.OptionParser.add_option('-i', '--innerDiameter', action='store', type='float', dest='innerDiameter', default=100, help='minimum inner diameter (mm)')
-		self.OptionParser.add_option('-f', '--fill', action='store', type='string', dest='dotFill', default='#FF9999', help='dot color')
+		self.OptionParser.add_option('-f', '--fill', action='store', type='string', dest='dotFill', default='-6711040', help='dot color')
 		self.OptionParser.add_option('-A', '--alignment', action='store', type='string', dest='alignment', default='outside', help='exact diameter on [inside|outside]')
 		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='dotSize', default=0.5, help='dot diameter (mm)')
 		self.OptionParser.add_option('-v', '--variant', action='store', type='string', dest='variant', default='', help='omit rows to get [|rectangle|hexagon1]')
+		self.OptionParser.add_option('-u', '--units', action = 'store', type = 'string', dest = 'units', default = 'mm', help = 'The units the measurements are in')
 
 	def group(self, diameter):
 		"""
@@ -82,17 +72,25 @@ class PolarGrid(inkex.Effect):
 			attribs = {'style':self.dotStyle, 'cx':str(x * self.scale), 'cy':str(y * self.scale), 'r':self.dotR}
 			inkex.etree.SubElement(group, inkex.addNS('circle', 'svg'), attribs)
 
-	def getColorString(self):
+	def getUnittouu(self, param):
+		" compatibility between inkscape 0.48 and 0.91 "
+		try:
+			return inkex.unittouu(param)
+		except AttributeError:
+			return self.unittouu(param)
+
+	def getColorString(self, longColor, verbose=False):
+		""" Convert the long into a #RRGGBB color value
+			- verbose=true pops up value for us in defaults
+			conversion back is A + B*256^1 + G*256^2 + R*256^3
 		"""
-		Convert numeric color value to hex string using formula A*256^0 + B*256^1 + G*256^2 + R*256^3
-		From: http://www.hoboes.com/Mimsy/hacks/parsing-and-setting-colors-inkscape-extensions/
-		"""
-		longColor = long(self.options.dotFill)
-		if longColor < 0:
-			longColor = longColor & 0xFFFFFFFF
+		if verbose: inkex.debug("%s ="%(longColor))
+		longColor = long(longColor)
+		if longColor <0: longColor = long(longColor) & 0xFFFFFFFF
 		hexColor = hex(longColor)[2:-3]
-		hexColor = hexColor.rjust(6, '0')
-		return '#' + hexColor.upper()
+		hexColor = '#' + hexColor.rjust(6, '0').upper()
+		if verbose: inkex.debug("  %s for color default value"%(hexColor))
+		return hexColor
 
 	def iterate(self, diameter, circleNr):
 		"""
@@ -153,9 +151,11 @@ class PolarGrid(inkex.Effect):
 		Overrides base class' method and draws something.
 		"""
 
+		# color
+		self.options.dotFill = self.getColorString(self.options.dotFill)
 		# constants
-		self.dotStyle = simplestyle.formatStyle({'fill': self.getColorString(),'stroke':'none'})
-		self.scale = (90/25.4) # 90 DPI / mm
+		self.dotStyle = simplestyle.formatStyle({'fill': self.options.dotFill,'stroke':'none'})
+		self.scale = self.getUnittouu("1" + self.options.units)
 		self.dotR = str(self.options.dotSize * (self.scale/2))
 		self.computations(radians(self.options.angleOnFootside))
 
@@ -181,7 +181,7 @@ class PolarGrid(inkex.Effect):
 			for i in range(0, len(self.generatedCircles), 2):
 				self.removeDots(i, 1, 2)
 
-		self.dotStyle = simplestyle.formatStyle({'fill': 'none','stroke':self.getColorString(),'stroke-width':0.7})
+		self.dotStyle = simplestyle.formatStyle({'fill': 'none','stroke':self.options.dotFill,'stroke-width':0.7})
 		self.dotR = str((((self.options.innerDiameter * pi) / self.options.dotsPerCircle) / 2) * self.scale)
 		self.generatedCircles = []
 		if self.options.variant == 'snow2':
