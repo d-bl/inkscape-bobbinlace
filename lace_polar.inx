@@ -11,7 +11,7 @@
 	
 	<!-- title must be a single line for a left aligned layout -->
 	<param name="description" type="description">Creates a printable polar grid of dots with a constant number of dots per circle and the distance between circles changing at the same speed as the distance between the dots on a circle.</param>
-	<param name="filllabel" type="description">================= Measurement ==============</param>
+	<param name="filllabel" type="description">========== Measurement ==========</param>
 			<param name="units" _gui-text="Units" type="optiongroup" appearance="minimal">
 				<option value="mm">mm</option>
 				<option value="cm">cm</option>
@@ -19,7 +19,7 @@
 				<option value="px">px</option>
 				<option value="pt">pt</option>
 				</param>
-	<param name="filllabel" type="description">========== Grid style ==========</param>
+	<param name="filllabel" type="description">========== Grid style =============</param>
 	<param name="angle" type="float" precision="2" min="15" max="80" _gui-text="Grid angle (degrees):">45.0</param>
 	<param name="dots" type="int" precision="2" min="4" max="400" _gui-text="Number of dots per circle:">180.0</param>
 	<param name="variant" type="enum"  _gui-text="Pattern:">
@@ -44,7 +44,7 @@
 	<param name="size" type="float" precision="2" min="0.001" max="10" _gui-text="Diameter (mm):">0.5</param>
 	<param name="fill" type="color" _gui-text="dot color:">-6711040</param>
 	
-	<effect needs-live-preview="true">
+	<effect needs-live-preview="false">
 	    <object-type>all</object-type>
 	    <effects-menu>
 	        <submenu _name="Bobbin Lace"/>
