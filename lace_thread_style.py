@@ -105,6 +105,7 @@ class ThreadStyle(inkex.Effect):
 		Effect behaviour.
 		Overrides base class' method and draws something.
 		"""
+		self.options.color = self.getColorString(self.options.color)
 		if len(self.selected) != 1:
 			inkex.debug('no object selected, or more than one selected')
 			return
@@ -113,7 +114,7 @@ class ThreadStyle(inkex.Effect):
 			inkex.debug('selected element is not a Bezier curve')
 			return
 		self.findCandidatesForStyleChange(selected)
-		self.style = 'fill:none;stroke:{1};stroke-width:{0}'.format(self.options.width,self.getColorString())
+		self.style = 'fill:none;stroke:{1};stroke-width:{0}'.format(self.options.width,self.options.color)
 		csp = cubicsuperpath.parsePath(selected.get('d'))
 		self.selected.values()[0].attrib['style'] = self.style
 		self.applyToAdjacent(self.startPoint(csp))
