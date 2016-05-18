@@ -35,9 +35,17 @@ class ThreadStyle(inkex.Effect):
 		# Call the base class constructor.
 		inkex.Effect.__init__(self)
 		self.OptionParser.add_option('-t', '--tolerance', action='store', type='float', dest='tolerance', default=0.05, help='tolerance (max. distance between segments)')
-		self.OptionParser.add_option('-w', '--width', action='store', type='string', dest='width', default='1', help='thread width')
+		self.OptionParser.add_option('-u', '--units', action = 'store', type = 'string', dest = 'units', default = 'mm', help = 'The units the measurements are in')
+		self.OptionParser.add_option('-w', '--width', action='store', type='float', dest='width', default='1', help='thread width')
 		self.OptionParser.add_option('-c', '--color', action='store', type='string', dest='color', default='#FF9999', help='thread color')
-	
+
+	def getUnittouu(self, param):
+		" compatibility between inkscape 0.48 and 0.91 "
+		try:
+			return inkex.unittouu(param)
+		except AttributeError:
+			return self.unittouu(param)
+
 	def startPoint(self, cubicSuperPath):
 		"""
 		returns the first point of a CubicSuperPath
@@ -106,6 +114,7 @@ class ThreadStyle(inkex.Effect):
 		Overrides base class' method and draws something.
 		"""
 		self.options.color = self.getColorString(self.options.color)
+		conversion = self.getUnittouu("1" + self.options.units)
 		if len(self.selected) != 1:
 			inkex.debug('no object selected, or more than one selected')
 			return
@@ -114,7 +123,7 @@ class ThreadStyle(inkex.Effect):
 			inkex.debug('selected element is not a Bezier curve')
 			return
 		self.findCandidatesForStyleChange(selected)
-		self.style = 'fill:none;stroke:{1};stroke-width:{0}'.format(self.options.width,self.options.color)
+		self.style = 'fill:none;stroke:{1};stroke-width:{0}'.format(self.options.width*conversion, self.options.color)
 		csp = cubicsuperpath.parsePath(selected.get('d'))
 		self.selected.values()[0].attrib['style'] = self.style
 		self.applyToAdjacent(self.startPoint(csp))

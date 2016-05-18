@@ -13,10 +13,17 @@
 
 	<param name="tolerance" type="float" precision="4" min="0" max="99" _gui-text="Tolerance (max. distance between segments):">0.05</param>
 	<param name="filllabel" type="description">========== New thread properties ==========</param>
+	<param name="units" _gui-text="Units" type="optiongroup" appearance="minimal">
+        <option value="mm">mm</option>
+        <option value="cm">cm</option>
+        <option value="in">in</option>
+        <option value="px">px</option>
+        <option value="pt">pt</option>
+        </param>
 	<param name="width" type="float" _gui-text="Width:">1</param>
 	<param name="color" type="color" _gui-text="Color (#RRGGBB):">#FF9999</param>
 	
-	<effect needs-live-preview="false">
+	<effect needs-live-preview="true">
 	    <object-type>path</object-type>
 	    <effects-menu>
 	        <submenu _name="Bobbin Lace"/>
