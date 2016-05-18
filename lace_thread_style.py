@@ -14,20 +14,7 @@
 # along with this program. If not, see http://www.gnu.org/licenses/.
 #########################################################################
 
-# These lines are only needed if you don't put the script directly into
-# the installation directory
-import sys
-from os import path
-# Unix
-sys.path.append('/usr/share/inkscape/extensions')
-# OS X
-sys.path.append('/Applications/Inkscape.app/Contents/Resources/extensions')
-# Windows
-sys.path.append('C:\Program Files\Inkscape\share\extensions')
-sys.path.append('C:\Program Files (x86)\share\extensions')
 
-# We will use the inkex module with the predefined 
-# Effect base class.
 import inkex, cubicsuperpath, bezmisc
 
 __author__ = 'Jo Pol'
@@ -85,7 +72,7 @@ class ThreadStyle(inkex.Effect):
 		item['i'].attrib['style'] = self.style
 		self.candidates.remove(item)
 
-	def applyToAdjecent(self, point):
+	def applyToAdjacent(self, point):
 		while point != None:
 			p = (point[0], point[1])
 			next = None
@@ -100,23 +87,25 @@ class ThreadStyle(inkex.Effect):
 					break
 			point = next
 
-	def getColorString(self):
+	def getColorString(self, longColor, verbose=False):
+		""" Convert the long into a #RRGGBB color value
+			- verbose=true pops up value for us in defaults
+			conversion back is A + B*256^1 + G*256^2 + R*256^3
 		"""
-		Convert numeric color value to hex string using formula A*256^0 + B*256^1 + G*256^2 + R*256^3
-		From: http://www.hoboes.com/Mimsy/hacks/parsing-and-setting-colors-inkscape-extensions/
-		"""
-		longColor = long(self.options.color)
-		if longColor < 0:
-			longColor = longColor & 0xFFFFFFFF
+		if verbose: inkex.debug("%s ="%(longColor))
+		longColor = long(longColor)
+		if longColor <0: longColor = long(longColor) & 0xFFFFFFFF
 		hexColor = hex(longColor)[2:-3]
-		hexColor = hexColor.rjust(6, '0')
-		return '#' + hexColor.upper()
+		hexColor = '#' + hexColor.rjust(6, '0').upper()
+		if verbose: inkex.debug("  %s for color default value"%(hexColor))
+		return hexColor
 
 	def effect(self):
 		"""
 		Effect behaviour.
 		Overrides base class' method and draws something.
 		"""
+		self.options.color = self.getColorString(self.options.color)
 		if len(self.selected) != 1:
 			inkex.debug('no object selected, or more than one selected')
 			return
@@ -125,11 +114,11 @@ class ThreadStyle(inkex.Effect):
 			inkex.debug('selected element is not a Bezier curve')
 			return
 		self.findCandidatesForStyleChange(selected)
-		self.style = 'fill:none;stroke:{1};stroke-width:{0}'.format(self.options.width,self.getColorString())
+		self.style = 'fill:none;stroke:{1};stroke-width:{0}'.format(self.options.width,self.options.color)
 		csp = cubicsuperpath.parsePath(selected.get('d'))
 		self.selected.values()[0].attrib['style'] = self.style
-		self.applyToAdjecent(self.startPoint(csp))
-		self.applyToAdjecent(self.endPoint(csp))
+		self.applyToAdjacent(self.startPoint(csp))
+		self.applyToAdjacent(self.endPoint(csp))
 			
 # Create effect instance and apply it.
 if __name__ == '__main__':
