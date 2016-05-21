@@ -108,9 +108,12 @@ class PolarGrid(inkex.Effect):
 		Generate rings with dots, either inside out or outside in
 		"""
 		circleNr = 0
+		flag_error = False
 		minimum = 2 * self.options.dotSize * self.options.dotsPerCircle /pi
 		if minimum < self.options.innerDiameter:
-			minimum = 	self.options.innerDiameter
+			minimum = self.options.innerDiameter
+		else:
+			flag_error = True
 		if self.options.alignment == 'outside':
 			diameter = self.options.outerDiameter
 			while diameter > minimum:
@@ -121,6 +124,19 @@ class PolarGrid(inkex.Effect):
 			while diameter < self.options.outerDiameter:
 				diameter += self.iterate(diameter, circleNr)
 				circleNr += 1
+		# Display message
+		if flag_error:
+			# Leave message on top
+			font_height = 8
+			text_style = { 'font-size': str(font_height),
+							'font-family': 'sans-serif',
+							'text-anchor': 'middle',
+							'text-align': 'center',
+							'fill': '#000000' }
+			text_atts = {'style':simplestyle.formatStyle(text_style),
+						'x': '0', 'y': '0'}
+			text = inkex.etree.SubElement(self.gridContainer, 'text', text_atts)
+			text.text = "Dots overlap. inner changed to %4.1f" % (minimum)
 
 	def removeGroups(self, start, increment):
 		"""
