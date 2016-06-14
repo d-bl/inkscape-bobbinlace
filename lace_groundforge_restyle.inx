@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+
+	<_name>Groundforge Restyle</_name>
+	<id>com.googlecode.dibl.lace_groundforge_restyle</id>
+
+	<dependency type="executable" location="extensions">lace_groundforge_restyle.py</dependency>
+	<dependency type="executable" location="extensions">inkex.py</dependency>
+
+	<param name="description" type="description">PREPARATIONS
+Thread drawings from Groundforge can be restyled here to change thread colors and widths.
+This tool is specifically designed to examine classes on those diagrams.
+Select lines to individually restyle.</param>
+
+	<param name="tolerance" type="float" precision="4" min="0" max="99" _gui-text="Tolerance (max. distance between segments):">0.05</param>
+	<param name="filllabel" type="description">========== New thread properties ==========</param>
+	<param name="units" _gui-text="Units" type="optiongroup" appearance="minimal">
+        <option value="mm">mm</option>
+        <option value="cm">cm</option>
+        <option value="in">in</option>
+        <option value="px">px</option>
+        <option value="pt">pt</option>
+        </param>
+	<param name="width" type="float" _gui-text="Width:">0.3</param>
+	<param name="bobbin" type="boolean" _gui-text="Substitute Bobbins">0</param>
+	<param name="color" type="color" _gui-text="Color (#RRGGBB):">#FF9999</param>
+
+	<effect needs-live-preview="true">
+	    <object-type>path</object-type>
+	    <effects-menu>
+	        <submenu _name="Bobbin Lace"/>
+	    </effects-menu>
+	</effect>
+
+	<script>
+	    <command reldir="extensions" interpreter="python">lace_groundforge_restyle.py</command>
+	</script>
+
+</inkscape-extension>
