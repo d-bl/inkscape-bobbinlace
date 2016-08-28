@@ -20,11 +20,8 @@ import inkex, simplestyle
 from math import sin, cos, radians, ceil
 
 __author__ = 'Veronika Irvine'
-__credits__ = ['Veronika Irvine']
-__license__ = 'GPL'
-__version__ = '${project.version}'
-__maintainer__ = 'Veronika Irvine'
-__status__ = 'Development'
+__credits__ = ['Veronika Irvine','Mark Shafer']
+__license__ = 'GPLv3'
 
 class LaceGrid(inkex.Effect):
 	"""

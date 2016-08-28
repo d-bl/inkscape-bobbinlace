@@ -22,11 +22,8 @@ from math import pi, sin, cos, tan, radians
 import inkex, simplestyle
 
 __author__ = 'Jo Pol'
-__credits__ = ['Veronika Irvine']
+__credits__ = ['Veronika Irvine','Jo Pol','Mark Shafer']
 __license__ = 'GPLv3'
-__version__ = '0.6.0'
-__maintainer__ = 'Jo Pol'
-__status__ = 'Development'
 
 class PolarGrid(inkex.Effect):
 	"""

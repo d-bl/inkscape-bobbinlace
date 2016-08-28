@@ -9,7 +9,8 @@
 	<dependency type="executable" location="extensions">inkex.py</dependency>
 	
 	<param name="description" type="description">Fills in a rectangle with the selected lace ground pattern.</param>
-	<param name="file" type="string" _gui-text="File name for ground template (full path):"></param>
+	<param name="filllabel" type="description">========== Ground template ========</param>
+	<param name="file" type="string" _gui-text="File name (full path):"></param>
 	<param name="filllabel" type="description">========== Measurement ==========</param>
 	<param name="units" _gui-text="Units" type="optiongroup" appearance="minimal">
         <option value="mm">mm</option>

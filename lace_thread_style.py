@@ -18,11 +18,8 @@
 import inkex, cubicsuperpath, bezmisc
 
 __author__ = 'Jo Pol'
-__credits__ = ['Jo Pol']
-__license__ = 'GPL'
-__version__ = '${project.version}'
-__maintainer__ = 'Jo Pol'
-__status__ = 'Development'
+__credits__ = ['Jo Pol','Mark Shafer']
+__license__ = 'GPLv3'
 
 class ThreadStyle(inkex.Effect):
 	"""
