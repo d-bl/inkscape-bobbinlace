@@ -3,7 +3,7 @@ _InkScape extensions related to bobbin lace._
 
 ## Installation
 
-First download and install [InkScape]. Then download a [released] version of the bobbin lace extensions or the most [current] one and unpack. Start InkScape and look for the location where to put the desired `.inx`/`.py` pairs of files:
+First download and install [InkScape]. Then download a [released] version of the bobbin lace extensions or the most [recent] one and unpack. The release contains a pair of  `.inx`/`.py` files for each plug-in. Start InkScape and look for the location where to put these files:
 
     Edit > Preferences > System: User extensions
 
@@ -19,7 +19,7 @@ Below a screenshot with the menu and dialogs of the plugins. Note that the dialo
 ![](https://github.com/d-bl/inkscape-bobbinlace/blob/master/screenshot.png)
 
 [released]: https://github.com/d-bl/inkscape-bobbinlace/releases
-[current]: https://github.com/d-bl/inkscape-bobbinlace/archive/master.zip
+[recent]: https://github.com/d-bl/inkscape-bobbinlace/archive/master.zip
 [InkScape]: https://inkscape.org
 [d-bl.github.io]: https://d-bl.github.io/
 [issue]: https://github.com/d-bl/inkscape-bobbinlace/issues
