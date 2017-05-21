@@ -1,3 +1,13 @@
+- [Basic Usage](#basic-usage)
+- [Pin distances](#pin-distances)
+- [Repeats and number of dots](#repeats-and-number-of-dots)
+- [Grouped dots](#grouped-dots)
+- [Concentric grids](#concentric-grids)
+- [Merge grids](#merge-grids)
+- [Java based versions](#java-based-versions)
+
+<sup><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></sup>
+
 The diameter of the concentric circles in common polar grids increases at a constant rate, as shown on the left.
 DiBL generates grids with a consistent shape of the stitches, 
 the diameter of the circles increases in proportion with the distance between dots along each circle.
