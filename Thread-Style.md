@@ -1,3 +1,9 @@
+- [Preparations](#preparations)
+  * [Get rid of the clones and groups](#get-rid-of-the-clones-and-groups)
+- [Apply color to the threads](#apply-color-to-the-threads)
+
+<sup><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></sup>
+
 [Inkscape](http://inkscape.org/) has or refers to plenty of user guides and tutorials.
 This page describes one of the DiBL plug-ins that changes the color and/or width of a thread in a generated diagram.
 
