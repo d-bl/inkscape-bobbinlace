@@ -15,7 +15,7 @@ Once the files are in place and InkScape is restarted, the new extensions are av
 
 ## Usage
 
-Below a screenshot with the menu and dialogs of the plugins.
+The screenshot below shows the menu and dialogs of the plugins.
 See the sidebar for further help pages.
 
 * **Regular Grid** (created by [Veronika](https://github.com/veronika))
