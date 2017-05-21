@@ -3,7 +3,7 @@ _InkScape extensions related to bobbin lace._
 
 ## Installation
 
-First download and install [InkScape]. Then download a [released] version of the bobbin lace extensions or the most [recent] one and unpack. The release contains a pair of  `.inx`/`.py` files for each plug-in. Start InkScape and look for the location where to put these files:
+First download and install [InkScape]. Then download a [released] (or the most [recent]) version of the bobbin lace extensions and unpack. The release contains a pair of  `.inx`/`.py` files for each plug-in. Start InkScape and look for the location where to put these files:
 
     Edit > Preferences > System: User extensions
 
@@ -11,10 +11,14 @@ Once the files are in place and InkScape is restarted, the new extensions are av
 
 ## Usage
 
-[d-bl.github.io] relates the extensions with other tools, follow the InkScape links for details on an individual extension.
-Create an [issue] to report bugs or express your wishes. Developers can fork the project and create a pull request to propose enhancements.
+Below a screenshot with the menu and dialogs of the plugins. 
 
-Below a screenshot with the menu and dialogs of the plugins. Note that the dialog for lace grounds asks for a file from the input directory of the download.
+* [Regular Grid](http://web.uvic.ca/~vmi/laceTools/Inkscape1/inkscape1.html) (created by [Veronika](https://github.com/veronika))
+* [Polar Grid](https://github.com/jo-pol/DiBL/wiki/Polar-Grids) (there is also [a web based](http://jo-pol.github.io/DiBL/polar-grids/) version)
+* [Thread-style](https://github.com/jo-pol/DiBL/wiki/Thread-style) (belongs to a [predecessor](https://d-bl.github.io/) of the web based [GroundForge](https://d-bl.github.io/GroundForge))
+* [Ground from Template](http://tesselace.com/tools/inkscape-extension/) (also created by Veronika, the dialog asks for a file from the input directory of the download; a variant is embedded in GroundForge)
+
+Create an [issue] to report bugs or express your wishes. Developers can fork the project and create a pull request to propose enhancements.
 
 ![](https://github.com/d-bl/inkscape-bobbinlace/blob/master/screenshot.png)
 
