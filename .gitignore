@@ -1,0 +1,18 @@
+#### Mac
+.DS_Store
+
+#### Eclipse
+.project
+.classpath
+.settings/
+
+
+#### IntelliJ
+.idea/
+
+#### Scala
+.cache
+.tmpBin/
+.worksheet/
+*.sc
+

@@ -1,0 +1,38 @@
+[Inkscape](http://inkscape.org/) has or refers to plenty of user guides and tutorials.
+This page describes one of the DiBL plug-ins that changes the color and/or width of a thread in a generated diagram.
+
+
+# Preparations
+
+Install [InkScape], add the DiBL [extensions] and [generate] a diagram.
+
+[InkScape]: http://www.inkscape.org/
+[extensions]: https://github.com/d-bl/inkscape-bobbinlace#readme
+[generate]: http://jo-pol.github.io/DiBL/grounds/
+
+##  Get rid of the clones and groups
+
+<img align="right" src="https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-imagesTilesUngrouped.png">
+
+The generated diagrams makes heavy use of clones and groups, these cause unexpected effects, so get rid of them.
+Select everything on the page: CTRL-A or _edit - select all_.
+The status bar shows the number of selected groups, clones and other things.
+Unlink (SHIFT-ALT-D or _edit - clone - unlink_) and ungroup (SHIFT-CTRL-G or _object - ungroup_)
+until the status bar only shows other things.
+The clutter of bounding boxes shows that each dot and line segment is selected as an individual object.
+
+![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-imagesungroup-toolbar.png)
+
+
+
+# Apply color to the threads
+
+
+In the crowded diagram, selecting a segment of a thread is easier with the node tool (F2), 
+it briefly highlights the segment under the mouse.
+The screen-shot below shows various changed threads and a selected segment, 
+pushing the apply button will paint the whole thread copper.
+The opened menu show how to get the dialog. 
+You can keep the dialog open while selecting another segment.
+
+![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-imagesColorTiledThread.png)
