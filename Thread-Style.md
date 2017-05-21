@@ -12,7 +12,7 @@ Install [InkScape], add the DiBL [extensions] and [generate] a diagram.
 
 ##  Get rid of the clones and groups
 
-<img align="right" src="https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-imagesTilesUngrouped.png">
+<img align="right" src="https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-images/TilesUngrouped.png">
 
 The generated diagrams makes heavy use of clones and groups, these cause unexpected effects, so get rid of them.
 Select everything on the page: CTRL-A or _edit - select all_.
@@ -21,7 +21,7 @@ Unlink (SHIFT-ALT-D or _edit - clone - unlink_) and ungroup (SHIFT-CTRL-G or _ob
 until the status bar only shows other things.
 The clutter of bounding boxes shows that each dot and line segment is selected as an individual object.
 
-![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-imagesungroup-toolbar.png)
+![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-images/ungroup-toolbar.png)
 
 
 
@@ -35,4 +35,4 @@ pushing the apply button will paint the whole thread copper.
 The opened menu show how to get the dialog. 
 You can keep the dialog open while selecting another segment.
 
-![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-imagesColorTiledThread.png)
+![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-images/ColorTiledThread.png)
