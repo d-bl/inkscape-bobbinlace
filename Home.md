@@ -18,7 +18,6 @@ Once the files are in place and InkScape is restarted, the new extensions are av
 ## Usage
 
 The screenshot below shows the dialogs of the plugins.
-See the sidebar for further help pages.
 
 * **Regular Grid** (from [tesselace.com])
 * **Polar Grid**, [help page](Polar-Grids) (there is also [a web based](http://jo-pol.github.io/DiBL/polar-grids/) version)
