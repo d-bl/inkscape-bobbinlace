@@ -26,7 +26,7 @@ See the sidebar for further help pages.
 * **Ground from Template** (also from [tesselace.com], a variant is embedded in [GroundForge]; note that the dialog asks for a file from the input directory of the download)
 
 
-Create an [issue] to report bugs or express your wishes. Developers can fork the project and create a pull request to propose enhancements.
+Create an [issue] to report bugs or express your wishes, or [upload] new (versions of) plug-ins and follow the instruction to propose a change and create a pull request.
 
 [zoom in](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/home-images/dialogs.png)
 ![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/home-images/dialogs.png)
@@ -38,3 +38,4 @@ Create an [issue] to report bugs or express your wishes. Developers can fork the
 [tesselace.com]: https://tesselace.com/tools/inkscape-extension/
 [GroundForge]: https://d-bl.github.io/GroundForge
 [predecessor]: https://d-bl.github.io/
+[upload]: https://github.com/d-bl/inkscape-bobbinlace
