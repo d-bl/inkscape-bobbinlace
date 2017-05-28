@@ -11,7 +11,7 @@ Start InkScape and look for the location where to put these files:
 
     Edit > Preferences > System: User extensions
 
-Once the files are in place and InkScape is restarted, the new extensions are available via the menu in the screenshot below. Follow the same procedure to upgrade or downgrade an extension.
+Once the files are in place and InkScape is restarted, the new extensions are available via the menu shown in the screenshot below. Follow the same procedure to upgrade or downgrade an extension.
 
 ![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/home-images/menu.png)
 
