@@ -6,7 +6,7 @@ A collection of plugins by various authors.
 
 First download and install [InkScape].
 Then download a [released] (or the most [recent]) version of the bobbin lace extensions and unpack.
-The release contains a pair of  `.inx`/`.py` files for each plug-in.
+The downloads contains pairs of  `.inx`/`.py` files, one pair for each plug-in.
 Start InkScape and look for the location where to put these files:
 
     Edit > Preferences > System: User extensions
