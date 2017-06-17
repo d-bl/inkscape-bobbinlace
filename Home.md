@@ -15,13 +15,7 @@ Once the files are in place and InkScape is restarted, the new extensions are av
 
 ## Usage
 
-The screenshot below shows the dialogs of the plugins.
-
-* **Regular Grid** (from [tesselace.com])
-* **Polar Grid**, [help page](Polar-Grids) (there is also [a web based](http://jo-pol.github.io/DiBL/polar-grids/) version)
-* **Thread-style**, [help page](Thread-style) (belongs to a [predecessor] of the web based [GroundForge])
-* **Ground from Template** (also from [tesselace.com], a variant is embedded in [GroundForge]; note that the dialog asks for a file from the input directory of the download)
-
+The screenshot below shows the dialogs of the plugins. The [side-bar](#wiki-rightbar) has a help page for each one.
 
 Create an [issue] to report bugs or express your wishes, or [upload] new (versions of) plug-ins and follow the instructions to propose a change and create a pull request.
 
