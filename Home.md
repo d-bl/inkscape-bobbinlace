@@ -1,4 +1,4 @@
-_A collection of plugins for InkScape for bobbin lace by various authors._
+_A collection of InkScape plugins for bobbin lace by various authors._
 
 ## Installation
 
