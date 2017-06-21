@@ -41,7 +41,7 @@ Standard Deformations Tools
 After generating a pattern, you can also apply deformations with standard InkScape tools.
 The following screenshots show just some examples in progress.
 
-![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/rubber-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/effects.png)
+![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/rubber-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/rubber-screenshot.png)
 
 The following effects require to `combine` the desired objects into a single `path`.
 
