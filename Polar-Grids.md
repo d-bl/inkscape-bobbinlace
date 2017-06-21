@@ -24,8 +24,7 @@ Once the extensions are properly [installed], you can select polar grids from th
 
 [installed]: https://github.com/d-bl/inkscape-bobbinlace/wiki
 
-<img align="right" src="https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/polar-images/snap.png"/>
-![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/polar-images/menu.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/polar-images/menu.png)
+<img align="right" src="https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/polar-images/menu.png"/>
 
 A dialog allows to configure the grid. A few notes:
 * Within the choice list of grid patterns, a tiny cheat sheet advises angles and repeat factors.

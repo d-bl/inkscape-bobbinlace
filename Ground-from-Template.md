@@ -22,13 +22,14 @@ A single gallery item may represent different patterns, nudging the pin position
 Applying a Template
 ===================
 
-Browse with the file explorer/finder of your operating system through the templates.
+Browse with the file explorer/finder of your operating system through the template directory.
+You will see over 200 pairs of images and text files:
  
 [tesselace]: https://tesselace.com/tools/inkscape-extension/
 
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/browse-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/browse-screenshot.png)
 
-Copy paste the path for a text file in the dialog of the plugin.
+Copy paste the path for the text file of the desired pattern in the dialog of the plugin.
 An explanation to design your own templates sits at the bottom of [tesselace].
 
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/plugin-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/plugin-screenshot.png)
@@ -37,9 +38,11 @@ An explanation to design your own templates sits at the bottom of [tesselace].
 Standard Deformations Tools
 ===========================
 
-After generating a pattern, you can also apply deformations with standard InkScape tools
-such as the extension
+After generating a pattern, you can also apply deformations with standard InkScape tools.
+The following screenshots show just some examples in progress.
 
-    modify path - rubber stretch
+![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/rubber-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/effects.png)
 
-![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/rubber-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/rubber-screenshot.png)
+The following effects require to `combine` the desired objects into a single `path`.
+
+![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/rubber-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/effects.png)
