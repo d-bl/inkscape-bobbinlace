@@ -15,7 +15,7 @@ the diameter of the circles increases in proportion with the distance between do
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/polar-images/compared.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/polar-images/compared.png)
 
 This article is about the InkScape extension, 
-with the [web-based version](http://jo-pol.github.io/DiBL/polar-grids) you gain examples but loose functionality.
+with the [web-based version](https://d-bl.github.io/polar-grids/) you gain examples but loose functionality.
 
 
 
