@@ -21,7 +21,8 @@ with the [web-based version](http://jo-pol.github.io/DiBL/polar-grids) you gain 
 
 # Basic Usage
 Once the extensions are properly [installed], you can select polar grids from the menu.
-[installed]: https://github.com/d-bl/inkscape-bobbinlace#readme
+
+[installed]: https://github.com/d-bl/inkscape-bobbinlace/wiki
 
 <img align="right" src="https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/polar-images/snap.png"/>
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/polar-images/menu.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/polar-images/menu.png)
