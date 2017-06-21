@@ -9,8 +9,9 @@
 	
     <param name="description" type="description">Wraps the specified lace pattern around a circle.</param>
 
+	<param name="templateheader" type="description" appearance="header">Ground template</param>
+    <param name="file" type="string" _gui-text="File name (full path):"></param>
     <param name="configheader" type="description" appearance="header">Ground Properties</param>
-    <param name="file" type="string" _gui-text="File name for ground template (full path):"></param>
     <param name="radius" type="float" precision="2" max="999" _gui-text="Inside radius (mm):">100</param>
     <param name="rows" type="int" min="1" max="999" _gui-text="Number of circles :">6</param>
     <param name="cols" type="int" min="3" max="999" _gui-text="Repeats around circle:">50</param>
