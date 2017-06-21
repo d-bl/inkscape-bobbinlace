@@ -2,14 +2,14 @@
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
 
 	<_name>Regular Grid</_name>
-	<id>edu.uvic.vmi.mathart.lace_grid</id>
+	<id>tesselace.lace_grid</id>
 	
 	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
 	<dependency type="executable" location="extensions">lace_grid.py</dependency>
 	<dependency type="executable" location="extensions">inkex.py</dependency>
 	
 	<param name="description" type="description">Creates a printable rectangular grid of dots.</param>
-	
+
 	<param name="filllabel" type="description" appearance="header">Measurement</param>
 	<param name="units" _gui-text="Units" type="optiongroup" appearance="minimal">
         <option value="mm">mm</option>

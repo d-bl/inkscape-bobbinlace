@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <_name>Circular Ground from Template</_name>
+    <id>tesselace.lace_circular</id>
+	
+    <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+    <dependency type="executable" location="extensions">lace_circular_ground.py</dependency>
+    <dependency type="executable" location="extensions">inkex.py</dependency>
+	
+    <param name="description" type="description">Wraps the specified lace pattern around a circle.</param>
+
+    <param name="configheader" type="description" appearance="header">Ground Properties</param>
+    <param name="file" type="string" _gui-text="File name for ground template (full path):"></param>
+    <param name="radius" type="float" precision="2" max="999" _gui-text="Inside radius (mm):">100</param>
+    <param name="rows" type="int" min="1" max="999" _gui-text="Number of circles :">6</param>
+    <param name="cols" type="int" min="3" max="999" _gui-text="Repeats around circle:">50</param>
+    <param name="angle" type="int" min="45" max="89" _gui-text="Grid angle (degrees):">45</param>
+    <param name="warning" type="description">Note that images with a small number of repeats around circle or a large angle can become quite large.</param>
+    <param name="lineheading" type="description" appearance="header">Line Properties</param>
+    <param name="size" type="float" precision="2" min="0.01" max="10" _gui-text="Line width (mm):">0.1</param>
+    <param name="color" type="color" _gui-text="Line color (#RRGGBBAA):">255</param>
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu _name="Bobbin Lace"/>
+        </effects-menu>
+    </effect>
+    
+    <script>
+        <command reldir="extensions" interpreter="python">lace_circular_ground.py</command>
+    </script>
+	
+</inkscape-extension>

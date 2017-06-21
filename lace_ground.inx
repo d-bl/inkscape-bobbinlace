@@ -2,7 +2,7 @@
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
 
 	<_name>Ground from Template</_name>
-	<id>edu.uvic.vmi.mathart.lace_ground</id>
+	<id>tesselace.lace_ground</id>
 
 	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
 	<dependency type="executable" location="extensions">lace_ground.py</dependency>
