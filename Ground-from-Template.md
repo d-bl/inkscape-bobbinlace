@@ -45,4 +45,4 @@ The following screenshots show just some examples in progress.
 
 The following effects require to `combine` the desired objects into a single `path`.
 
-![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/rubber-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/effects.png)
+![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/effects.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/effects.png)
