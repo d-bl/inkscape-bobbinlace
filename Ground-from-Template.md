@@ -25,12 +25,10 @@ Applying a Template
 Browse with the file explorer/finder of your operating system through the template directory.
 You will see over 200 pairs of images and text files:
  
-[tesselace]: https://tesselace.com/tools/inkscape-extension/
-
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/browse-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/browse-screenshot.png)
 
 Copy paste the path for the text file of the desired pattern in the dialog of the plugin.
-An explanation to design your own templates sits at the bottom of [tesselace].
+An explanation to design your own templates sits at the bottom of the [plugin page of tesselace.com](https://tesselace.com/tools/inkscape-extension/).
 
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/plugin-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/plugin-screenshot.png)
 
@@ -38,11 +36,12 @@ An explanation to design your own templates sits at the bottom of [tesselace].
 Standard Deformations Tools
 ===========================
 
-After generating a pattern, you can also apply deformations with standard InkScape tools.
+After generating a pattern, you can apply deformations with standard InkScape tools.
 The following screenshots show just some examples in progress.
 
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/rubber-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/rubber-screenshot.png)
 
 The following effects require to `combine` the desired objects into a single `path`.
+In more complex situations the `select same...` function under the `edit` menu can pay off.
 
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/effects.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/effects.png)
