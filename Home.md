@@ -3,17 +3,17 @@ _A collection of InkScape plugins for bobbin lace by various authors._
 ## Installation
 
 First download and install [InkScape].
-Then download a [released] (or the most [recent]) version of the bobbin lace extensions and unpack.
+Then download the most [recent] (or a [released]) version of the bobbin lace extensions and unpack.
 
 The downloads contains
-* A folder with templates for the [Ground from Template](Ground-from-Template) plugins. Put this folder somewhere you can easily find.
+* A folder with templates for the [Ground from Template](Ground-from-Template) plugins. Put this folder somewhere you can easily find it.
 * Pairs of  `.inx`/`.py` files, one pair for each plug-in.
 
   Start InkScape and look for the location where to put these files:
 
       Edit > Preferences > System: User extensions
 
-  Once the files are in place and InkScape is restarted, the new extensions are available via the menu shown in the screenshot below. Follow the same procedure to upgrade or downgrade an extension.
+  Once the files are in place and InkScape is restarted, the new extensions are available via the `bobbin lace` menu under `extensions` as  shown in the screenshot below. Follow the same procedure to upgrade or downgrade an extension.
 
   ![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/home-images/menu.png)
 
