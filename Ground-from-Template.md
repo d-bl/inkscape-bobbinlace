@@ -8,8 +8,8 @@
 Intro
 =====
 
-Two extensions create patterns from templates that came with the [installation] package.
-One generates straight patches from these templates, the other wraps the patterns around a circle.
+Two extensions create patterns from templates that come with the [installation] package.
+One extension generates straight patches from these templates, the other wraps the patterns around a circle.
 
 More patterns, but fixed sized straight patches, are available for download from the GroundForge [gallery].
 Of course you can enlarge these patterns by copy-paste and snap the copies into position.
@@ -22,15 +22,23 @@ A single gallery item may represent different patterns, nudging the pin position
 Applying a Template
 ===================
 
-Browse with the file explorer/finder of your operating system through the template directory.
-You will see over 200 pairs of images and text files:
+Browse with the file explorer/finder of your operating system
+through the template directory which comes with the [installation] package.
+You will see over 200 pairs of images and text files. the following screenshot shows just a few:
  
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/browse-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/browse-screenshot.png)
 
-Copy paste the path for the text file of the desired pattern in the dialog of the plugin.
+Copy paste the path for the text file of the desired pattern in the dialog of the plugin of your choice.
 An explanation to design your own templates sits at the bottom of the [plugin page of tesselace.com](https://tesselace.com/tools/inkscape-extension/).
 
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/plugin-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/plugin-screenshot.png)
+
+Most other parameters in the dialog parameters should speak for them selves.
+The help pages for the grid extensions explain pin distances and footsides.
+
+![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/regular-images/footside.png)
+
+[reference by Brenda Paternoster]: http://paternoster.orpheusweb.co.uk/lace/threadsize/threadsize.html
 
 
 Standard Deformations Tools
