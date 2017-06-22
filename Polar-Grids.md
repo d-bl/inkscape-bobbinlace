@@ -20,7 +20,7 @@ with the [web-based version](https://d-bl.github.io/polar-grids/) you gain examp
 
 
 # Basic Usage
-Once the extensions are properly [installed], you can select polar grids from the menu.
+Once the extensions are properly [installed], you can select `polar grid` from the `bobbin lace` menu under `extensions`.
 
 [installed]: https://github.com/d-bl/inkscape-bobbinlace/wiki
 
