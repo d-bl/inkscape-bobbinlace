@@ -10,7 +10,7 @@ Intro
 
 A couple of extensions generate patterns for bobbin lace grounds: pair diagrams that can serve as prickings.
 One extension generates straight patches from templates, 
-another other wraps the patterns around a circle.
+another other wraps the same patterns around a circle.
 The templates come with the [installation] package.
 An explanation to design your own templates sits at the bottom of the [plugin page of tesselace.com](https://tesselace.com/tools/inkscape-extension/).
 
