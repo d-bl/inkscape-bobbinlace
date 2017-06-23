@@ -8,11 +8,14 @@
 Intro
 =====
 
-Two extensions create patterns from templates that come with the [installation] package.
-One extension generates straight patches from these templates, the other wraps the patterns around a circle.
+A couple of extensions generates patterns for bobbin lace grounds: pair diagrams that can serve as prickings.
+One extension generates straight patches from templates, 
+Another other wraps the patterns around a circle.
+The templates come with the [installation] package.
+An explanation to design your own templates sits at the bottom of the [plugin page of tesselace.com](https://tesselace.com/tools/inkscape-extension/).
 
 More patterns, but fixed sized straight patches, are available for download from the GroundForge [gallery].
-Of course you can enlarge these patterns by copy-paste and snap the copies into position.
+Of course you can copy-paste additional rows and colums and snap the copies into position.
 A single gallery item may represent different patterns, nudging the pin positions to rectangular grid positions.
 
 [gallery]: https://d-bl.github.io/GroundForge/gallery.html
@@ -29,7 +32,6 @@ You will see over 200 pairs of images and text files. the following screenshot s
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/browse-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/browse-screenshot.png)
 
 Copy paste the path for the text file of the desired pattern in the dialog of the plugin of your choice.
-An explanation to design your own templates sits at the bottom of the [plugin page of tesselace.com](https://tesselace.com/tools/inkscape-extension/).
 
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/plugin-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/plugin-screenshot.png)
 
