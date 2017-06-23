@@ -5,12 +5,12 @@
 <sup><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></sup>
 
 
-Intro
+Intro 
 =====
 
 A couple of extensions generates patterns for bobbin lace grounds: pair diagrams that can serve as prickings.
 One extension generates straight patches from templates, 
-Another other wraps the patterns around a circle.
+another other wraps the patterns around a circle.
 The templates come with the [installation] package.
 An explanation to design your own templates sits at the bottom of the [plugin page of tesselace.com](https://tesselace.com/tools/inkscape-extension/).
 
