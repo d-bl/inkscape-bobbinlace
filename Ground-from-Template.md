@@ -14,7 +14,7 @@ another other wraps the patterns around a circle.
 The templates come with the [installation] package.
 An explanation to design your own templates sits at the bottom of the [plugin page of tesselace.com](https://tesselace.com/tools/inkscape-extension/).
 
-More patterns, but fixed sized straight patches, are available for download from the GroundForge [gallery].
+More patterns, but fixed sized straight patches, are available for download from the [gallery] of GroundForge.
 Of course you can copy-paste additional rows and colums and snap the copies into position.
 A single gallery item may represent different patterns, nudging the pin positions to rectangular grid positions.
 
