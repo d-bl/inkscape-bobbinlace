@@ -8,7 +8,7 @@
 Intro 
 =====
 
-A couple of extensions generates patterns for bobbin lace grounds: pair diagrams that can serve as prickings.
+A couple of extensions generate patterns for bobbin lace grounds: pair diagrams that can serve as prickings.
 One extension generates straight patches from templates, 
 another other wraps the patterns around a circle.
 The templates come with the [installation] package.
