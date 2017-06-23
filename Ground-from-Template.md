@@ -31,7 +31,7 @@ You will see over 200 pairs of images and text files. the following screenshot s
  
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/browse-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/browse-screenshot.png)
 
-Copy paste the path for the text file of the desired pattern in the dialog of the plugin of your choice.
+Copy paste the path of the text file for the desired pattern in the dialog of the plugin of your choice.
 
 ![https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/plugin-screenshot.png](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/grouds-images/plugin-screenshot.png)
 
