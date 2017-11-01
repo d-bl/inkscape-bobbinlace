@@ -6,7 +6,6 @@ Ground from Template
 
 - [Intro](#intro)
 - [Applying a Template](#applying-a-template)
-- [Standard Deformations Tools](#standard-deformations-tools)
 
 
 Intro 
