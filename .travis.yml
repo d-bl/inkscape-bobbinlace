@@ -1,0 +1,11 @@
+language: ruby
+rvm:
+  - 2.3.3
+sudo: false
+env:
+  global:
+  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+install: gem install jekyll html-proofer jekyll-theme-architect jekyll-relative-links
+script:
+  - jekyll build --source docs
+  - htmlproofer ./_site --disable-external --empty_alt_ignore  --url-ignore "#"
