@@ -4,7 +4,8 @@ _A collection of InkScape plugins for bobbin lace by various authors._
 
 First download and install [InkScape].
 Then download the most [recent] (or a [released]) version of the bobbin lace extensions and unpack.
-Note that the plugin-version 0.7.0 is compatible 0.91, not with 0.92
+
+**Note:** plugin-version 0.7.0 is compatible with InkScape 0.91, not with 0.92
 
 The downloads contains
 * A folder with templates for the [Ground from Template](Ground-from-Template) plugins. Put this folder somewhere you can easily find it.
@@ -17,6 +18,10 @@ The downloads contains
   Once the files are in place and InkScape is restarted, the new extensions are available via the `bobbin lace` menu under `extensions` as  shown in the screenshot below. Follow the same procedure to upgrade or downgrade an extension.
 
   ![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/home-images/menu.png)
+
+### Mac OS-X
+
+See the instructions on the [InkScape download](https://inkscape.org/en/download/mac-os/) page and Veronika Irvine's [blog](https://tesselace.com/blog/)
 
 ## Usage
 
