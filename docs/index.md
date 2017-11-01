@@ -1,3 +1,7 @@
+---
+layout: default
+title: Intro and Installation
+---
 _A collection of InkScape plugins for bobbin lace by various authors._
 
 ## Installation
@@ -17,7 +21,7 @@ The downloads contains
 
   Once the files are in place and InkScape is restarted, the new extensions are available via the `bobbin lace` menu under `extensions` as  shown in the screenshot below. Follow the same procedure to upgrade or downgrade an extension.
 
-  ![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/home-images/menu.png)
+  ![](/inkscape-bobbinlace/home-images/menu.png)
 
 ### Mac OS-X
 
@@ -25,12 +29,12 @@ See the instructions on the [InkScape download](https://inkscape.org/en/download
 
 ## Usage
 
-The screenshot below shows the dialogs of the plugins. The [side-bar](#wiki-rightbar) has a help page for each one.
+The screenshot below shows the dialogs of the plugins. The [side-bar](#sidebar) has a help page for each one.
 
 Create an [issue] to report bugs or express your wishes, or [upload] new (versions of) plug-ins and follow the instructions to propose a change and create a pull request.
 
-[zoom in](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/home-images/dialogs.png)
-![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/home-images/dialogs.png)
+[zoom in](/inkscape-bobbinlace/home-images/dialogs.png)
+![](/inkscape-bobbinlace/home-images/dialogs.png)
 
 [InkScape]: https://inkscape.org
 [released]: https://github.com/d-bl/inkscape-bobbinlace/releases

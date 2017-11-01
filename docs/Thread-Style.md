@@ -1,3 +1,7 @@
+---
+layout: default
+title: Thread Style
+---
 - [Preparations](#preparations)
   * [Get rid of the clones and groups](#get-rid-of-the-clones-and-groups)
 - [Apply color to the threads](#apply-color-to-the-threads)
@@ -16,12 +20,12 @@ This page describes one of the DiBL plug-ins that changes the color and/or width
 Install [InkScape], add the DiBL [extensions] and [generate] a diagram.
 
 [InkScape]: http://www.inkscape.org/
-[extensions]: https://github.com/d-bl/inkscape-bobbinlace/wiki
+[extensions]: /inkscape-bobbinlace/
 [generate]: http://jo-pol.github.io/DiBL/grounds/
 
 ##  Get rid of the clones and groups
 
-<img align="right" src="https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-images/TilesUngrouped.png">
+<img align="right" src="/inkscape-bobbinlace/thread-style-images/TilesUngrouped.png">
 
 The generated diagrams makes heavy use of clones and groups, these cause unexpected effects, so get rid of them.
 Select everything on the page: CTRL-A or _edit - select all_.
@@ -30,7 +34,7 @@ Unlink (SHIFT-ALT-D or _edit - clone - unlink_) and ungroup (SHIFT-CTRL-G or _ob
 until the status bar only shows other things.
 The clutter of bounding boxes shows that each dot and line segment is selected as an individual object.
 
-![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-images/ungroup-toolbar.png)
+![](/inkscape-bobbinlace/thread-style-images/ungroup-toolbar.png)
 
 
 
@@ -44,4 +48,4 @@ pushing the apply button will paint the whole thread copper.
 The opened menu show how to get the dialog. 
 You can keep the dialog open while selecting another segment.
 
-![](https://raw.githubusercontent.com/wiki/d-bl/inkscape-bobbinlace/thread-style-images/ColorTiledThread.png)
+![](/inkscape-bobbinlace/thread-style-images/ColorTiledThread.png)
