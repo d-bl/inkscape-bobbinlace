@@ -1,7 +1,9 @@
 ---
 layout: default
-title: Regular Grids
 ---
+Regular Grids
+=============
+
 When you start InkScape, if the lace tool extensions are [installed] correctly you should see a menu called `Bobbin Lace` under the main `Extensions` menu. Under the `Bobbin Lace` menu you will see among others the option `Regular Grid…`.
 
 ![Screenshot from Inkscape: Bobbin lace tool menu under Extensions](/inkscape-bobbinlace/regular-images/menu.png)

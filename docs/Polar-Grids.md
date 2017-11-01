@@ -1,7 +1,9 @@
 ---
 layout: default
-title: Polar Grids
 ---
+Polar Grids
+===========
+
 - [Basic Usage](#basic-usage)
 - [Pin distances](#pin-distances)
 - [Repeats and number of dots](#repeats-and-number-of-dots)
@@ -9,8 +11,6 @@ title: Polar Grids
 - [Concentric grids](#concentric-grids)
 - [Merge grids](#merge-grids)
 - [Java based versions](#java-based-versions)
-
-<sup><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></sup>
 
 The diameter of the concentric circles in common polar grids increases at a constant rate, as shown on the left.
 DiBL generates grids with a consistent shape of the stitches, 
@@ -23,7 +23,9 @@ with the [web-based version](https://d-bl.github.io/polar-grids/) you gain examp
 
 
 
-# Basic Usage
+Basic Usage
+-----------
+
 Once the extensions are properly [installed], you can select `polar grid` from the `bobbin lace` menu under `extensions`.
 
 [installed]: /inkscape-bobbinlace/
@@ -43,7 +45,8 @@ dialog: [![/inkscape-bobbinlace/polar-images/dialog.png](/inkscape-bobbinlace/po
 effects of ignoring the cheat sheet: [![/inkscape-bobbinlace/polar-images/cheatsheet.png](/inkscape-bobbinlace/polar-images/cheatsheet-thumb.png)](/inkscape-bobbinlace/polar-images/cheatsheet.png)
 
 
-# Pin distances
+Pin distances
+-------------
 
 Pin distances should more or less match the [thread size].
 Multiply the desired radius by three and divide the result with the desired distance
@@ -66,7 +69,8 @@ The style of grids however may also have a repeat, which is indicated by the sel
 ![/inkscape-bobbinlace/polar-images/repeats.png](/inkscape-bobbinlace/polar-images/repeats.png)
 
 
-# Grouped dots
+Grouped dots
+------------
 
 The generated dots are grouped per circle.
 The properties of a ring of dots has a label with the diameter.
@@ -78,7 +82,8 @@ the label with the diameter will get lost.
 properties: [![/inkscape-bobbinlace/polar-images/properties.png](/inkscape-bobbinlace/polar-images/properties-thumb.png)](/inkscape-bobbinlace/polar-images/properties-thumb.png)
 
 
-# Concentric grids
+Concentric grids
+----------------
 
 A big difference between inner and outer diameters can cause a big difference in pin distances.
 You can overcome this with concentric grids with different numbers of dots.
@@ -91,7 +96,8 @@ in this case four legs on the inside, six on the outside.
 ![/inkscape-bobbinlace/polar-images/asym-spider.svg](/inkscape-bobbinlace/polar-images/asym-spider.png)
 
 
-# Merge grids
+Merge grids
+-----------
 
 Merging grids allows more than the built-in choices of dot-patterns. A few examples:
 * hexagon + triangle: 60 degrees, 120 dots + 30 degrees, 80 dots
@@ -105,7 +111,8 @@ The [math] is an approximation, so you might see small inaccuracies with extreme
 ![/inkscape-bobbinlace/polar-images/merged.png](/inkscape-bobbinlace/polar-images/merged.png)
 
 
-# Java based versions
+Java based versions
+-------------------
 
 The Java [proof of concept] in DiBL is a stripped version of the stand alone Java version
 in the [BobbinWork] project, the interface of this [old generator] might be challenging

@@ -1,16 +1,16 @@
 ---
 layout: default
-title: Ground from Template
 ---
+Ground from Template
+====================
+
 - [Intro](#intro)
 - [Applying a Template](#applying-a-template)
 - [Standard Deformations Tools](#standard-deformations-tools)
 
-<sup><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></sup>
-
 
 Intro 
-=====
+-----
 
 A couple of extensions generate patterns for bobbin lace grounds: pair diagrams that can serve as prickings.
 One extension generates straight patches from templates, 
@@ -27,7 +27,7 @@ A single gallery item may represent different patterns, nudging the pin position
 
 
 Applying a Template
-===================
+-------------------
 
 Browse with the file explorer/finder of your operating system
 through the template directory which comes with the [installation] package.
@@ -48,7 +48,7 @@ The help pages for the grid extensions explain pin distances and footsides.
 
 
 Standard Deformations Tools
-===========================
+---------------------------
 
 After generating a pattern, you can apply deformations with standard InkScape tools.
 The following screenshots show just some examples in progress.
