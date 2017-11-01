@@ -8,4 +8,4 @@ env:
 install: gem install jekyll html-proofer jekyll-theme-architect jekyll-relative-links
 script:
   - jekyll build --source docs
-  - htmlproofer ./_site --disable-external --empty_alt_ignore  --url-ignore "#"
+  - htmlproofer ./_site --disable-external --url-swap "\/inkscape-bobbinlace\/:/" --assume-extension
