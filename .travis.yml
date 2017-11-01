@@ -9,3 +9,16 @@ install: gem install jekyll html-proofer jekyll-theme-architect jekyll-relative-
 script:
   - jekyll build --source docs
   - htmlproofer ./_site --disable-external --url-swap "\/inkscape-bobbinlace\/:/" --assume-extension
+before_deploy:
+  - zip -r -q inkscape-bobbinlace-plugins.zip *.inx *.py
+  - cd templates && zip -r -q inkscape-bobbinlace-templates.zip *
+deploy:
+  provider: releases
+  api_key:
+    secure: todo
+  file:
+    - inkscape-bobbinlace-templates.zip
+    - inkscape-bobbinlace-plugins.zip
+  skip_cleanup: true
+  on:
+    tags: true

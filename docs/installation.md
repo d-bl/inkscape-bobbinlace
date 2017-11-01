@@ -8,7 +8,7 @@ Installation
 First download and install [InkScape].
 Then download the most [recent] (or a [released]) version of the bobbin lace extensions and unpack.
 
-**Note:** plugin-version 0.7.0 is compatible with InkScape 0.91, not with 0.92
+**Note:** plugin-version 0.7.x is compatible with InkScape 0.91.x, not with 0.92.x
 
 The downloads contains
 * A folder with templates for the [Ground from Template](Ground-from-Template) plugins. Put this folder somewhere you can easily find it.
