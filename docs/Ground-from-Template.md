@@ -45,17 +45,3 @@ The help pages for the grid extensions explain pin distances and footsides.
 ![footside](/inkscape-bobbinlace/regular-images/footside.png)
 
 [reference by Brenda Paternoster]: http://paternoster.orpheusweb.co.uk/lace/threadsize/threadsize.html
-
-
-Standard Deformations Tools
----------------------------
-
-After generating a pattern, you can apply deformations with standard InkScape tools.
-The following screenshots show just some examples in progress.
-
-![/inkscape-bobbinlace/grouds-images/rubber-screenshot.png](/inkscape-bobbinlace/grouds-images/rubber-screenshot.png)
-
-The following effects require to `combine` the desired objects into a single `path`.
-In more complex situations the `select same...` function under the `edit` menu can pay off.
-
-![/inkscape-bobbinlace/grouds-images/effects.png](/inkscape-bobbinlace/grouds-images/effects.png)

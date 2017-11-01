@@ -60,7 +60,7 @@ The measurement tool of InkScape (available since release 0.91) can tell you any
 
 # Repeats and number of dots
 
-Keep repeats in mind to choose the number of dots. 
+Keep repeats in mind to choose the number of dots.
 For the fans shown below the number of dots should be a multitude of three as indicated by the red dots.
 The style of grids however may also have a repeat, which is indicated by the selected grid pattern.
 
