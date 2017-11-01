@@ -5,7 +5,6 @@ Polar Grids
 ===========
 
 - [Basic Usage](#basic-usage)
-- [Pin distances](#pin-distances)
 - [Repeats and number of dots](#repeats-and-number-of-dots)
 - [Grouped dots](#grouped-dots)
 - [Concentric grids](#concentric-grids)

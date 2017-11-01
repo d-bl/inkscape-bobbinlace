@@ -12,15 +12,15 @@ Ground from Template
 Intro 
 -----
 
-A couple of extensions generate patterns for bobbin lace grounds: pair diagrams that can serve as prickings.
-One extension generates straight patches from templates, 
-another other wraps the same patterns around a circle.
+Two extensions generate patterns for bobbin lace grounds: pair diagrams that can serve as prickings.
+One extension generates **straight** patches from templates, 
+another other wraps the same patterns around a **circle**.
 The templates come with the [installation] package.
 An explanation to design your own templates sits at the bottom of the [plugin page of tesselace.com](https://tesselace.com/tools/inkscape-extension/).
 
 More patterns, but fixed sized straight patches, are available for download from the [gallery] of GroundForge.
-Of course you can copy-paste additional rows and colums and snap the copies into position.
-A single gallery item may represent different patterns, nudging the pin positions to rectangular grid positions.
+Of course you can copy-paste additional rows and columns and simply snap the copies into position.
+A single gallery item may represent different patterns, each with the the pin positions nudged to different square grid positions.
 
 [gallery]: https://d-bl.github.io/GroundForge/gallery.html
 [installation]: /inkscape-bobbinlace/
