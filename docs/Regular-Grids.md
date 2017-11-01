@@ -14,7 +14,7 @@ The Bobbin Lace `Regular Grid` tool will allow you to draw a grid of dots. In th
 
 The distance between footside pins is the vertical measurement between two dots on the grid. When designing lace, you can use the handy [reference by Brenda Paternoster] to determine the size of your grid based on the size of your thread.
 
-![](/inkscape-bobbinlace/regular-images/footside.png)
+![footside](/inkscape-bobbinlace/regular-images/footside.png)
 
 [installed]: /inkscape-bobbinlace/
 [reference by Brenda Paternoster]: http://paternoster.orpheusweb.co.uk/lace/threadsize/threadsize.html

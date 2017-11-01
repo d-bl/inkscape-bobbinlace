@@ -42,7 +42,7 @@ Copy paste the path of the text file for the desired pattern in the dialog of th
 Most other parameters in the dialog parameters should speak for them selves.
 The help pages for the grid extensions explain pin distances and footsides.
 
-![](/inkscape-bobbinlace/regular-images/footside.png)
+![footside](/inkscape-bobbinlace/regular-images/footside.png)
 
 [reference by Brenda Paternoster]: http://paternoster.orpheusweb.co.uk/lace/threadsize/threadsize.html
 

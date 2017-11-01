@@ -30,7 +30,7 @@ Once the extensions are properly [installed], you can select `polar grid` from t
 
 [installed]: /inkscape-bobbinlace/
 
-<img align="right" src="/inkscape-bobbinlace/polar-images/menu.png"/>
+<img align="right" src="/inkscape-bobbinlace/polar-images/menu.png" alt="menu"/>
 
 A dialog allows to configure the grid. A few notes:
 * Within the choice list of grid patterns, a tiny cheat sheet advises angles and repeat factors.
