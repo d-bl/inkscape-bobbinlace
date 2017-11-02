@@ -12,6 +12,7 @@ script:
 before_deploy:
   - zip -r -q inkscape-bobbinlace-plugins.zip *.inx *.py
   - cd templates && zip -r -q inkscape-bobbinlace-templates.zip *
+  - cd ..
 deploy:
   provider: releases
   api_key:
