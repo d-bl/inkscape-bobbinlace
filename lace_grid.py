@@ -1,137 +1,183 @@
 #!/usr/bin/env python
-# Copyright 2014 Veronika Irvine
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see http://www.gnu.org/licenses/.
 
+# Copyright (c) 2017, Veronika Irvine
+# All rights reserved.
+# 
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+# 
+# 1. Redistributions of source code must retain the above copyright notice, this
+#    list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the documentation
+#    and/or other materials provided with the distribution.
+# 
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# We will use the inkex module with the predefined 
-# Effect base class.
-import inkex, simplestyle
 from math import sin, cos, radians, ceil
+import inkex, simplestyle
 
 __author__ = 'Veronika Irvine'
-__credits__ = ['Veronika Irvine','Mark Shafer']
-__license__ = 'GPLv3'
+__credits__ = ['Ben Connors', 'Veronika Irvine', 'Mark Shafer']
+__license__ = 'Simplified BSD'
 
-class LaceGrid(inkex.Effect):
-	"""
-	Create a grid for lace with angle as specified
-	"""
-	def __init__(self):
-		"""
-		Constructor.
-		Defines the options of the script.
-		"""
-		# Call the base class constructor.
-		inkex.Effect.__init__(self)
-	
-		self.OptionParser.add_option('-a', '--angle', action='store', type='float', dest='angle', default=45.0, help='Grid Angle')
-		self.OptionParser.add_option('-u', '--units', action = 'store', type = 'string', dest = 'units', default = 'mm', help = 'All measurements are in these units.')
-		self.OptionParser.add_option('-d', '--distance', action='store', type='float', dest='spacing', default=10.0, help='Distance between grid dots')
-		self.OptionParser.add_option('-w', '--width', action='store', type='float', dest='width', default=100, help='Width of grid')
-		self.OptionParser.add_option('-l', '--height', action='store', type='float', dest='height', default=100, help='Height of grid')
-		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='size', default=1, help='Size of dots')
-		self.OptionParser.add_option('-c', '--color', action='store', type='string', dest='color', default=-1431655936, help='Color of dots')
+class LaceGrid(inkex.Effect):        
+    """
+    Create a grid for lace with angle as specified
+    """
 
-	def getUnittouu(self, param):
-		" compatibility between inkscape 0.48 and 0.91 "
-		try:
-			return inkex.unittouu(param)
-		except AttributeError:
-			return self.unittouu(param)
+    def unitToUu(self,param):
+        """ Convert units.
+        Converts a number in some units into the units used internally by 
+        Inkscape.
+        
+        param is a string representing a number with units attached. An 
+            example would be '3.8mm'. Any units supported by Inkscape
+            are supported by this function.
+        
+        This wrapper function catches changes made to the location
+        of the function between Inkscape versions.
+        """
+        try:
+            return self.unittouu(param)
+        except:
+            return inkex.unittouu(param)
 
-	def getColorString(self, longColor, verbose=False):
-		""" Convert the long into a #RRGGBB color value
-			- verbose=true pops up value for us in defaults
-			conversion back is A + B*256^1 + G*256^2 + R*256^3
-		"""
-		if verbose: inkex.debug("%s ="%(longColor))
-		longColor = long(longColor)
-		if longColor <0: longColor = long(longColor) & 0xFFFFFFFF
-		hexColor = hex(longColor)[2:-3]
-		hexColor = '#' + hexColor.rjust(6, '0').upper()
-		if verbose: inkex.debug("  %s for color default value"%(hexColor))
-		return hexColor
+    def getColorString(self, longColor):
+        """ Convert the long into a #RRGGBB color value
+            conversion back is A + B*256^1 + G*256^2 + R*256^3
+        """
+        longColor = long(longColor)
+        if longColor <0: longColor = long(longColor) & 0xFFFFFFFF
+        hexColor = hex(longColor)[2:-3]
+        hexColor = '#' + hexColor.rjust(6, '0').upper()
+        return hexColor
 
-	def circle(self, x, y, r, fill, parent):
-		"""
-		Draw a circle of radius 'r' and origin at (x, y)
-		"""
-		
-		# define the stroke style
-		s = {'fill': fill}
-	 
-		# create attributes from style and define path
-		attribs = {'style':simplestyle.formatStyle(s), 
-					'cx':str(x),
-					'cy':str(y),
-					'r':str(r)}
-		
-		# insert path object into current layer
-		inkex.etree.SubElement(parent, inkex.addNS('circle', 'svg'), attribs)
+    def circle(self, x, y, r, fill):
+        """
+        Draw a circle of radius 'r' and origin at (x, y)
+        """
+        
+        # define the stroke style
+        s = {'fill': fill}
+     
+        # create attributes from style and define path
+        attribs = {'style':simplestyle.formatStyle(s), 
+                    'cx':str(x),
+                    'cy':str(y),
+                    'r':str(r)}
+        
+        # insert path object into current layer
+        inkex.etree.SubElement(self.current_layer, inkex.addNS('circle', 'svg'), attribs)
 
-	def drawGridPoint(self, x, y, parent):
-		dot_radius = self.options.size/2
-		fill = self.options.color
-		self.circle(x, y, dot_radius, fill, parent)
+    def drawDot(self, x, y):
+        self.circle(x, y, self.options.dotwidth, self.options.dotcolor)
 
-	def draw_grid(self, width, height, spacing, theta, parent):
-		
-		
-		hgrid = spacing*sin(theta);
-		vgrid = spacing*cos(theta)
-		rows = int(height / vgrid) + 1
-		cols = int(width  / hgrid)
-		y = 0.0
-		
-		for r in range(rows):
-			x = 0.0
-			if (r % 2 == 1):
-				x += hgrid
-			
-			for c in range(cols/2):
-				self.drawGridPoint(x, y, parent)
-				x += 2.0*hgrid;
-				
-			y += vgrid;
+    def draw(self):
+        
+        a = self.options.spacing
+        theta = self.options.angle
+        
+        hgrid = a*sin(theta);
+        vgrid = a*cos(theta)
+        rows = int(ceil(self.options.height / vgrid))
+        cols = int(ceil(self.options.width  / hgrid))
+        y = 0.0
+        
+        for r in range(rows):
+            x = 0.0
+            if (r % 2 == 1):
+                x += hgrid
+            
+            for c in range(cols/2):
+                self.drawDot(x, y)
+                x += 2.0*hgrid;
+                
+            y += vgrid;
 
-    
-	def effect(self):
-		"""
-		Effect behaviour.
-		Overrides base class' method and draws something.
-		"""
-		#Convert input from mm or whatever user uses
-		conversion = self.getUnittouu("1" + self.options.units)
-		width = self.options.width * conversion
-		height = self.options.height * conversion
-		self.options.size = self.options.size * conversion
-		
-		# Users expect spacing to be the vertical distance between footside pins (vertical distance between every other row) 
-		# but in the script we use it as as diagonal distance between grid points
-		# therefore convert spacing based on the angle chosen
-		theta = radians(self.options.angle)
-		spacing = self.options.spacing * conversion/(2.0*cos(theta))
-		
-		# Convert color from long integer to hexidecimal string
-		self.options.color = self.getColorString(self.options.color)
-		
-		# Top level Group
-		t = 'translate(%s,%s)' % (self.view_center[0]-width/2, self.view_center[1]-height/2)
-		grp_attribs = {inkex.addNS('label','inkscape'):'Lace Grid', 'transform':t}
-		grp = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)
-		# Draw a grid of dots based on user inputs
-		self.draw_grid(width, height, spacing, theta, grp)
+    def __init__(self):
+        """
+        Constructor.
+        Defines the options of the script.
+        """
+        # Call the base class constructor.
+        inkex.Effect.__init__(self)
+        # Grid description
+        self.OptionParser.add_option('--angle',
+                                     action='store',
+                                     type='float',
+                                     dest='angle')
+        self.OptionParser.add_option('--distance',
+                                     action='store',
+                                     type='float',
+                                     dest='spacing')
+        self.OptionParser.add_option('--pinunits',
+                                     action='store',
+                                     type='string',
+                                     dest='pinunits')
+        # Patch description
+        self.OptionParser.add_option('--width',
+                                     action='store',
+                                     type='float',
+                                     dest='width')
+        self.OptionParser.add_option('--patchwidthunits',
+                                     action='store',
+                                     type='string',
+                                     dest='patchwidthunits')
+        self.OptionParser.add_option('--height',
+                                     action='store',
+                                     type='float',
+                                     dest='height')
+        self.OptionParser.add_option('--patchheightunits',
+                                     action='store',
+                                     type='string',
+                                     dest='patchheightunits')
+        # Dot description
+        self.OptionParser.add_option('--dotwidth',
+                                     action='store',
+                                     type='float',
+                                     dest='dotwidth')
+        self.OptionParser.add_option('--dotunits',
+                                     action='store',
+                                     type='string',
+                                     dest='dotunits')
+        self.OptionParser.add_option('--dotcolor',
+                                     action='store',
+                                     type='string',
+                                     dest='dotcolor')
+
+    def effect(self):
+        """
+        Effect behaviour.
+        Overrides base class' method and draws something.
+        """
+        # Convert user input to universal units
+        self.options.width = self.unitToUu(str(self.options.width)+self.options.patchwidthunits)
+        self.options.height = self.unitToUu(str(self.options.height)+self.options.patchheightunits)
+        self.options.spacing = self.unitToUu(str(self.options.spacing)+self.options.pinunits)
+        # Convert from diameter to radius
+        self.options.dotwidth = self.unitToUu(str(self.options.dotwidth)+self.options.dotunits)/2
+        # Users expect spacing to be the vertical distance between footside pins 
+        # (vertical distance between every other row) but in the script we use it 
+        # as as diagonal distance between grid points
+        # therefore convert spacing based on the angle chosen
+        self.options.angle = radians(self.options.angle)
+        self.options.spacing = self.options.spacing/(2.0*cos(self.options.angle))
+        
+        # Convert color from long integer to hexidecimal string
+        self.options.dotcolor = self.getColorString(self.options.dotcolor)
+        
+        # Draw a grid of dots based on user inputs
+        self.draw()
 
 # Create effect instance and apply it.
 effect = LaceGrid()

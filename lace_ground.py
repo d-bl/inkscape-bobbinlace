@@ -1,255 +1,256 @@
 #!/usr/bin/env python
-# Copyright 2014 Veronika Irvine
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see http://www.gnu.org/licenses/.
 
+# Copyright (c) 2017, Veronika Irvine
+# All rights reserved.
+# 
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+# 
+# 1. Redistributions of source code must retain the above copyright notice, this
+#    list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the documentation
+#    and/or other materials provided with the distribution.
+# 
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# The following five lines check to see if tkFile Dialog can 
-# be used to select a file
 import sys
-from os import path
-
-try:
-	from Tkinter import *
-	import tkFileDialog as tkf
-except: tk = False
-else: tk = True
-
-# We will use the inkex module with the predefined 
-# Effect base class.
-import inkex, simplestyle
+import os
 from math import sin,cos,radians, ceil
 
+import inkex, simplestyle
+
 __author__ = 'Veronika Irvine'
-__credits__ = ['Ben Connors','Mark Shafer','Veronika Irvine']
-__license__ = 'GPLv3'
+__credits__ = ['Ben Connors', 'Veronika Irvine', 'Mark Shafer']
+__license__ = 'Simplified BSD'
 
 class LaceGround(inkex.Effect):
-	"""
-	Create a ground for lace from a text file descriptor 
-	using specified angle and spacing
-	"""
-	def __init__(self,fname):
-		"""
-		Constructor.
-		Defines the "--centerx" option of the script.
-		"""
-		# Call the base class constructor.
-		inkex.Effect.__init__(self)
-		
-		# Set the fname variable
-		self.fname = fname
-		
-		self.OptionParser.add_option('-f', '--file', action='store', type='string', dest='file', help='File containing lace ground description', default='lace_templates/4x4_33.txt')
-		self.OptionParser.add_option('-a', '--angle', action='store', type='float', dest='angle', default=45.0, help='Grid Angle')
-		self.OptionParser.add_option('-d', '--distance', action='store', type='float', dest='spacing', default=10.0, help='Distance between grid points in mm')
-		self.OptionParser.add_option('-w', '--width', action='store', type='float', dest='width', default=100, help='Width of ground pattern')
-		self.OptionParser.add_option('-l', '--height', action='store', type='float', dest='height', default=100, help='Height of ground pattern')
-		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='size', default=1, help='Width of lines')
-		self.OptionParser.add_option('-c', '--linecolor', action='store', type='string', dest='linecolor', default='#FF0000', help='Color of lines')
-		self.OptionParser.add_option('-u', '--units', action = 'store', type = 'string', dest = 'units', default = 'mm', help = 'The units the measurements are in')
-		self.OptionParser.add_option("-z", "--drawdots", action="store", type="inkbool", dest="drawdots", default=False, help="Draw minimal dot template")
-		self.OptionParser.add_option('-p', '--dotdia', action='store', type='float', dest='dotdia', default=4, help='Diameter of the dots')
+    """
+    Create a ground for lace from a text file descriptor 
+    using specified angle and spacing
+    """
+
+    def unitToUu(self,param):
+        """ Convert units.
+        Converts a number in some units into the units used internally by 
+        Inkscape.
         
-	def getUnittouu(self, param):
-		" compatibility between inkscape 0.48 and 0.91 "
-		try:
-			return inkex.unittouu(param)
-		except AttributeError:
-			return self.unittouu(param)
+        param is a string representing a number with units attached. An 
+            example would be '3.8mm'. Any units supported by Inkscape
+            are supported by this function.
+        
+        This wrapper function catches changes made to the location
+        of the function between Inkscape versions.
+        """
+        try:
+            return self.unittouu(param)
+        except:
+            return inkex.unittouu(param)
 
-	def getColorString(self, longColor, verbose=False):
-		""" Convert the long into a #RRGGBB color value
-			- verbose=true pops up value for us in defaults
-			conversion back is A + B*256^1 + G*256^2 + R*256^3
-		"""
-		if verbose: inkex.debug("%s ="%(longColor))
-		longColor = long(longColor)
-		if longColor <0: longColor = long(longColor) & 0xFFFFFFFF
-		hexColor = hex(longColor)[2:-3]
-		hexColor = '#' + hexColor.rjust(6, '0').upper()
-		if verbose: inkex.debug("  %s for color default value"%(hexColor))
-		return hexColor
+    def getColorString(self, longColor, verbose=False):
+        """ Convert the long into a #RRGGBB color value
+            - verbose=true pops up value for us in defaults
+            conversion back is A + B*256^1 + G*256^2 + R*256^3
+        """
+        longColor = long(longColor)
+        if longColor <0: longColor = long(longColor) & 0xFFFFFFFF
+        hexColor = hex(longColor)[2:-3]
+        hexColor = '#' + hexColor.rjust(6, '0').upper()
+        return hexColor
 
-	def circle(self, x, y, r, fill, parent):
-		"""
-		Draw a circle of radius 'r' and origin at (x, y)
-		"""
-		# define the stroke style
-		s = {'fill': fill}
-		# create attributes from style and define path
-		attribs = {'style':simplestyle.formatStyle(s), 
-					'cx':str(x),
-					'cy':str(y),
-					'r':str(r)}
-		# insert path object
-		inkex.etree.SubElement(parent, inkex.addNS('circle', 'svg'), attribs)
+    def loadFile(self):
+        # Ensure that file exists and has the proper extension
+        if not self.options.file:
+            inkex.errormsg('You must specify a template file.')
+            exit()
+        self.options.file = self.options.file.strip()
+        if self.options.file == '':
+            inkex.errormsg('You must specify a template file.')
+            exit()
+        if not os.path.isfile(self.options.file):
+            inkex.errormsg('You have not specified a valid path for the template file.\n\nYour entry: '+self.options.file)
+            exit()
+        extension = os.path.splitext(self.options.file)[1]
+        if extension != '.txt':
+            inkex.errormsg('The file name must end with .txt.\n\nYour entry: '+self.options.file)
+            exit()
+            
+        data = []
+        rowCount = 0
+        colCount = 0
+        with open(self.options.file,'r') as f:
+            first = True
+            for line in f:
+                if first:
+                    # first line of file gives row count and column count
+                    first = False
+                    line = line.strip()
+                    temp = line.split('\t')
+                    type = temp[0]
+                    rowCount = int(temp[1])
+                    colCount = int(temp[-1])
+                    
+                else:
+                    line = line.strip()
+                    line = line.lstrip('[')
+                    line = line.rstrip(']')
+                    rowData = line.split(']\t[')
+                    data.append([])
+                    for cell in rowData:
+                        cell = cell.strip()
+                        data[-1].append([float(num) for num in cell.split(',')])
+                        
+        return {'type':type, 'rowCount':rowCount, 'colCount':colCount, 'data':data}
 
-	def draw_grid_dot(self, x, y, parent):
-		" Draw a single grid dot "
-		dot_radius = self.options.dotdia/2
-		fill = self.options.linecolor
-		self.circle(x, y, dot_radius, fill, parent)
-
-	def line(self, x1, y1, x2, y2, parent):
-		"""
+    def line(self, x1, y1, x2, y2):
+        """
         Draw a line from point at (x1, y1) to point at (x2, y2).
         Style of line is hard coded and specified by 's'.
         """
-		# define the motions
-		path = "M %s,%s L %s,%s" %(x1,y1,x2,y2)
-
-		# define the stroke style
-		s = {'stroke-linejoin': 'miter', 
-			'stroke-width': self.options.size,
-			'stroke-opacity': '1.0', 
-			'fill-opacity': '1.0',
-			'stroke': self.options.linecolor, 
-			'stroke-linecap': 'round',
-			'fill': 'none'
-		}
+        # define the motions
+        path = 'M %s,%s L %s,%s' %(x1,y1,x2,y2)
         
-		# create attributes from style and path
-		attribs = {'style':simplestyle.formatStyle(s), 'd':path}
+        # define the stroke style
+        s = {'stroke-linejoin': 'miter', 
+            'stroke-width': self.options.linewidth,
+            'stroke-opacity': '1.0', 
+            'fill-opacity': '1.0',
+            'stroke': self.options.linecolor, 
+            'stroke-linecap': 'round',
+            'fill': 'none'
+        }
+        
+        # create attributes from style and path
+        attribs = {'style':simplestyle.formatStyle(s), 'd':path}
+        
+        # insert path object into current layer
+        inkex.etree.SubElement(self.current_layer, inkex.addNS('path', 'svg'), attribs)
 
-		# insert path object into current layer
-		inkex.etree.SubElement(parent, inkex.addNS('path', 'svg'), attribs)
+    def draw(self, data, rowCount, colCount):
+        a = self.options.spacing
+        theta = self.options.angle
+        deltaX = a*sin(theta) 
+        deltaY = a*cos(theta)
+        maxRows = ceil(self.options.height / deltaY)
+        maxCols = ceil(self.options.width  / deltaX)
+        
+        x = 0.0
+        y = 0.0
+        repeatY = 0
+        repeatX = 0
 
-	def loadFile(self, fname):
-		data = []
-		rowCount = 0
-		colCount = 0
-		with open(fname,'r') as f:
-			first = True
-			for line in f:
-				if first:
-					# first line of file gives row count and column count
-					first = False
-					line = line.rstrip('\n')
-					temp = line.split('\t')
-					type = temp[0]
-					rowCount = int(temp[1])
-					colCount = int(temp[-1])
-					
-				else:
-					line = line.lstrip('[')
-					line = line.rstrip(']\t\n')
-					rowData = line.split(']\t[')
-					data.append([])
-					for cell in rowData:
-						data[-1].append([float(num) for num in cell.split(',')])
-						
-		return {"type":type, "rowCount":rowCount, "colCount":colCount, "data":data}
+        while repeatY * rowCount < maxRows:
+            x = 0.0
+            repeatX = 0
+            
+            while repeatX * colCount < maxCols:
+                
+                for row in data:
+                    for coords in row:
+                        x1 = x + coords[0]*deltaX
+                        y1 = y + coords[1]*deltaY
+                        x2 = x + coords[2]*deltaX
+                        y2 = y + coords[3]*deltaY
+                        x3 = x + coords[4]*deltaX
+                        y3 = y + coords[5]*deltaY
+                
+                        self.line(x1,y1,x2,y2)
+                        self.line(x1,y1,x3,y3)
+                    
+                repeatX += 1
+                x += deltaX * colCount
 
-	def drawCheckerGround(self, data, rowCount, colCount, spacing, theta, parent, dotgroup):
+            repeatY += 1
+            y += deltaY * rowCount
 
-		deltaX = spacing*sin(theta) 
-		deltaY = spacing*cos(theta)
-		maxRows = ceil(self.options.height / deltaY)
-		maxCols = ceil(self.options.width  / deltaX)
-		
-		x = 0.0
-		y = 0.0
-		repeatY = 0
-		repeatX = 0
-		dots = {} # remember dots drawn so make unique
+    def __init__(self):
+        """
+        Constructor.
+        Defines the '--centerx' option of the script.
+        """
+        # Call the base class constructor.
+        inkex.Effect.__init__(self)
+        
+        # file
+        self.OptionParser.add_option('-f', '--file', action='store', type='string', dest='file', help='File containing lace ground description')
+        # Grid description
+        self.OptionParser.add_option('--angle',
+                                     action='store',
+                                     type='float',
+                                     dest='angle')
+        self.OptionParser.add_option('--distance',
+                                     action='store',
+                                     type='float',
+                                     dest='spacing')
+        self.OptionParser.add_option('--pinunits',
+                                     action='store',
+                                     type='string',
+                                     dest='pinunits')
+        self.OptionParser.add_option('--width',
+                                     action='store',
+                                     type='float',
+                                     dest='width')
+        self.OptionParser.add_option('--patchwidthunits',
+                                     action='store',
+                                     type='string',
+                                     dest='patchwidthunits')
+        self.OptionParser.add_option('--height',
+                                     action='store',
+                                     type='float',
+                                     dest='height')
+        self.OptionParser.add_option('--patchheightunits',
+                                     action='store',
+                                     type='string',
+                                     dest='patchheightunits')
+        self.OptionParser.add_option('--linewidth',
+                                     action='store',
+                                     type='float',
+                                     dest='linewidth')
+        self.OptionParser.add_option('--lineunits',
+                                     action='store',
+                                     type='string',
+                                     dest='lineunits')
+        self.OptionParser.add_option('--linecolor',
+                                     action='store',
+                                     type='string',
+                                     dest='linecolor')
 
-		while repeatY * rowCount < maxRows:
-			x = 0.0
-			repeatX = 0
-			
-			while repeatX * colCount < maxCols:
-				
-				for row in data:
-					for coords in row:
-						x1 = x + coords[0]*deltaX
-						y1 = y + coords[1]*deltaY
-						x2 = x + coords[2]*deltaX
-						y2 = y + coords[3]*deltaY
-						x3 = x + coords[4]*deltaX
-						y3 = y + coords[5]*deltaY
-				
-						self.line(x1,y1,x2,y2, parent)
-						self.line(x1,y1,x3,y3, parent)
-						
-						# Draw each dot only once
-						if self.options.drawdots:
-							id = "%s %s" % (coords[0], coords[1]) # id based on coord
-							if not dots.has_key(id):
-								x1 = x + coords[0]*deltaX
-								y1 = y + coords[1]*deltaY
-								self.draw_grid_dot(x1, y1, dotgroup)
-								dots[id] = True
-				
-				repeatX += 1
-				x += deltaX * colCount
-			
-			repeatY += 1
-			y += deltaY * rowCount
-
-	
-	def effect(self):
-		"""
-		Effect behaviour.
-		Overrides base class' method and draws something.
-		"""
-		# Locate and load the file containing the lace ground descriptor
-		if self.fname == None:
-			self.fname = self.options.file
-			
-		if self.fname == '': sys.exit(1)
-		elif not path.isfile(self.fname): sys.exit(1)
-		
-		result = self.loadFile(self.fname)
-		label = path.splitext(path.basename(self.fname))[0]
-		
-		#Convert input from mm to pixels, assuming 90 dpi
-		conversion = self.getUnittouu("1" + self.options.units)
-		self.options.width *= conversion
-		self.options.height *= conversion
-		self.options.size *= conversion
-		self.options.dotdia *= conversion
-		# sort out color
-		self.options.linecolor = self.getColorString(self.options.linecolor)
-		
-		# Users expect spacing to be the vertical distance between footside pins (vertical distance between every other row) 
-		# but in the script we use it as as diagonal distance between grid points
-		# therefore convert spacing based on the angle chosen
-		theta = radians(self.options.angle)
-		spacing = self.options.spacing * conversion/(2.0*cos(theta))
-		
-		# Top level Group
-		t = 'translate(%s,%s)' % (self.view_center[0]-self.options.width/2, self.view_center[1]-self.options.height/2)
-		grp_attribs = {inkex.addNS('label','inkscape'):'Lace Pattern %s'%(label), 'transform':t}
-		topgroup = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)
-		dotgroup = None
-		if self.options.drawdots:
-			grp_attribs = {inkex.addNS('label','inkscape'):'Dots'}
-			dotgroup = inkex.etree.SubElement(topgroup, 'g', grp_attribs)
-		# Draw a ground based on file description and user inputs
-		# For now, assume style is Checker but could change in future
-		self.drawCheckerGround(result["data"],result["rowCount"],result["colCount"], spacing, theta, topgroup, dotgroup)
-
-
-if tk:
-	# Create root window
-	root = Tk()
-	# Hide it
-	root.withdraw()
-	# Ask for a file
-	fname = tkf.askopenfilename(**{'initialdir' : '~'})	
-else: fname = None
+    def effect(self):
+        """
+        Effect behaviour.
+        Overrides base class' method and draws something.
+        """
+        result = self.loadFile()
+        
+        # Convert input to universal units
+        self.options.width = self.unitToUu(str(self.options.width)+self.options.patchwidthunits)
+        self.options.height = self.unitToUu(str(self.options.height)+self.options.patchheightunits)
+        self.options.linewidth = self.unitToUu(str(self.options.linewidth)+self.options.lineunits)
+        self.options.spacing = self.unitToUu(str(self.options.spacing)+self.options.pinunits)
+        
+        # Users expect spacing to be the vertical distance between footside pins 
+        # (vertical distance between every other row) but in the script we use it 
+        # as as diagonal distance between grid points
+        # therefore convert spacing based on the angle chosen
+        self.options.angle = radians(self.options.angle)
+        self.options.spacing = self.options.spacing/(2.0*cos(self.options.angle))
+        
+        # Convert color from long integer to hexidecimal string
+        self.options.linecolor = self.getColorString(self.options.linecolor)
+        
+        # Draw a ground based on file description and user inputs
+        # For now, assume style is Checker but could change in future
+        self.draw(result['data'],result['rowCount'],result['colCount'])
 
 # Create effect instance and apply it.
-effect = LaceGround(fname)
+effect = LaceGround()
 effect.affect()

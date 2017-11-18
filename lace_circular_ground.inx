@@ -2,25 +2,44 @@
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
     <_name>Circular Ground from Template</_name>
     <id>tesselace.lace_circular</id>
-	
+
     <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
     <dependency type="executable" location="extensions">lace_circular_ground.py</dependency>
     <dependency type="executable" location="extensions">inkex.py</dependency>
-	
-    <param name="description" type="description">Wraps the specified lace pattern around a circle.</param>
 
-	<param name="templateheader" type="description" appearance="header">Ground template</param>
-    <param name="file" type="string" _gui-text="File name (full path):"></param>
-    <param name="configheader" type="description" appearance="header">Ground Properties</param>
-    <param name="radius" type="float" precision="2" max="999" _gui-text="Inside radius (mm):">100</param>
-    <param name="rows" type="int" min="1" max="999" _gui-text="Number of circles :">6</param>
-    <param name="cols" type="int" min="3" max="999" _gui-text="Repeats around circle:">50</param>
-    <param name="angle" type="int" min="45" max="89" _gui-text="Grid angle (degrees):">45</param>
-    <param name="warning" type="description">Note that images with a small number of repeats around circle or a large angle can become quite large.</param>
-    <param name="lineheading" type="description" appearance="header">Line Properties</param>
-    <param name="size" type="float" precision="2" min="0.01" max="10" _gui-text="Line width (mm):">0.1</param>
-    <param name="color" type="color" _gui-text="Line color (#RRGGBBAA):">255</param>
-    <effect>
+    <param name="description" type="description" appearance="header" xml:space="preserve">Wrap lace pattern found in template file around a circle.</param>
+    <param name="warning" type="description" xml:space="preserve" >Note: Drawing can become quite large when "Number of copies around circle" is small or "Diameter" of inside circle is large.</param>
+    
+    <param name="file" type="string" _gui-text="Template file name (full path):"></param>
+
+    <param name="filllabel" type="description" appearance="header">Grid description</param>
+    <param name="angle" type="float" precision="1" min="30" max="89" indent="1" _gui-text="Angle (degrees):">45.0</param>
+    <param name="cols" type="int" min="3" max="1000" _gui-text="Number of copies around circle:">30</param>
+
+    <param name="filllabel" type="description" appearance="header">Patch description</param>
+    <param name="diameter" type="float" precision="2" min="0.1" max="1000" indent="1" _gui-text="Inner circle diameter:">50</param>
+        <param name="diamunits" _gui-text="(Units)" type="optiongroup" appearance="minimal" indent="3">
+        <option value="mm">mm</option>
+        <option value="cm">cm</option>
+        <option value="in">in</option>
+        <option value="px">px</option>
+        <option value="pt">pt</option>
+        </param>
+    <param name="rows" type="int" min="1" max="1000" _gui-text="Number of circles:">3</param>
+
+    <param name="lineheading" type="description" appearance="header">Line Appearance</param>
+    <param name="linewidth" type="float" precision="2" min="0.01" max="1000" indent="1" _gui-text="Width:">1</param>
+    <param name="lineunits" _gui-text="(Units)" type="optiongroup" appearance="minimal" indent="3">
+        <option value="px">px</option>
+        <option value="mm">mm</option>
+        <option value="cm">cm</option>
+        <option value="in">in</option>
+        <option value="pt">pt</option>
+        </param>
+    <param name="lineheading" type="description">Color:</param>
+    <param name="linecolor" type="color">255</param>
+    
+    <effect needs-live-preview="false">
         <object-type>all</object-type>
         <effects-menu>
             <submenu _name="Bobbin Lace"/>
@@ -30,5 +49,5 @@
     <script>
         <command reldir="extensions" interpreter="python">lace_circular_ground.py</command>
     </script>
-	
+
 </inkscape-extension>
