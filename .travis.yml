@@ -9,6 +9,7 @@ install: gem install jekyll html-proofer jekyll-theme-architect jekyll-relative-
 script:
   - jekyll build --source docs
   - grep 'href=' ./_site/*.html
+  - ls ./_site/*.html
   - htmlproofer ./_site --disable-external --url-swap "\/inkscape-bobbinlace\/:/" --assume-extension
 before_deploy:
   - zip -r -q inkscape-bobbinlace-plugins.zip *.inx *.py
