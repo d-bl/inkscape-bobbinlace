@@ -115,7 +115,7 @@ Original math
 
 The angle of the polar grid is kept constant with the following theory.
 
-![](Polar-Math/angle.gif)
+![angles](Polar-Math/angle.gif)
 
 When <i>a</i> is small and <i>r</i> large, the small edge of the pie could be considered straight.<br>
 <br>
