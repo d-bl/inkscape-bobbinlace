@@ -6,13 +6,12 @@ Installation
 ============
 
 First download and install [InkScape].
-Then download the most [recent] (or a [released]) version of the bobbin lace extensions and unpack.
+Then download the desired bobbin lace extensions from the last [release] and unpack.
 
 **Note:** plugin-version 0.7.x is compatible with InkScape 0.91.x, not with 0.92.x
 
-The downloads contains
-* A folder with templates for the [Ground from Template](Ground-from-Template) plugins. Put this folder somewhere you can easily find it.
-* Pairs of  `.inx`/`.py` files, one pair for each plug-in.
+* `template.zip` contains input for the [Ground from Template](Ground-from-Template) plugins. Put this folder somewhere you can easily find it.
+* The other zip files are the bobbin lace related plugins and contain pairs of  `.inx`/`.py` files.
 
   Start InkScape and look for the location where to put these files:
 
@@ -28,8 +27,7 @@ Mac OS-X
 See the instructions on the [InkScape download](https://inkscape.org/en/download/mac-os/) page and Veronika Irvine's [blog](https://tesselace.com/blog/)
 
 [InkScape]: https://inkscape.org
-[released]: https://github.com/d-bl/inkscape-bobbinlace/releases
-[recent]: https://github.com/d-bl/inkscape-bobbinlace/archive/master.zip
+[release]: https://github.com/d-bl/inkscape-bobbinlace/releases
 [issue]: https://github.com/d-bl/inkscape-bobbinlace/issues
 [tesselace.com]: https://tesselace.com/tools/inkscape-extension/
 [GroundForge]: https://d-bl.github.io/GroundForge

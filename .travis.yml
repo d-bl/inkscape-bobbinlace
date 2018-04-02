@@ -12,7 +12,11 @@ script:
   - ls ./_site/*.html
   - htmlproofer ./_site --disable-external --url-swap "\/inkscape-bobbinlace\/:/" --assume-extension
 before_deploy:
-  - zip -r -q inkscape-bobbinlace-plugins.zip *.inx *.py
+  - zip -q lace_circular_ground.zip lace_circular_ground.*
+  - zip -q lace_ground.zip lace_ground.*
+  - zip -q lace_grid.zip lace_grid.*
+  - zip -q lace_polar.zip lace_polar.*
+  - zip -q lace_thread_style.zip lace_thread_style.*
   - cd templates && zip -r -q inkscape-bobbinlace-templates.zip *
   - cd ..
 deploy:
@@ -20,8 +24,8 @@ deploy:
   api_key:
     secure: kKs/hPDLU+tTsvKg8AoayByCXNFhFVxd0+MECuPSXDiwvm6R3q0Mwwc5wdTT6ZWzjOtXTGEuul652TYHq0QSX3RyqfXJjwz56nOSBTugIbNz/M6z7OAc3w6I/w/o/IvzB2d7OXrFSA+EXThI6fIPjeIC+p4LkdjO047nX5YZGezac7N2L+Yk+9wIhvH/JWg6iZ+nvtlN1Xcrl14MHJszCWLRhbMi5hBn2ZSegolS2ObQVlkXxyrm+/fwOdvyI9PKPhThtWb2ZLjVnZqhPVO8t1DHZ4JkHTXMwzRBbblhpgus9jdeObUknFyWiLx6O5ZCSbVkLcaE12ZEVb0Rnw/Eiu0lsWBx1dQs0eyvTV8prZTaiCRruvmhWsta6u+u9IVX9GLQTsu+s8QQH7xIJ2PQ2w4GWceoHK0VDPeI7yiDhBprxRlvV8+93KpxyUEvoinbh+xXYgyjWKAK7QJqau/l6yyQLp8mrfIuMIWe/m1E225C5O4XLcZD9LTguC08fwIKCHcFQ15YUD8oeC4xJ8h/gZUHvtsFyI2CwkOh4x+09dOO82VLlfhnezRdJxO5Oe8JlxTB6x5d26ZYIhBD3dPZHBj2So1wTDB3K1rIuPLMnyJsECpE3UyWJi8oVTZMOwNJrX7WYj11+EO58iK1SL217s7ODmuCL4sIdLKC2r1/2iM=
   file:
-    - templates/inkscape-bobbinlace-templates.zip
-    - inkscape-bobbinlace-plugins.zip
+    - templates/*.zip
+    - lace_*.zip
   skip_cleanup: true
   on:
     tags: true
