@@ -8,10 +8,8 @@ A screen shot below shows the dialogs with descriptions of the plugins.
 The [side-bar](#sidebar) has a help page for each one.
 Note that you can choose your favourite color chooser at any of the dialogs.
 
-[zoom in](/inkscape-bobbinlace/home-images/examples.png)<br>
 ![titles](/inkscape-bobbinlace/home-images/examples.png)
 
-[zoom in](/inkscape-bobbinlace/home-images/menu.png)
 ![menu](/inkscape-bobbinlace/home-images/menu.png)
 
 [zoom in](/inkscape-bobbinlace/home-images/dialogs.png)
