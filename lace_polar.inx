@@ -42,7 +42,7 @@
 	</param>
 	<param name="filllabel" type="description" appearance="header">Dot properties</param>
 	<param name="size" type="float" precision="2" min="0.001" max="10" _gui-text="Diameter (mm):">0.5</param>
-	<param name="fill" type="color" _gui-text="dot color:">-6711040</param>
+	<param name="fill" type="color" appearance="colorbutton" _gui-text="Color:">-6711040</param>
 	
 	<effect needs-live-preview="false">
 	    <object-type>all</object-type>
