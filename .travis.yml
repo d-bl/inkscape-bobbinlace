@@ -5,18 +5,12 @@ sudo: false
 env:
   global:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
-install: gem install jekyll html-proofer jekyll-theme-architect jekyll-relative-links
-script:
-  - jekyll build --source docs
-  - grep 'href=' ./_site/*.html
-  - ls ./_site/*.html
-  - htmlproofer ./_site --disable-external --url-swap "\/inkscape-bobbinlace\/:/" --assume-extension
+install: gem install jekyll jekyll-theme-architect jekyll-relative-links
 before_deploy:
   - zip -q lace_circular_ground.zip lace_circular_ground.*
   - zip -q lace_ground.zip lace_ground.*
   - zip -q lace_grid.zip lace_grid.*
   - zip -q lace_polar.zip lace_polar.*
-  - zip -q lace_thread_style.zip lace_thread_style.*
   - cd templates && zip -r -q inkscape-bobbinlace-templates.zip *
   - cd ..
 deploy:
