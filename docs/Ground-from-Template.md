@@ -34,13 +34,13 @@ Browse with the file explorer/finder of your operating system
 through the template directory which comes with the [installation] package.
 You will see over 200 pairs of images and text files. the following screenshot shows just a few:
  
-![/inkscape-bobbinlace/grouds-images/browse-screenshot.png](/inkscape-bobbinlace/grouds-images/browse-screenshot.png)
+![grouds-images/browse-screenshot.png](grouds-images/browse-screenshot.png)
 
 Copy paste the path of the text file for the desired pattern in the dialog of the plugin of your choice.
 
-![/inkscape-bobbinlace/grouds-images/plugin-screenshot.png](/inkscape-bobbinlace/grouds-images/plugin-screenshot.png)
+![grouds-images/plugin-screenshot.png](grouds-images/plugin-screenshot.png)
 
 Most other parameters in the dialog parameters should speak for them selves.
 The help pages for the grid extensions explain pin distances and footsides.
 
-![footside](/inkscape-bobbinlace/regular-images/footside.png)
+![footside](regular-images/footside.png)

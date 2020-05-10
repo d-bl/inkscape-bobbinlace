@@ -15,7 +15,7 @@ The diameter of the concentric circles in common polar grids increases at a cons
 DiBL generates grids with a consistent shape of the stitches, 
 the diameter of the circles increases in proportion with the distance between dots along each circle.
 
-![/inkscape-bobbinlace/polar-images/compared.png](/inkscape-bobbinlace/polar-images/compared.png)
+![polar-images/compared.png](polar-images/compared.png)
 
 This article is about the InkScape extension, 
 with the [web-based version](https://d-bl.github.io/polar-grids/) you gain examples but loose functionality.
@@ -29,7 +29,7 @@ Once the extensions are properly [installed], you can select `polar grid` from t
 
 [installed]: /inkscape-bobbinlace/
 
-<img align="right" src="/inkscape-bobbinlace/polar-images/menu.png" alt="menu"/>
+<img align="right" src="polar-images/menu.png" alt="menu"/>
 
 A dialog allows to configure the grid. A few notes:
 * Within the choice list of grid patterns, a tiny cheat sheet advises angles and repeat factors.
@@ -40,8 +40,8 @@ A dialog allows to configure the grid. A few notes:
 * To connect the dots: switch on snap cusp nodes to the centre of bounding boxes.
   But of course you can just print the grid and continue with pencil or ink.
 
-dialog: [![/inkscape-bobbinlace/polar-images/dialog.png](/inkscape-bobbinlace/polar-images/dialog-thumb.png)](/inkscape-bobbinlace/polar-images/dialog.png)
-effects of ignoring the cheat sheet: [![/inkscape-bobbinlace/polar-images/cheatsheet.png](/inkscape-bobbinlace/polar-images/cheatsheet-thumb.png)](/inkscape-bobbinlace/polar-images/cheatsheet.png)
+dialog: [![polar-images/dialog.png](polar-images/dialog-thumb.png)](polar-images/dialog.png)
+effects of ignoring the cheat sheet: [![polar-images/cheatsheet.png](polar-images/cheatsheet-thumb.png)](polar-images/cheatsheet.png)
 
 
 Pin distances
@@ -53,7 +53,7 @@ to get a rough estimation of the required number of dots.
 The value however changes from the inside to the outside.
 The measurement tool of InkScape (available since release 0.91) can tell you any distance you want to know.
 
-![/inkscape-bobbinlace/polar-images/pin-distance.png](/inkscape-bobbinlace/polar-images/pin-distance.png)
+![polar-images/pin-distance.png](polar-images/pin-distance.png)
 
 [thread size]: http://bobbin-lace.wikispaces.com/Thread+width+and+pattern+size
 
@@ -64,8 +64,8 @@ Keep repeats in mind to choose the number of dots.
 For the fans shown below the number of dots should be a multitude of three as indicated by the red dots.
 The style of grids however may also have a repeat, which is indicated by the selected grid pattern.
 
-![/inkscape-bobbinlace/polar-images/fan.png](/inkscape-bobbinlace/polar-images/fan.png)
-![/inkscape-bobbinlace/polar-images/repeats.png](/inkscape-bobbinlace/polar-images/repeats.png)
+![polar-images/fan.png](polar-images/fan.png)
+![polar-images/repeats.png](polar-images/repeats.png)
 
 
 Grouped dots
@@ -78,7 +78,7 @@ To delete sections of the grid (to keep just a pie or fan)
 you first have to ungroup these circles,
 the label with the diameter will get lost.
 
-properties: [![/inkscape-bobbinlace/polar-images/properties.png](/inkscape-bobbinlace/polar-images/properties-thumb.png)](/inkscape-bobbinlace/polar-images/properties-thumb.png)
+properties: [![polar-images/properties.png](polar-images/properties-thumb.png)](polar-images/properties-thumb.png)
 
 
 Concentric grids
@@ -92,7 +92,7 @@ The ratio of dots between the green and red grid in the example is 2:3.
 This difference could for example be bridged with asymmetrical spiders,
 in this case four legs on the inside, six on the outside.
 
-![/inkscape-bobbinlace/polar-images/asym-spider.svg](/inkscape-bobbinlace/polar-images/asym-spider.png)
+![polar-images/asym-spider.svg](polar-images/asym-spider.png)
 
 
 Merge grids
@@ -105,9 +105,9 @@ Merging grids allows more than the built-in choices of dot-patterns. A few examp
 Align the second grid to a second ring for alternating patterns.
 
 The [math] is an approximation, so you might see small inaccuracies with extreme values.
-[math]: https://github.com/d-bl/inkscape-bobbinlace/pull/5/files#diff-326bb6c119212f45e228f5e0516187e3
+[math]: https://github.com/d-blpull/5/files#diff-326bb6c119212f45e228f5e0516187e3
 
-![/inkscape-bobbinlace/polar-images/merged.png](/inkscape-bobbinlace/polar-images/merged.png)
+![polar-images/merged.png](polar-images/merged.png)
 
 
 Java based versions
@@ -117,6 +117,6 @@ The Java [proof of concept] in DiBL is a stripped version of the stand alone Jav
 in the [BobbinWork] project, the interface of this [old generator] might be challenging
 and it provides only the diamond pattern of dots. It served as a blue print for the python script.
 
-[proof of concept]: https://github.com/d-bl/inkscape-bobbinlace/tree/5d5dc36e50ccc6468b62d358381cda1cda64ad6b/standalone/grids/dibl-polar
+[proof of concept]: https://github.com/d-bltree/5d5dc36e50ccc6468b62d358381cda1cda64ad6b/standalone/grids/dibl-polar
 [BobbinWork]: https://github.com/jo-pol/bobbinwork
 [old generator]: https://storage.googleapis.com/google-code-archive-downloads/v1/code.google.com/bobbinwork/bwpGrid-rel-2.0.115.jar

@@ -19,7 +19,7 @@ Then download the desired bobbin lace extensions from the last [release] and unp
 
   Once the files are in place and InkScape is restarted, the new extensions are available via the `bobbin lace` menu under `extensions` as  shown in the screenshot below. Follow the same procedure to upgrade or downgrade an extension.
 
-  ![menu](/inkscape-bobbinlace/home-images/menu.png)
+  ![menu](home-images/menu.png)
 
 Mac OS-X
 --------
