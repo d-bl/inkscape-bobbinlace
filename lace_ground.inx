@@ -9,7 +9,7 @@
     <dependency type="executable" location="extensions">inkex.py</dependency>
     
     <param name="description" type="description" appearance="header" xml:space="preserve">Fill a rectangular patch with a lace ground pattern from selected template file.</param>
-    <param name="file" type="string" _gui-text="Template file name (full path):"></param>
+    <param name="file" type="path" _gui-text="Template file name (full path):" mode="file" filetypes="txt"></param>
 
     <param name="filllabel" type="description" appearance="header">Grid description</param>
     <param name="angle" type="float" precision="1" min="30" max="89" indent="1" _gui-text="Angle (degrees):">45.0</param>
@@ -48,7 +48,7 @@
         <option value="pt">pt</option>
         </param>
     <param name="lineheading" type="description">Color:</param>
-    <param name="linecolor" type="color">255</param>
+    <param name="linecolor" type="color" _gui-text="line color:">255</param>
     
     <effect needs-live-preview="false">
         <object-type>all</object-type>

@@ -28,6 +28,7 @@ import os
 from math import sin, cos, acos, tan, radians, pi, sqrt, ceil, floor
 
 import inkex, simplestyle
+from lxml import etree
 
 __author__ = 'Ben Connors'
 __credits__ = ['Ben Connors', 'Veronika Irvine', 'Jo Pol', 'Mark Shafer']
@@ -86,19 +87,9 @@ class CircularGround(inkex.Effect):
         of the function between Inkscape versions.
         """
         try:
-            return self.unittouu(param)
+            return self.svg.unittouu(param)
         except:
             return inkex.unittouu(param)
-
-    def getColorString(self, longColor):
-        """ Convert the long into a #RRGGBB color value
-            - verbose=true pops up value for us in defaults
-            conversion back is A + B*256^1 + G*256^2 + R*256^3
-        """
-        longColor = long(longColor)
-        hexColor = hex(longColor)[2:-3]
-        hexColor = '#' + hexColor.rjust(6, '0').upper()
-        return hexColor
 
     def loadFile(self):
         """ Load the specification for the unit cell from the file given.
@@ -163,16 +154,17 @@ class CircularGround(inkex.Effect):
             'fill-opacity': '1.0',
             'stroke': self.options.linecolor, 
             'stroke-linecap': 'round',
+            'stroke-linejoin': 'round',
             'fill': 'none'
         }
 
 
         ## Attributes for new element
-        attribs = {'style' : simplestyle.formatStyle(s),
+        attribs = {'style':str(inkex.Style(s)),
                    'd' : path}
 
         ## Add new element
-        inkex.etree.SubElement(self.current_layer, inkex.addNS('path', 'svg'), attribs)
+        etree.SubElement(self.svg.get_current_layer(), inkex.addNS('path', 'svg'), attribs)
 
     def baseVectors(self,segments):
         """ Create vectors for all vertices on the specified polygon."""
@@ -389,7 +381,7 @@ class CircularGround(inkex.Effect):
         for group in groups:
             groups[group].sort(key=lambda a:a[2])
         ## Sort all groups to draw groups in order
-        groups = sorted([(name,pts) for name,pts in groups.iteritems()],key=lambda a:a[0])
+        groups = sorted([(name,pts) for name,pts in groups.items()],key=lambda a:a[0])
         ## Draw lines
         for name,pts in groups:
             _pts = []
@@ -400,52 +392,50 @@ class CircularGround(inkex.Effect):
     def __init__(self):
         inkex.Effect.__init__(self)
         # file
-        self.OptionParser.add_option('--file',
+        self.arg_parser.add_argument('--file',
                                      action='store',
-                                     type='string',
+                                     type=str,
                                      dest='file')
         # Grid description
-        self.OptionParser.add_option('--angle',
+        self.arg_parser.add_argument('--angle',
                                      action='store',
-                                     type='int',
+                                     type=int,
                                      dest='angle')
-        self.OptionParser.add_option('--cols',
+        self.arg_parser.add_argument('--cols',
                                      action='store',
-                                     type='int',
+                                     type=int,
                                      dest='cols')
         # Patch description
-        self.OptionParser.add_option('--diameter',
+        self.arg_parser.add_argument('--diameter',
                                      action='store',
-                                     type='float',
+                                     type=float,
                                      dest='diameter')
-        self.OptionParser.add_option('--diamunits',
+        self.arg_parser.add_argument('--diamunits',
                                      action='store',
-                                     type='string',
+                                     type=str,
                                      dest='diamunits')
-        self.OptionParser.add_option('--rows',
+        self.arg_parser.add_argument('--rows',
                                      action='store',
-                                     type='int',
+                                     type=int,
                                      dest='rows')
         # Line description
-        self.OptionParser.add_option('--linewidth',
+        self.arg_parser.add_argument('--linewidth',
                                      action='store',
-                                     type='float',
+                                     type=float,
                                      dest='linewidth')
-        self.OptionParser.add_option('--lineunits',
+        self.arg_parser.add_argument('--lineunits',
                                      action='store',
-                                     type='string',
+                                     type=str,
                                      dest='lineunits')
-        self.OptionParser.add_option('--linecolor',
+        self.arg_parser.add_argument('--linecolor',
                                      action='store',
-                                     type='string',
+                                     type=inkex.Color,
                                      dest='linecolor')
 
     def effect(self):
         ## Load the file
         unit = self.loadFile()
-
-        # Convert color from long integer to hexidecimal string
-        self.options.linecolor = self.getColorString(self.options.linecolor)
+        self.options.linecolor = self.options.linecolor.to_rgb()
 
         ## Change the input to universal units
         self.options.diameter = self.unitToUu(str(self.options.diameter)+self.options.diamunits)
@@ -475,4 +465,4 @@ class CircularGround(inkex.Effect):
         self.draw(points,line=lambda a: self.line(a))
 
 effect = CircularGround()
-effect.affect()
+effect.run()
