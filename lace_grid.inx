@@ -46,7 +46,7 @@
         <option value="in">in</option>
         <option value="pt">pt</option>
         </param>
-    <param name="dotcolor" type="color" appearance="colorbutton" _gui-text="dot color">255</param>
+    <param name="dotcolor" type="color" appearance="colorbutton" _gui-text="Color:">255</param>
     
     <effect needs-live-preview="false">
         <object-type>all</object-type>
