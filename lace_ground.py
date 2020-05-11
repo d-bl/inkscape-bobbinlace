@@ -190,18 +190,14 @@ class LaceGround(inkex.Effect):
                                      action='store',
                                      type=float,
                                      dest='width')
-        self.arg_parser.add_argument('--patchwidthunits',
+        self.arg_parser.add_argument('--patchunits',
                                      action='store',
                                      type=str,
-                                     dest='patchwidthunits')
+                                     dest='patchunits')
         self.arg_parser.add_argument('--height',
                                      action='store',
                                      type=float,
                                      dest='height')
-        self.arg_parser.add_argument('--patchheightunits',
-                                     action='store',
-                                     type=str,
-                                     dest='patchheightunits')
         self.arg_parser.add_argument('--linewidth',
                                      action='store',
                                      type=float,
@@ -223,8 +219,8 @@ class LaceGround(inkex.Effect):
         result = self.loadFile()
         
         # Convert input to universal units
-        self.options.width = self.unitToUu(str(self.options.width)+self.options.patchwidthunits)
-        self.options.height = self.unitToUu(str(self.options.height)+self.options.patchheightunits)
+        self.options.width = self.unitToUu(str(self.options.width)+self.options.patchunits)
+        self.options.height = self.unitToUu(str(self.options.height)+self.options.patchunits)
         self.options.linewidth = self.unitToUu(str(self.options.linewidth)+self.options.lineunits)
         self.options.spacing = self.unitToUu(str(self.options.spacing)+self.options.pinunits)
         
