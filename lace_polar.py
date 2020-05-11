@@ -47,7 +47,8 @@ class PolarGrid(inkex.Effect):
 		self.arg_parser.add_argument('-A', '--alignment', action='store', type=str, dest='alignment', default='outside', help='exact diameter on [inside|outside]')
 		self.arg_parser.add_argument('-s', '--size', action='store', type=float, dest='dotSize', default=0.5, help='dot diameter (mm)')
 		self.arg_parser.add_argument('-v', '--variant', action='store', type=str, dest='variant', default='', help='omit rows to get [|rectangle|hexagon1]')
-		self.arg_parser.add_argument('-u', '--units', action='store', type=str, dest='units', default = 'mm', help = 'The units the measurements are in')
+		self.arg_parser.add_argument('-cu', '--circleDiameterUnits', action='store', type=str, dest='circleDiameterUnits', default = 'mm', help = 'Circle diameter is measured in these units')
+		self.arg_parser.add_argument('-du', '--dotUnits', action='store', type=str, dest='dotUnits', default = 'px', help = 'Dot diameter is measured in these unites')
 
 	def group(self, diameter):
 		"""
@@ -66,7 +67,7 @@ class PolarGrid(inkex.Effect):
 			a = (dotNr + offset) * self.alpha
 			x = (diameter / 2.0) * cos(a)
 			y = (diameter / 2.0) * sin(a)
-			attribs = {'style':self.dotStyle, 'cx':str(x * self.scale), 'cy':str(y * self.scale), 'r':self.dotR}
+			attribs = {'style':self.dotStyle, 'cx':str(x * self.circleScale), 'cy':str(y * self.circleScale), 'r':self.dotR}
 			etree.SubElement(group, inkex.addNS('circle', 'svg'), attribs)
 
 	def getUnittouu(self, param):
@@ -153,8 +154,9 @@ class PolarGrid(inkex.Effect):
 
 		# constants
 		self.dotStyle = str(inkex.Style({'fill': self.options.dotFill.to_rgb(),'stroke':'none'}))
-		self.scale = self.getUnittouu("1" + self.options.units)
-		self.dotR = str(self.options.dotSize * (self.scale/2))
+		self.dotScale = self.getUnittouu("1" + self.options.dotUnits)
+		self.dotR = str(self.options.dotSize * (self.dotScale/2))
+		self.circleScale = self.getUnittouu("1" + self.options.circleDiameterUnits)
 		self.computations(radians(self.options.angleOnFootside))
 
 		# processing variables
@@ -180,7 +182,7 @@ class PolarGrid(inkex.Effect):
 				self.removeDots(i, 1, 2)
 
 		self.dotStyle = str(inkex.Style({'fill': 'none','stroke':self.options.dotFill.to_rgb(),'stroke-width':0.7}))
-		self.dotR = str((((self.options.innerDiameter * pi) / self.options.dotsPerCircle) / 2) * self.scale)
+		self.dotR = str((((self.options.innerDiameter * pi) / self.options.dotsPerCircle) / 2) * self.dotScale)
 		self.generatedCircles = []
 		if self.options.variant == 'snow2':
 			self.options.dotsPerCircle = self.options.dotsPerCircle // 3
