@@ -120,18 +120,14 @@ class LaceGrid(inkex.Effect):
                                      action='store',
                                      type=float,
                                      dest='width')
-        self.arg_parser.add_argument('--patchwidthunits',
+        self.arg_parser.add_argument('--patchunits',
                                      action='store',
                                      type=str,
-                                     dest='patchwidthunits')
+                                     dest='patchunits')
         self.arg_parser.add_argument('--height',
                                      action='store',
                                      type=float,
                                      dest='height')
-        self.arg_parser.add_argument('--patchheightunits',
-                                     action='store',
-                                     type=str,
-                                     dest='patchheightunits')
         # Dot description
         self.arg_parser.add_argument('--dotwidth',
                                      action='store',
@@ -152,8 +148,8 @@ class LaceGrid(inkex.Effect):
         Overrides base class' method and draws something.
         """
         # Convert user input to universal units
-        self.options.width = self.unitToUu(str(self.options.width)+self.options.patchwidthunits)
-        self.options.height = self.unitToUu(str(self.options.height)+self.options.patchheightunits)
+        self.options.width = self.unitToUu(str(self.options.width)+self.options.patchunits)
+        self.options.height = self.unitToUu(str(self.options.height)+self.options.patchunits)
         self.options.spacing = self.unitToUu(str(self.options.spacing)+self.options.pinunits)
         # Convert from diameter to radius
         self.options.dotwidth = self.unitToUu(str(self.options.dotwidth)+self.options.dotunits)/2
