@@ -15,11 +15,11 @@
 
 from __future__ import division
 from math import pi, sin, cos, tan, radians
-
+from lxml import etree
 
 # We will use the inkex module with the predefined 
 # Effect base class.
-import inkex, simplestyle
+import inkex
 
 __author__ = 'Jo Pol'
 __credits__ = ['Veronika Irvine','Jo Pol','Mark Shafer']
@@ -39,15 +39,16 @@ class PolarGrid(inkex.Effect):
 		inkex.Effect.__init__(self)
 
 		# parse the options
-		self.OptionParser.add_option('-a', '--angle', action='store', type='float', dest='angleOnFootside', default=45, help='grid angle (degrees)')
-		self.OptionParser.add_option('-d', '--dots', action='store', type='int', dest='dotsPerCircle', default=180, help='number of dots on a circle')
-		self.OptionParser.add_option('-o', '--outerDiameter', action='store', type='float', dest='outerDiameter', default=160, help='outer diameter (mm)')
-		self.OptionParser.add_option('-i', '--innerDiameter', action='store', type='float', dest='innerDiameter', default=100, help='minimum inner diameter (mm)')
-		self.OptionParser.add_option('-f', '--fill', action='store', type='string', dest='dotFill', default='-6711040', help='dot color')
-		self.OptionParser.add_option('-A', '--alignment', action='store', type='string', dest='alignment', default='outside', help='exact diameter on [inside|outside]')
-		self.OptionParser.add_option('-s', '--size', action='store', type='float', dest='dotSize', default=0.5, help='dot diameter (mm)')
-		self.OptionParser.add_option('-v', '--variant', action='store', type='string', dest='variant', default='', help='omit rows to get [|rectangle|hexagon1]')
-		self.OptionParser.add_option('-u', '--units', action = 'store', type = 'string', dest = 'units', default = 'mm', help = 'The units the measurements are in')
+		self.arg_parser.add_argument('-a', '--angle', action='store', type=float, dest='angleOnFootside', default=45, help='grid angle (degrees)')
+		self.arg_parser.add_argument('-d', '--dots', action='store', type=int, dest='dotsPerCircle', default=180, help='number of dots on a circle')
+		self.arg_parser.add_argument('-o', '--outerDiameter', action='store', type=float, dest='outerDiameter', default=160, help='outer diameter (mm)')
+		self.arg_parser.add_argument('-i', '--innerDiameter', action='store', type=float, dest='innerDiameter', default=100, help='minimum inner diameter (mm)')
+		self.arg_parser.add_argument('-f', '--fill', action='store', type=inkex.Color, dest='dotFill', default='-6711040', help='dot color')
+		self.arg_parser.add_argument('-A', '--alignment', action='store', type=str, dest='alignment', default='outside', help='exact diameter on [inside|outside]')
+		self.arg_parser.add_argument('-s', '--size', action='store', type=float, dest='dotSize', default=0.5, help='dot diameter (mm)')
+		self.arg_parser.add_argument('-v', '--variant', action='store', type=str, dest='variant', default='', help='omit rows to get [|rectangle|hexagon1]')
+		self.arg_parser.add_argument('-cu', '--circleDiameterUnits', action='store', type=str, dest='circleDiameterUnits', default = 'mm', help = 'Circle diameter is measured in these units')
+		self.arg_parser.add_argument('-du', '--dotUnits', action='store', type=str, dest='dotUnits', default = 'px', help = 'Dot diameter is measured in these unites')
 
 	def group(self, diameter):
 		"""
@@ -55,7 +56,7 @@ class PolarGrid(inkex.Effect):
 		"""
 		label = 'diameter: {0:.2f} mm'.format(diameter)
 		attribs = {inkex.addNS('label', 'inkscape'):label}
-		return inkex.etree.SubElement(self.gridContainer, inkex.addNS('g', 'svg'), attribs)
+		return etree.SubElement(self.gridContainer, inkex.addNS('g', 'svg'), attribs)
 
 	def dots(self, diameter, circleNr, group):
 		"""
@@ -66,28 +67,15 @@ class PolarGrid(inkex.Effect):
 			a = (dotNr + offset) * self.alpha
 			x = (diameter / 2.0) * cos(a)
 			y = (diameter / 2.0) * sin(a)
-			attribs = {'style':self.dotStyle, 'cx':str(x * self.scale), 'cy':str(y * self.scale), 'r':self.dotR}
-			inkex.etree.SubElement(group, inkex.addNS('circle', 'svg'), attribs)
+			attribs = {'style':self.dotStyle, 'cx':str(x * self.circleScale), 'cy':str(y * self.circleScale), 'r':self.dotR}
+			etree.SubElement(group, inkex.addNS('circle', 'svg'), attribs)
 
 	def getUnittouu(self, param):
 		" compatibility between inkscape 0.48 and 0.91 "
 		try:
-			return inkex.unittouu(param)
+			return self.svg.unittouu(param)
 		except AttributeError:
-			return self.unittouu(param)
-
-	def getColorString(self, longColor, verbose=False):
-		""" Convert the long into a #RRGGBB color value
-			- verbose=true pops up value for us in defaults
-			conversion back is A + B*256^1 + G*256^2 + R*256^3
-		"""
-		if verbose: inkex.debug("%s ="%(longColor))
-		longColor = long(longColor)
-		if longColor <0: longColor = long(longColor) & 0xFFFFFFFF
-		hexColor = hex(longColor)[2:-3]
-		hexColor = '#' + hexColor.rjust(6, '0').upper()
-		if verbose: inkex.debug("  %s for color default value"%(hexColor))
-		return hexColor
+			return inkex.unittouu(param)
 
 	def iterate(self, diameter, circleNr):
 		"""
@@ -130,9 +118,9 @@ class PolarGrid(inkex.Effect):
 							'text-anchor': 'middle',
 							'text-align': 'center',
 							'fill': '#000000' }
-			text_atts = {'style':simplestyle.formatStyle(text_style),
+			text_atts = {'style':str(inkex.Style(text_style)),
 						'x': '0', 'y': '0'}
-			text = inkex.etree.SubElement(self.gridContainer, 'text', text_atts)
+			text = etree.SubElement(self.gridContainer, 'text', text_atts)
 			text.text = "Dots overlap. inner changed to %4.1f" % (minimum)
 
 	def removeGroups(self, start, increment):
@@ -140,7 +128,7 @@ class PolarGrid(inkex.Effect):
 		Remove complete rings with dots
 		"""
 		for i in range(start, len(self.generatedCircles), increment):
-			self.current_layer.remove(self.generatedCircles[i])
+			self.svg.get_current_layer().remove(self.generatedCircles[i])
 
 	def removeDots(self, i, offset, step):
 		"""
@@ -164,17 +152,16 @@ class PolarGrid(inkex.Effect):
 		Overrides base class' method and draws something.
 		"""
 
-		# color
-		self.options.dotFill = self.getColorString(self.options.dotFill)
 		# constants
-		self.dotStyle = simplestyle.formatStyle({'fill': self.options.dotFill,'stroke':'none'})
-		self.scale = self.getUnittouu("1" + self.options.units)
-		self.dotR = str(self.options.dotSize * (self.scale/2))
+		self.dotStyle = str(inkex.Style({'fill': self.options.dotFill.to_rgb(),'stroke':'none'}))
+		self.dotScale = self.getUnittouu("1" + self.options.dotUnits)
+		self.dotR = str(self.options.dotSize * (self.dotScale/2))
+		self.circleScale = self.getUnittouu("1" + self.options.circleDiameterUnits)
 		self.computations(radians(self.options.angleOnFootside))
 
 		# processing variables
 		self.generatedCircles = []
-		self.gridContainer =  self.current_layer
+		self.gridContainer =  self.svg.get_current_layer()
 
 		self.generate()
 
@@ -194,8 +181,8 @@ class PolarGrid(inkex.Effect):
 			for i in range(0, len(self.generatedCircles), 2):
 				self.removeDots(i, 1, 2)
 
-		self.dotStyle = simplestyle.formatStyle({'fill': 'none','stroke':self.options.dotFill,'stroke-width':0.7})
-		self.dotR = str((((self.options.innerDiameter * pi) / self.options.dotsPerCircle) / 2) * self.scale)
+		self.dotStyle = str(inkex.Style({'fill': 'none','stroke':self.options.dotFill.to_rgb(),'stroke-width':0.7}))
+		self.dotR = str((((self.options.innerDiameter * pi) / self.options.dotsPerCircle) / 2) * self.dotScale)
 		self.generatedCircles = []
 		if self.options.variant == 'snow2':
 			self.options.dotsPerCircle = self.options.dotsPerCircle // 3
@@ -213,4 +200,4 @@ class PolarGrid(inkex.Effect):
 
 # Create effect instance and apply it.
 if __name__ == '__main__':
-	PolarGrid().affect()
+	PolarGrid().run()

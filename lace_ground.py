@@ -26,6 +26,7 @@
 import sys
 import os
 from math import sin,cos,radians, ceil
+from lxml import etree
 
 import inkex, simplestyle
 
@@ -52,20 +53,9 @@ class LaceGround(inkex.Effect):
         of the function between Inkscape versions.
         """
         try:
-            return self.unittouu(param)
+            return self.svg.unittouu(param)
         except:
             return inkex.unittouu(param)
-
-    def getColorString(self, longColor, verbose=False):
-        """ Convert the long into a #RRGGBB color value
-            - verbose=true pops up value for us in defaults
-            conversion back is A + B*256^1 + G*256^2 + R*256^3
-        """
-        longColor = long(longColor)
-        if longColor <0: longColor = long(longColor) & 0xFFFFFFFF
-        hexColor = hex(longColor)[2:-3]
-        hexColor = '#' + hexColor.rjust(6, '0').upper()
-        return hexColor
 
     def loadFile(self):
         # Ensure that file exists and has the proper extension
@@ -126,14 +116,15 @@ class LaceGround(inkex.Effect):
             'fill-opacity': '1.0',
             'stroke': self.options.linecolor, 
             'stroke-linecap': 'round',
+            'stroke-linejoin': 'round',
             'fill': 'none'
         }
         
         # create attributes from style and path
-        attribs = {'style':simplestyle.formatStyle(s), 'd':path}
+        attribs = {'style':str(inkex.Style(s)), 'd':path}
         
         # insert path object into current layer
-        inkex.etree.SubElement(self.current_layer, inkex.addNS('path', 'svg'), attribs)
+        etree.SubElement(self.svg.get_current_layer(), inkex.addNS('path', 'svg'), attribs)
 
     def draw(self, data, rowCount, colCount):
         a = self.options.spacing
@@ -171,7 +162,7 @@ class LaceGround(inkex.Effect):
 
             repeatY += 1
             y += deltaY * rowCount
-
+        
     def __init__(self):
         """
         Constructor.
@@ -179,49 +170,45 @@ class LaceGround(inkex.Effect):
         """
         # Call the base class constructor.
         inkex.Effect.__init__(self)
-        
+
         # file
-        self.OptionParser.add_option('-f', '--file', action='store', type='string', dest='file', help='File containing lace ground description')
+        self.arg_parser.add_argument('-f', '--file', action='store', type=str, dest='file', help='File containing lace ground description')
         # Grid description
-        self.OptionParser.add_option('--angle',
+        self.arg_parser.add_argument('--angle',
                                      action='store',
-                                     type='float',
+                                     type=float,
                                      dest='angle')
-        self.OptionParser.add_option('--distance',
+        self.arg_parser.add_argument('--distance',
                                      action='store',
-                                     type='float',
+                                     type=float,
                                      dest='spacing')
-        self.OptionParser.add_option('--pinunits',
+        self.arg_parser.add_argument('--pinunits',
                                      action='store',
-                                     type='string',
+                                     type=str,
                                      dest='pinunits')
-        self.OptionParser.add_option('--width',
+        self.arg_parser.add_argument('--width',
                                      action='store',
-                                     type='float',
+                                     type=float,
                                      dest='width')
-        self.OptionParser.add_option('--patchwidthunits',
+        self.arg_parser.add_argument('--patchunits',
                                      action='store',
-                                     type='string',
-                                     dest='patchwidthunits')
-        self.OptionParser.add_option('--height',
+                                     type=str,
+                                     dest='patchunits')
+        self.arg_parser.add_argument('--height',
                                      action='store',
-                                     type='float',
+                                     type=float,
                                      dest='height')
-        self.OptionParser.add_option('--patchheightunits',
+        self.arg_parser.add_argument('--linewidth',
                                      action='store',
-                                     type='string',
-                                     dest='patchheightunits')
-        self.OptionParser.add_option('--linewidth',
-                                     action='store',
-                                     type='float',
+                                     type=float,
                                      dest='linewidth')
-        self.OptionParser.add_option('--lineunits',
+        self.arg_parser.add_argument('--lineunits',
                                      action='store',
-                                     type='string',
+                                     type=str,
                                      dest='lineunits')
-        self.OptionParser.add_option('--linecolor',
+        self.arg_parser.add_argument('--linecolor',
                                      action='store',
-                                     type='string',
+                                     type=inkex.Color,
                                      dest='linecolor')
 
     def effect(self):
@@ -232,25 +219,23 @@ class LaceGround(inkex.Effect):
         result = self.loadFile()
         
         # Convert input to universal units
-        self.options.width = self.unitToUu(str(self.options.width)+self.options.patchwidthunits)
-        self.options.height = self.unitToUu(str(self.options.height)+self.options.patchheightunits)
+        self.options.width = self.unitToUu(str(self.options.width)+self.options.patchunits)
+        self.options.height = self.unitToUu(str(self.options.height)+self.options.patchunits)
         self.options.linewidth = self.unitToUu(str(self.options.linewidth)+self.options.lineunits)
         self.options.spacing = self.unitToUu(str(self.options.spacing)+self.options.pinunits)
         
         # Users expect spacing to be the vertical distance between footside pins 
         # (vertical distance between every other row) but in the script we use it 
-        # as as diagonal distance between grid points
+        # as the diagonal distance between grid points
         # therefore convert spacing based on the angle chosen
         self.options.angle = radians(self.options.angle)
         self.options.spacing = self.options.spacing/(2.0*cos(self.options.angle))
         
-        # Convert color from long integer to hexidecimal string
-        self.options.linecolor = self.getColorString(self.options.linecolor)
-        
         # Draw a ground based on file description and user inputs
+        self.options.linecolor = self.options.linecolor.to_rgb()
         # For now, assume style is Checker but could change in future
         self.draw(result['data'],result['rowCount'],result['colCount'])
 
 # Create effect instance and apply it.
 effect = LaceGround()
-effect.affect()
+effect.run()

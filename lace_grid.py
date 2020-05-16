@@ -24,7 +24,8 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from math import sin, cos, radians, ceil
-import inkex, simplestyle
+import inkex
+from lxml import etree
 
 __author__ = 'Veronika Irvine'
 __credits__ = ['Ben Connors', 'Veronika Irvine', 'Mark Shafer']
@@ -48,19 +49,9 @@ class LaceGrid(inkex.Effect):
         of the function between Inkscape versions.
         """
         try:
-            return self.unittouu(param)
+            return self.svg.unittouu(param)
         except:
             return inkex.unittouu(param)
-
-    def getColorString(self, longColor):
-        """ Convert the long into a #RRGGBB color value
-            conversion back is A + B*256^1 + G*256^2 + R*256^3
-        """
-        longColor = long(longColor)
-        if longColor <0: longColor = long(longColor) & 0xFFFFFFFF
-        hexColor = hex(longColor)[2:-3]
-        hexColor = '#' + hexColor.rjust(6, '0').upper()
-        return hexColor
 
     def circle(self, x, y, r, fill):
         """
@@ -71,13 +62,13 @@ class LaceGrid(inkex.Effect):
         s = {'fill': fill}
      
         # create attributes from style and define path
-        attribs = {'style':simplestyle.formatStyle(s), 
+        attribs = {'style':str(inkex.Style(s)), 
                     'cx':str(x),
                     'cy':str(y),
                     'r':str(r)}
         
         # insert path object into current layer
-        inkex.etree.SubElement(self.current_layer, inkex.addNS('circle', 'svg'), attribs)
+        etree.SubElement(self.svg.get_current_layer(), inkex.addNS('circle', 'svg'), attribs)
 
     def drawDot(self, x, y):
         self.circle(x, y, self.options.dotwidth, self.options.dotcolor)
@@ -98,7 +89,7 @@ class LaceGrid(inkex.Effect):
             if (r % 2 == 1):
                 x += hgrid
             
-            for c in range(cols/2):
+            for c in range(ceil(cols/2)):
                 self.drawDot(x, y)
                 x += 2.0*hgrid;
                 
@@ -112,47 +103,43 @@ class LaceGrid(inkex.Effect):
         # Call the base class constructor.
         inkex.Effect.__init__(self)
         # Grid description
-        self.OptionParser.add_option('--angle',
+        self.arg_parser.add_argument('--angle',
                                      action='store',
-                                     type='float',
+                                     type=float,
                                      dest='angle')
-        self.OptionParser.add_option('--distance',
+        self.arg_parser.add_argument('--distance',
                                      action='store',
-                                     type='float',
+                                     type=float,
                                      dest='spacing')
-        self.OptionParser.add_option('--pinunits',
+        self.arg_parser.add_argument('--pinunits',
                                      action='store',
-                                     type='string',
+                                     type=str,
                                      dest='pinunits')
         # Patch description
-        self.OptionParser.add_option('--width',
+        self.arg_parser.add_argument('--width',
                                      action='store',
-                                     type='float',
+                                     type=float,
                                      dest='width')
-        self.OptionParser.add_option('--patchwidthunits',
+        self.arg_parser.add_argument('--patchunits',
                                      action='store',
-                                     type='string',
-                                     dest='patchwidthunits')
-        self.OptionParser.add_option('--height',
+                                     type=str,
+                                     dest='patchunits')
+        self.arg_parser.add_argument('--height',
                                      action='store',
-                                     type='float',
+                                     type=float,
                                      dest='height')
-        self.OptionParser.add_option('--patchheightunits',
-                                     action='store',
-                                     type='string',
-                                     dest='patchheightunits')
         # Dot description
-        self.OptionParser.add_option('--dotwidth',
+        self.arg_parser.add_argument('--dotwidth',
                                      action='store',
-                                     type='float',
+                                     type=float,
                                      dest='dotwidth')
-        self.OptionParser.add_option('--dotunits',
+        self.arg_parser.add_argument('--dotunits',
                                      action='store',
-                                     type='string',
+                                     type=str,
                                      dest='dotunits')
-        self.OptionParser.add_option('--dotcolor',
+        self.arg_parser.add_argument('--dotcolor',
                                      action='store',
-                                     type='string',
+                                     type=inkex.Color,
                                      dest='dotcolor')
 
     def effect(self):
@@ -161,8 +148,8 @@ class LaceGrid(inkex.Effect):
         Overrides base class' method and draws something.
         """
         # Convert user input to universal units
-        self.options.width = self.unitToUu(str(self.options.width)+self.options.patchwidthunits)
-        self.options.height = self.unitToUu(str(self.options.height)+self.options.patchheightunits)
+        self.options.width = self.unitToUu(str(self.options.width)+self.options.patchunits)
+        self.options.height = self.unitToUu(str(self.options.height)+self.options.patchunits)
         self.options.spacing = self.unitToUu(str(self.options.spacing)+self.options.pinunits)
         # Convert from diameter to radius
         self.options.dotwidth = self.unitToUu(str(self.options.dotwidth)+self.options.dotunits)/2
@@ -173,12 +160,10 @@ class LaceGrid(inkex.Effect):
         self.options.angle = radians(self.options.angle)
         self.options.spacing = self.options.spacing/(2.0*cos(self.options.angle))
         
-        # Convert color from long integer to hexidecimal string
-        self.options.dotcolor = self.getColorString(self.options.dotcolor)
-        
         # Draw a grid of dots based on user inputs
+        self.options.dotcolor = self.options.dotcolor.to_rgb()
         self.draw()
 
 # Create effect instance and apply it.
 effect = LaceGrid()
-effect.affect()
+effect.run()

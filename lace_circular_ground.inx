@@ -10,34 +10,45 @@
     <param name="description" type="description" appearance="header" xml:space="preserve">Wrap lace pattern found in template file around a circle.</param>
     <param name="warning" type="description" xml:space="preserve" >Note: Drawing can become quite large when "Number of copies around circle" is small or "Diameter" of inside circle is large.</param>
     
-    <param name="file" type="string" _gui-text="Template file name (full path):"></param>
+    <param name="file" type="path" _gui-text="Template file name (full path):" mode="file" filetypes="txt"></param>
 
     <param name="filllabel" type="description" appearance="header">Grid description</param>
-    <param name="angle" type="float" precision="1" min="30" max="89" indent="1" _gui-text="Angle (degrees):">45.0</param>
+    <hbox indent="1">
+    <param name="angle" type="float" precision="1" min="30" max="89" _gui-text="Angle (degrees):">45.0</param>
+    </hbox>
+    <hbox indent="1">
     <param name="cols" type="int" min="3" max="1000" _gui-text="Number of copies around circle:">30</param>
-
+    </hbox>
+    
     <param name="filllabel" type="description" appearance="header">Patch description</param>
-    <param name="diameter" type="float" precision="2" min="0.1" max="1000" indent="1" _gui-text="Inner circle diameter:">50</param>
-        <param name="diamunits" _gui-text="(Units)" type="optiongroup" appearance="minimal" indent="3">
+    <hbox indent="1">
+    <param name="diameter" type="float" precision="2" min="0.1" max="1000" _gui-text="Inner circle diameter:">50</param>
+        <param name="diamunits" gui-text="" type="optiongroup" appearance="minimal">
         <option value="mm">mm</option>
         <option value="cm">cm</option>
         <option value="in">in</option>
         <option value="px">px</option>
         <option value="pt">pt</option>
         </param>
+    </hbox>
+    <hbox indent="1">
     <param name="rows" type="int" min="1" max="1000" _gui-text="Number of circles:">3</param>
+    </hbox>
 
     <param name="lineheading" type="description" appearance="header">Line Appearance</param>
-    <param name="linewidth" type="float" precision="2" min="0.01" max="1000" indent="1" _gui-text="Width:">1</param>
-    <param name="lineunits" _gui-text="(Units)" type="optiongroup" appearance="minimal" indent="3">
+    <hbox indent="1">
+    <param name="linewidth" type="float" precision="2" min="0.01" max="1000" _gui-text="Width:">1</param>
+    <param name="lineunits" gui-text="" type="optiongroup" appearance="minimal">
         <option value="px">px</option>
         <option value="mm">mm</option>
         <option value="cm">cm</option>
         <option value="in">in</option>
         <option value="pt">pt</option>
         </param>
-    <param name="lineheading" type="description">Color:</param>
-    <param name="linecolor" type="color">255</param>
+    </hbox>
+    <hbox indent="1">
+    <param name="linecolor" type="color" appearance="colorbutton" _gui-text="Color:">255</param>
+    </hbox>
     
     <effect needs-live-preview="false">
         <object-type>all</object-type>
