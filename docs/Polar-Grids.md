@@ -117,6 +117,6 @@ The Java [proof of concept] in DiBL is a stripped version of the stand alone Jav
 in the [BobbinWork] project, the interface of this [old generator] might be challenging
 and it provides only the diamond pattern of dots. It served as a blue print for the python script.
 
-[proof of concept]: https://github.com/d-bltree/5d5dc36e50ccc6468b62d358381cda1cda64ad6b/standalone/grids/dibl-polar
+[proof of concept]: https://github.com/d-bl/tree/5d5dc36e50ccc6468b62d358381cda1cda64ad6b/standalone/grids/dibl-polar
 [BobbinWork]: https://github.com/jo-pol/bobbinwork
 [old generator]: https://storage.googleapis.com/google-code-archive-downloads/v1/code.google.com/bobbinwork/bwpGrid-rel-2.0.115.jar
