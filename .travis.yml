@@ -5,7 +5,6 @@ sudo: false
 env:
   global:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
-install: gem install jekyll jekyll-theme-architect jekyll-relative-links
 before_deploy:
   - zip -q lace_circular_ground.zip lace_circular_ground.*
   - zip -q lace_ground.zip lace_ground.*
@@ -13,6 +12,7 @@ before_deploy:
   - zip -q lace_polar.zip lace_polar.*
   - cd templates && zip -r -q inkscape-bobbinlace-templates.zip *
   - cd ..
+  - tree .
 deploy:
   provider: releases
   api_key:
