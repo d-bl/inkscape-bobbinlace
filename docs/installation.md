@@ -21,10 +21,6 @@ Then download the desired bobbin lace extensions from the last [release] and unp
 
   ![menu](home-images/menu.png)
 
-Mac OS-X
---------
-
-See the instructions on the [InkScape download](https://inkscape.org/en/download/mac-os/) page and Veronika Irvine's [blog](https://tesselace.com/blog/)
 
 [InkScape]: https://inkscape.org
 [release]: https://github.com/d-bl/inkscape-bobbinlace/releases
