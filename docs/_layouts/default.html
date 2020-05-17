@@ -7,6 +7,7 @@
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}" media="screen" type="text/css">
     <link rel="stylesheet" href="{{ '/assets/css/print.css' | relative_url }}" media="print" type="text/css">
+    <link rel="stylesheet" href="/inkscape-bobbinlace/assets/css/custom.css" type="text/css">
 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -22,7 +23,24 @@
         </a>
         <h2>{{ site.description | default: site.github.project_tagline }}</h2>
         {% if site.github.is_project_page %}
-        <a href="{{ site.github.repository_url }}" class="button"><small>View project on</small> GitHub</a>
+        <div class="badge">
+            <p>
+                <a href="{{ site.github.repository_url }}/edit/master/docs/{{ page_path }}"
+                   title="typos, grammar, whatever &#013; might help other users"
+                ><img src="{{ '/' | absolute_url }}/assets/images/cat-pencil.png"
+                      title="edit page &#013; typos, grammar, whatever &#013; might help other users"
+                ></a>
+                <small>To propose a change:</small><br>
+                <strong><a href="{{ site.github.repository_url }}/edit/master/docs/{{ page_path }}"
+                           title="edit page &#013; typos, grammar, whatever &#013; might help other users"
+                >Edit</a></strong>
+                <small>a copy,<br>confirm 3 times ->
+                    <a href="https://help.github.com/articles/editing-files-in-another-user-s-repository/"
+                                        title="In short: &#013;confirm changes &#013;3 times with  &#013;green button"
+                    >how</a>
+                </small>
+            </p>
+        </div>
         {% endif %}
         {% if site.github.is_user_page %}
         <a href="{{ site.github.repository_url }}" class="button"><small>Follow me on</small> GitHub</a>
