@@ -115,8 +115,8 @@ class LaceGround(inkex.Effect):
             'stroke-opacity': '1.0', 
             'fill-opacity': '1.0',
             'stroke': self.options.linecolor, 
-            'stroke-linecap': 'round',
-            'stroke-linejoin': 'round',
+            'stroke-linecap': 'butt',
+            'stroke-linejoin': 'butt',
             'fill': 'none'
         }
         
@@ -172,42 +172,36 @@ class LaceGround(inkex.Effect):
         inkex.Effect.__init__(self)
 
         # file
-        self.arg_parser.add_argument('-f', '--file', action='store', type=str, dest='file', help='File containing lace ground description')
+        self.arg_parser.add_argument('-f', '--file',
+                                     type=str,
+                                     dest='file',
+                                     help='File containing lace ground description')
         # Grid description
         self.arg_parser.add_argument('--angle',
-                                     action='store',
                                      type=float,
                                      dest='angle')
         self.arg_parser.add_argument('--distance',
-                                     action='store',
                                      type=float,
                                      dest='spacing')
         self.arg_parser.add_argument('--pinunits',
-                                     action='store',
                                      type=str,
                                      dest='pinunits')
         self.arg_parser.add_argument('--width',
-                                     action='store',
                                      type=float,
                                      dest='width')
         self.arg_parser.add_argument('--patchunits',
-                                     action='store',
                                      type=str,
                                      dest='patchunits')
         self.arg_parser.add_argument('--height',
-                                     action='store',
                                      type=float,
                                      dest='height')
         self.arg_parser.add_argument('--linewidth',
-                                     action='store',
                                      type=float,
                                      dest='linewidth')
         self.arg_parser.add_argument('--lineunits',
-                                     action='store',
                                      type=str,
                                      dest='lineunits')
         self.arg_parser.add_argument('--linecolor',
-                                     action='store',
                                      type=inkex.Color,
                                      dest='linecolor')
 
