@@ -394,7 +394,8 @@ class CircularGround(inkex.Effect):
         # file
         self.arg_parser.add_argument('--file',
                                      type=str,
-                                     dest='file')
+                                     dest='file',
+                                     help='File containing lace ground description')
         # Grid description
         self.arg_parser.add_argument('--angle',
                                      type=int,
