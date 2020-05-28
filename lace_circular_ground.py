@@ -153,8 +153,8 @@ class CircularGround(inkex.Effect):
             'stroke-opacity': '1.0', 
             'fill-opacity': '1.0',
             'stroke': self.options.linecolor, 
-            'stroke-linecap': 'round',
-            'stroke-linejoin': 'round',
+            'stroke-linecap': 'butt',
+            'stroke-linejoin': 'butt',
             'fill': 'none'
         }
 
@@ -393,42 +393,33 @@ class CircularGround(inkex.Effect):
         inkex.Effect.__init__(self)
         # file
         self.arg_parser.add_argument('--file',
-                                     action='store',
                                      type=str,
                                      dest='file')
         # Grid description
         self.arg_parser.add_argument('--angle',
-                                     action='store',
                                      type=int,
                                      dest='angle')
         self.arg_parser.add_argument('--cols',
-                                     action='store',
                                      type=int,
                                      dest='cols')
         # Patch description
         self.arg_parser.add_argument('--diameter',
-                                     action='store',
                                      type=float,
                                      dest='diameter')
         self.arg_parser.add_argument('--diamunits',
-                                     action='store',
                                      type=str,
                                      dest='diamunits')
         self.arg_parser.add_argument('--rows',
-                                     action='store',
                                      type=int,
                                      dest='rows')
         # Line description
         self.arg_parser.add_argument('--linewidth',
-                                     action='store',
                                      type=float,
                                      dest='linewidth')
         self.arg_parser.add_argument('--lineunits',
-                                     action='store',
                                      type=str,
                                      dest='lineunits')
         self.arg_parser.add_argument('--linecolor',
-                                     action='store',
                                      type=inkex.Color,
                                      dest='linecolor')
 
