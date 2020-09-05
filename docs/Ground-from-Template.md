@@ -23,7 +23,7 @@ You can nudge the pin positions in these patterns to meet your own taste
 and free your self from a square grid.
 
 [tesselace.com]: https://tesselace.com/tools/inkscape-extension/
-[Tesselace-index]: https://d-bl.github.io/GroundForge/help/TesseLace-Index
+[Tesselace-index]: /tesselace-to-gf/
 [installation]: /inkscape-bobbinlace/
 
 
