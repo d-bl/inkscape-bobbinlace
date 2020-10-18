@@ -27,7 +27,7 @@ import sys
 import os
 from math import sin, cos, acos, tan, radians, pi, sqrt, ceil, floor
 
-import inkex, simplestyle
+import inkex
 from lxml import etree
 
 __author__ = 'Ben Connors'
