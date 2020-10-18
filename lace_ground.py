@@ -28,7 +28,7 @@ import os
 from math import sin,cos,radians, ceil
 from lxml import etree
 
-import inkex, simplestyle
+import inkex
 
 __author__ = 'Veronika Irvine'
 __credits__ = ['Ben Connors', 'Veronika Irvine', 'Mark Shafer']
