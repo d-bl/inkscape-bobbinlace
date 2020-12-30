@@ -27,6 +27,7 @@ import sys
 import os
 from math import sin,cos,radians, ceil
 from lxml import etree
+from random import random
 
 import inkex
 
@@ -126,6 +127,18 @@ class LaceGround(inkex.Effect):
         # insert path object into current layer
         etree.SubElement(self.svg.get_current_layer(), inkex.addNS('path', 'svg'), attribs)
 
+    def jitter(self, nodeJitter, x, y):
+        if self.options.xrand == 0 and self.options.yrand == 0:
+            return [x,y]
+        id = "%.3f" % x +",%.3f" % y
+        value = nodeJitter.get(id)
+        if not value:
+            jitx = x + self.options.xrand*(2.0*random()-1.0)*self.options.spacing/100
+            jity = y + self.options.yrand*(2.0*random()-1.0)*self.options.spacing/100
+            value = [jitx,jity]
+            nodeJitter[id] = value
+        return value
+
     def draw(self, data, rowCount, colCount):
         a = self.options.spacing
         theta = self.options.angle
@@ -138,6 +151,9 @@ class LaceGround(inkex.Effect):
         y = 0.0
         repeatY = 0
         repeatX = 0
+
+        # Random jitter of nodes
+        nodeJitter = {}
 
         while repeatY * rowCount < maxRows:
             x = 0.0
@@ -153,7 +169,10 @@ class LaceGround(inkex.Effect):
                         y2 = y + coords[3]*deltaY
                         x3 = x + coords[4]*deltaX
                         y3 = y + coords[5]*deltaY
-                
+                        x1,y1 = self.jitter(nodeJitter,x1,y1)
+                        x2,y2 = self.jitter(nodeJitter,x2,y2)
+                        x3,y3 = self.jitter(nodeJitter,x3,y3)
+
                         self.line(x1,y1,x2,y2)
                         self.line(x1,y1,x3,y3)
                     
@@ -204,6 +223,12 @@ class LaceGround(inkex.Effect):
         self.arg_parser.add_argument('--linecolor',
                                      type=inkex.Color,
                                      dest='linecolor')
+        self.arg_parser.add_argument('--xrand',
+                                      type=int,
+                                      dest='xrand')
+        self.arg_parser.add_argument('--yrand',
+                                      type=int,
+                                      dest='yrand')
 
     def effect(self):
         """
