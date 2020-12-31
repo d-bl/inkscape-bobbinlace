@@ -26,6 +26,7 @@
 from math import sin, cos, radians, ceil
 import inkex
 from lxml import etree
+from random import random
 
 __author__ = 'Veronika Irvine'
 __credits__ = ['Ben Connors', 'Veronika Irvine', 'Mark Shafer']
@@ -73,6 +74,18 @@ class LaceGrid(inkex.Effect):
     def drawDot(self, x, y):
         self.circle(x, y, self.options.dotwidth, self.options.dotcolor)
 
+    def jitter(self, nodeJitter, x, y):
+        if self.options.xrand == 0 and self.options.yrand == 0:
+            return [x,y]
+        id = "%.3f" % x +",%.3f" % y
+        value = nodeJitter.get(id)
+        if not value:
+            jitx = x + self.options.xrand*(2.0*random()-1.0)*self.options.spacing/100
+            jity = y + self.options.yrand*(2.0*random()-1.0)*self.options.spacing/100
+            value = [jitx,jity]
+            nodeJitter[id] = value
+        return value
+
     def draw(self):
         
         a = self.options.spacing
@@ -83,6 +96,8 @@ class LaceGrid(inkex.Effect):
         rows = int(ceil(self.options.height / vgrid))
         cols = int(ceil(self.options.width  / hgrid))
         y = 0.0
+
+        nodeJitter = {}
         
         for r in range(rows):
             x = 0.0
@@ -90,7 +105,8 @@ class LaceGrid(inkex.Effect):
                 x += hgrid
             
             for c in range(ceil(cols/2)):
-                self.drawDot(x, y)
+                x1,y1 = self.jitter(nodeJitter,x,y)
+                self.drawDot(x1, y1)
                 x += 2.0*hgrid;
                 
             y += vgrid;
@@ -141,6 +157,12 @@ class LaceGrid(inkex.Effect):
                                      action='store',
                                      type=inkex.Color,
                                      dest='dotcolor')
+        self.arg_parser.add_argument('--xrand',
+                                      type=int,
+                                      dest='xrand')
+        self.arg_parser.add_argument('--yrand',
+                                      type=int,
+                                      dest='yrand')
 
     def effect(self):
         """

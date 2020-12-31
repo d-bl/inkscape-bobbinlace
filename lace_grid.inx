@@ -52,7 +52,15 @@
     <hbox indent="1">
     <param name="dotcolor" type="color" appearance="colorbutton" _gui-text="Color:">255</param>
     </hbox>
-    
+
+    <param name="filllabel" type="description" appearance="header">Optional effects</param>
+    <param name="lineheading" indent="1" type="description" >Random nudges</param>
+    <hbox indent="2">
+        <param name="xrand" type="int" min="0" max="50" _gui-text="x: ">0</param>
+        <param name="label" type="description">%, </param>
+        <param name="yrand" type="int" min="0" max="50" _gui-text="y: ">0</param>
+        <param name="label" type="description">%</param>
+    </hbox>
     <effect needs-live-preview="false">
         <object-type>all</object-type>
         <effects-menu>
