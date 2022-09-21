@@ -6,7 +6,7 @@
     
     <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
     <dependency type="executable" location="extensions">lace_grid.py</dependency>
-    <dependency type="executable" location="extensions">inkex.py</dependency>
+    <dependency type="executable" location="extensions">inkex</dependency>
     
     <param name="description" type="description" appearance="header">Creates a grid of dots of specified angle.</param>
     
