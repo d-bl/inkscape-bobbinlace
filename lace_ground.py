@@ -117,7 +117,7 @@ class LaceGround(inkex.Effect):
             'fill-opacity': '1.0',
             'stroke': self.options.linecolor, 
             'stroke-linecap': 'butt',
-            'stroke-linejoin': 'butt',
+            'stroke-linejoin': 'miter',
             'fill': 'none'
         }
         
