@@ -5,7 +5,7 @@
 
     <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
     <dependency type="executable" location="extensions">lace_circular_ground.py</dependency>
-    <dependency type="executable" location="extensions">inkex.py</dependency>
+    <dependency type="executable" location="extensions">inkex</dependency>
 
     <param name="description" type="description" appearance="header" xml:space="preserve">Wrap lace pattern found in template file around a circle.</param>
     <param name="warning" type="description" xml:space="preserve" >Note: Drawing can become quite large when "Number of copies around circle" is small or "Diameter" of inside circle is large.</param>
