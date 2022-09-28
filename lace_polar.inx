@@ -7,7 +7,7 @@
 	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
 	<dependency type="executable" location="extensions">lace_polar.py</dependency>
 	<dependency type="executable" location="extensions">simplestyle.py</dependency>
-	<dependency type="executable" location="extensions">inkex.py</dependency>
+	<dependency type="executable" location="extensions">inkex</dependency>
 	
 	<!-- title must be a single line for a left aligned layout -->
 	<param name="description" type="description">Creates a printable polar grid of dots with a constant number of dots per circle and the distance between circles changing at the same speed as the distance between the dots on a circle.</param>
