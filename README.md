@@ -6,4 +6,4 @@ internal link checks of the help pages.
 
 The [help] pages explain how to install and use the plugins.
 
-[help]: https://d-bl/github.io/inkscape-bobbinlace/
+[help]: https://d-bl.github.io/inkscape-bobbinlace/
