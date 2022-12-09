@@ -22,7 +22,7 @@ you may find even more in bobbin lace literature at large.
 You can nudge the pin positions in these patterns to meet your own taste 
 and free your self from a square grid.
 
-[tesselace.com]: https://tesselace.com/tools/inkscape-extension/
+[tesselace.com]: https://web.archive.org/web/20220517075010/https://tesselace.com/tools/inkscape-extension
 [Tesselace-index]: /tesselace-to-gf/
 [installation]: /inkscape-bobbinlace/
 
