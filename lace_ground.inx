@@ -6,7 +6,7 @@
     
     <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
     <dependency type="executable" location="extensions">lace_ground.py</dependency>
-    <dependency type="executable" location="extensions">inkex.py</dependency>
+    <dependency type="executable" location="extensions">inkex</dependency>
     
     <param name="description" type="description" appearance="header" xml:space="preserve">Fill a rectangular patch with a lace ground pattern from selected template file.</param>
     <param name="file" type="path" _gui-text="Template file name (full path):" mode="file" filetypes="txt"></param>
