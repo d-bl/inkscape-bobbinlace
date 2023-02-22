@@ -37,7 +37,7 @@
         </section>
 
         <aside id="sidebar">
-            {% include Sidebar.md %}
+            {% capture my_include %}{% include Sidebar.md %}{% endcapture %}
 
             {% if site.show_downloads %}
             <a href="{{ site.github.zip_url }}" class="button">
