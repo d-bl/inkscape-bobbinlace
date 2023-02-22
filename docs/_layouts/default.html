@@ -38,6 +38,7 @@
 
         <aside id="sidebar">
             {% capture my_include %}{% include Sidebar.md %}{% endcapture %}
+            {{ my_include | markdownify }}
 
             {% if site.show_downloads %}
             <a href="{{ site.github.zip_url }}" class="button">
