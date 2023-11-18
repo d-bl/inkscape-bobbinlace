@@ -1,3 +1,4 @@
 header a{color: #fff}
 header a:hover {color: #9ddcff}
 .deprecated { background: darkorange; padding: 2px; }
+header h1, header h2 {width:100%}
