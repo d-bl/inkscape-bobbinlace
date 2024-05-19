@@ -3,3 +3,18 @@ header a:hover {color: #9ddcff}
 .deprecated { background: darkorange; padding: 2px; }
 header h1, header h2 {width:100%}
 header img {float: left}
+
+#hamburger-menu {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 30px;
+    height: 30px;
+}
+@media (max-width: 767px) {
+    #hamburger-menu {
+        display: block;
+    }
+}
