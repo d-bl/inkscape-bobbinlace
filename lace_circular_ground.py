@@ -398,7 +398,7 @@ class CircularGround(inkex.Effect):
                                      help='File containing lace ground description')
         # Grid description
         self.arg_parser.add_argument('--angle',
-                                     type=int,
+                                     type=float,
                                      dest='angle')
         self.arg_parser.add_argument('--cols',
                                      type=int,
