@@ -1,0 +1,40 @@
+name: Upload Release Assets
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch: # allow manual triggering
+
+jobs:
+  upload-assets:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Create ZIP files for each .inx/.py pair
+      - name: Create ZIP files
+        run: |
+          mkdir -p dist
+          for file in *.inx; do
+            base_name="${file%.inx}"
+            zip -q "dist/${base_name}.zip" "${base_name}.inx" "${base_name}.py"
+          done
+
+      # Create a ZIP file for the templates directory
+      - name: Create templates ZIP
+        run: |
+          cd templates
+          zip -r -q ../dist/templates.zip *
+
+      # Upload all ZIP files as release assets
+      - name: Upload ZIP files
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: dist/
+          asset_name: "*.zip"
+          asset_content_type: application/zip
