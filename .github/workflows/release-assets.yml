@@ -30,11 +30,12 @@ jobs:
           cd templates
           zip -r -q ../dist/templates.zip *
 
-      # Upload all ZIP files as release assets
+      # Upload each ZIP file as a release asset
       - name: Upload ZIP files
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: dist/
-          asset_name: "*.zip"
-          asset_content_type: application/zip
+        run: |
+          for file in dist/*.zip; do
+            echo "Uploading $file"
+            gh release upload "${{ github.event.release.tag_name }}" "$file" --clobber
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
