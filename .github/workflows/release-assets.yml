@@ -20,8 +20,8 @@ jobs:
         run: |
           version="${{ github.event.release.tag_name }}"
           for file in *.py *.py; do
-            if grep -q "__version__" "$file"; then
-              sed -i "s/__version__ = .*/__version__ = '${VERSION}'/" "$file"
+            if grep -q "__VERSION__" "$file"; then
+              sed -i "s/__VERSION__/${version}/" "$file"
             else
               echo "__version__ = '${version}'" >> "$file"
             fi
