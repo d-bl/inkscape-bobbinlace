@@ -33,6 +33,7 @@ from lxml import etree
 __author__ = 'Ben Connors'
 __credits__ = ['Ben Connors', 'Veronika Irvine', 'Jo Pol', 'Mark Shafer']
 __license__ = 'Simplified BSD'
+__version__ = '__VERSION__'
 
 class Vector:
     def __repr__(self):

@@ -24,6 +24,7 @@ import inkex
 __author__ = 'Jo Pol'
 __credits__ = ['Veronika Irvine','Jo Pol','Mark Shafer']
 __license__ = 'GPLv3'
+__version__ = '__VERSION__'
 
 class PolarGrid(inkex.Effect):
 	"""

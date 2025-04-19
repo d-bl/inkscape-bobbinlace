@@ -15,6 +15,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Add version number to .py files
+      - name: Add version number
+        run: |
+          version="${{ github.event.release.tag_name }}"
+          for file in *.py *.py; do
+            if grep -q "__version__" "$file"; then
+              sed -i "s/__version__ = .*/__version__ = '${VERSION}'/" "$file"
+            else
+              echo "__version__ = '${version}'" >> "$file"
+            fi
+          done
+
       # Create ZIP files for each .inx/.py pair
       - name: Create ZIP files
         run: |

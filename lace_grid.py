@@ -31,6 +31,7 @@ from random import random
 __author__ = 'Veronika Irvine'
 __credits__ = ['Ben Connors', 'Veronika Irvine', 'Mark Shafer']
 __license__ = 'Simplified BSD'
+__version__ = '__VERSION__'
 
 class LaceGrid(inkex.Effect):        
     """

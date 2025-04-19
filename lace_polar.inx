@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension" version="__VERSION__">
 
 	<_name>Polar Grid</_name>
 	<id>com.googlecode.dibl.lace_polar</id>
