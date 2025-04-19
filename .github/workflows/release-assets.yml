@@ -19,7 +19,7 @@ jobs:
       - name: Add version number
         run: |
           version="${{ github.event.release.tag_name }}"
-          for file in *.py *.py; do
+          for file in *.py *.inx; do
             if grep -q "__VERSION__" "$file"; then
               sed -i "s/__VERSION__/${version}/" "$file"
             else
