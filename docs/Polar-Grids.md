@@ -55,7 +55,7 @@ The measurement tool of InkScape (available since release 0.91) can tell you any
 
 ![polar-images/pin-distance.png](polar-images/pin-distance.png)
 
-[thread size]: http://bobbin-lace.wikispaces.com/Thread+width+and+pattern+size
+[thread size]: https://paternoster.orpheusweb.co.uk/lace/threadsize/threadsize.html
 
 
 # Repeats and number of dots
